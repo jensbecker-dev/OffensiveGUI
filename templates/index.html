@@ -1,13 +1,26 @@
 <!-- filepath: p:\DevEnv\OffensiveGUI\templates\index.html -->
 {% extends "base.html" %}
 
-{% block content2 %}
+{% block title %}
+Home - OffensiveGUI
+{% endblock %}
+
+{% block content %}
 <div class="container mt-5 mb-5 text-center bg-dark text-white rounded p-4">
-    <h1 class="display-4">Welcome to OffensiveGUI</h1>
-        <p class="text-center">This is a simple web application for penetration testing tools.</p>
-        <p class="text-center">Use the navigation bar to access different tools and features.</p>
-        <div class="
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <h1 class="display-4">OffensiveGUI</h1>
+    <p class="lead">A web-based interface for penetration testing tools.</p>
+    <p class="text-center">This is a simple web application for penetration testing tools.</p>
+    <p class="text-center">Use the navigation bar to access different tools and features.</p>
+    <p class="text-center">This project is a work in progress and is not intended for production use.</p>
+</div>
+
+<!-- Creative Loading Animation -->
+<div class="loading-container text-center mt-5">
+    <div class="dots-loader">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
     </div>
 </div>
 {% endblock %}

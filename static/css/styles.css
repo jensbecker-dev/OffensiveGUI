@@ -1,112 +1,117 @@
-/* In your main CSS file (e.g., style.css) */
-@import "~bootstrap/dist/css/bootstrap.min.css";
-@import "~bootstrap-icons/font/bootstrap-icons.css";
-@import "~jquery-ui/themes/base/theme.css";
-@import "~jquery-ui/themes/base/core.css";
-
-@if $font-size-root != null {
-    --#{$prefix}root-font-size: #{$font-size-root};
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
 }
 
-/* responsive design for the sidebar */
-@media (max-width: 500px) {
-    .sidebar {
-        position: static;
-        width: 100%;
-        height: auto;
-        padding: 15px;
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Creative Dots Loader */
+.dots-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.dots-loader span {
+    display: block;
+    width: 15px;
+    height: 15px;
+    background-color: #3498db; /* Blue color */
+    border-radius: 50%;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+.dots-loader span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dots-loader span {
+    width: 15px;
+    height: 15px;
+    background-color: #3498db; /* Blue color */
+    border-radius: 50%;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.dots-loader span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dots-loader span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.dots-loader span:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
     }
-    .sidebar a {
-        display: block;
-        margin: 10px 0;
-    }
-    .sidebar a p {
-        font-size: 1.2rem;
-    }
-    .content {
-        margin-left: 0;
-        padding: 15px;
-    }
-    .content h1 {
-        font-size: 2rem;
-    }
-    .conntainer {
-        padding: 15px;
-        margin: 0;
-    }
-    .container-fluid {
-        padding: 15px;
-        margin: 0;
-    }
-    .container {
-        padding: 15px;
-        margin: 0;
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
     }
 }
 
-.ul {
+/* Sidebar */
+.sidebar {
+    height: 100vh;
+    width: 250px;
+    background-color: #343a40;
+    position: sticky;
+    top: 0;
+}
+.sidebar ul {
     list-style-type: none;
     padding: 0;
 }
-
-li {
-    margin: 5px 0;
+.sidebar ul li {
+    padding: 15px;
+    color: white;
 }
-
-li a {
-    text-decoration: none;
-    color: #007bff;
+.sidebar ul li:hover {
+    background-color: #006bd6;
+    text-align: center;
+    cursor: pointer;
 }
-
-li a:hover {
-    text-decoration: underline;
-    color: #0056b3;
+.sidebar ul li.active {
     background-color: #007bff;
+    text-align: center;
 }
-
-/* Add any additional custom styles here */
-
-/* Example custom styles */
-body {
+/* Main Content */
+.main-content {
+    padding-right: 20px; /* Added padding for right side */
     background-color: #f8f9fa;
-    font-family: Arial, sans-serif;
+    min-height: 100vh; /* Ensure it covers the full height */
 }
-
-h1 {
-    font-size: 2.5rem;
-}
-
-h2 {
-    font-size: 2rem;
-}
-
-h3 {
-    font-size: 1.5rem;
-}
-
-/* Add styles for the navigation bar */
-
-.navbar {
+/* Header */
+header {
     background-color: #343a40;
-    color: #ffffff;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensure it stays above other content */
 }
 
-.sidebar {
-    background-color: #343a40;
-    padding: 25px 0;
-    height: 100vh;
-    color: #ffffff;
-    margin-bottom: 20px;
-    text-align: left;
-}
+/* Main Section */
 
-.sidebar a p {
-    color: #ffffff;
-    font-size: 1.2rem;
-    margin: 10px;
-    padding: 0;
-}
-.sidebar a:hover {
-    color: #007bff;
-    text-decoration: none;
+.container {
+    background-color: #f8f9fa;
+    min-height: calc(100vh - 60px); /* Adjust for header height */
+    margin-top: 60px; /* Adjust for header height */
+    margin-bottom: 60px; /* Adjust for footer height */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.2em;
+    color: #333;
 }
