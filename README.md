@@ -27,9 +27,9 @@ OffensiveGUI is a web-based application designed to simplify the use of offensiv
 
 1. **Clone the Repository**:
     ```
-    bash git clone https://github.com/yourusername/OffensiveGUI.git
+    bash git clone https://github.com/yourusername/OffensiveGUI.git    
     cd OffensiveGUI
-    ´´´
+    ```
 
 2. **Set Up a Virtual Environment:**
     ```
