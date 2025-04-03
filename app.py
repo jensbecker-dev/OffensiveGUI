@@ -10,14 +10,15 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     """
-    Render the base.html template for the home page.
+    Render the index.html template for the home page.
     """
-    return render_template('base.html')
+    return render_template('index.html')
 
-@app.route('/')
-def index():
+@app.route('/home')
+@app.route('/index')
+def home_route():
     """
-    Render the index.html template for the index page.
+    Render the home page.
     """
     return render_template('index.html')
 
@@ -30,11 +31,11 @@ def nmap_scan_route():
         target = request.form.get('target', '127.0.0.1')  # Default target is localhost
         options = request.form.get('options', '-sV')      # Default options
         # Perform the nmap scan using the imported function
-        
-        result = nmap_scan(target=target, options=options)  # Call the imported nmap_scan function
-        return render_template('nmap.html', result=result, target=target, options=options)
-    else:
-        return render_template('nmap.html', result=None)
+        result = nmap_scan(target=target, options=options)
+        return render_template(
+            'nmap.html', result=result, target=target, options=options
+        )
+    return render_template('nmap.html', result=None)
 
 if __name__ == '__main__':
     # Run the Flask development server

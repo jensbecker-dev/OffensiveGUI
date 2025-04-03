@@ -1,14 +1,23 @@
 <!-- filepath: p:\DevEnv\OffensiveGUI\templates\index.html -->
 {% extends "base.html" %}
 
-{% block title %}
-Home - OffensiveGUI
-{% endblock %}
+{% block content2 %}
+<div class="container mt-5 mb-5 text-center bg-dark text-white rounded p-4">
+    <h1 class="display-4">Welcome to OffensiveGUI</h1>
+        <p class="text-center">This is a simple web application for penetration testing tools.</p>
+        <p class="text-center">Use the navigation bar to access different tools and features.</p>
 
-{% block content %}
-<div class="container mt-5">
-    <h1 class="text-center">Welcome to OffensiveGUI</h1>
-    <p class="text-center">This is a simple web application for penetration testing tools.</p>
-    <p class="text-center">Use the navigation bar to access different tools and features.</p>
+    </div>
+    <form action="{{ url_for('nmap_scan_route') }}" method="post" class="text-center mb-5">
+        <div class="mb-3">
+            <label for="target" class="form-label">Target IP/Domain:</label>
+            <input type="text" id="target" name="target" class="form-control" placeholder="IP or Domain" required>
+        </div>
+        <div class="mb-3">
+            <label for="options" class="form-label">Nmap Options:</label>
+            <input type="text" id="options" name="options" class="form-control" placeholder="-sV -Pn">
+        </div>
+        <button type="submit" class="btn btn-primary">Run Scan</button>
+    </form>
 </div>
 {% endblock %}

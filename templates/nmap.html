@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container mt-5" style="max-width: 800px;">
-    <h1 class="text-center">Nmap Web</h1>
+    <div class="container-fade mt-5 mb-5 text-center bg-dark text-white rounded p-4">
+        <h1 class="display-4">Nmap Web Interface</h1>
+        <p class="lead">Run Nmap scans directly from your browser.</p>
+        <p class="text">Enter the target IP or domain and any additional Nmap options.</p>
+    </div>
+    <div class="row justify-content-center bg-body-secondary rounded-3 p-4 mb-5">
+        <div class="col-md-8">
         <form action="{{ url_for('nmap_scan_route') }}" method="post">
             <div class="mb-3">
                 <label for="target" class="form-label">Target IP/Domain:</label>
-                <input type="text" id="target" name="target" class="form-control" placeholder="127.0.0.1" required>
+                <input type="text" id="target" name="target" class="form-control" placeholder="IP or Domain" required>
             </div>
             <div class="mb-3">
                 <label for="options" class="form-label">Nmap Options:</label>
@@ -16,8 +21,32 @@
         </form>
 
         {% if result %}
-        <h2 class="mt-5">Scan Results:</h2>
-        <pre>{{ result }}</pre>
+        <p class="text-muted text-center">Results for target: <strong>{{ target }}</strong></p>
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+        <div class="table-responsive">
+            <table class="table table-dark table-striped table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th colspan="1" class="text-center"></th>
+                    </tr>
+                <thead>
+                    <tr>
+                        <th>Output</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <pre style="white-space: pre-wrap; word-wrap: break-word;">{{ result }}</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         {% endif %}
     </div>
 {% endblock %}

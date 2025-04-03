@@ -1,3 +1,6 @@
+@import url_for ("static/css/index.css");
+// This file contains JavaScript code for the Nmap web application
+
 document.addEventListener("DOMContentLoaded", () => {
     console.log("JavaScript loaded successfully!");
 

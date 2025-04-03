@@ -7,9 +7,9 @@
         <title>{% block title %}OffensiveGUI{% endblock %}</title>
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" crossorigin="anonymous" spellcheck="false">
         <!-- Custom CSS -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" spellcheck="false">
         <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
     </head>
 
@@ -26,7 +26,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
+                            <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Information</a>
@@ -35,8 +35,8 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Tools
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{{ url_for('nmap_scan_route') }}">Nmap Web</a></li>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" spellcheck="false">
+                                <li><a class="dropdown-item" href="{{ url_for('nmap_scan_route') }}" spellcheck="false">Nmap Web</a></li>
                                 <li><a class="dropdown-item" href="#">Help</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">Settings</a></li>
@@ -89,8 +89,8 @@
                     {% block content %}
                     <!-- Content will be injected here from child templates -->
                     {% endblock %}
-                    {% block index_content %}
-                    <!-- Content for index.html will be injected here -->
+                    {% block content2 %}
+                    <!-- Content will be injected here from child templates -->
                     {% endblock %}
                 </div>
             </div>
@@ -99,9 +99,9 @@
         <!-- Footer -->
         <footer class="text-center mt-4 bg-dark text-white py-3 fixed-bottom" style="width: 100%; bottom: 0;">
             <div class="container-fluid">
-                <p>OffensiveGUI is a project by Jens Becker.</p>
+                <p>OffensiveGUI is a project by Jens Becker.</p> <!-- spellcheck:ignore Jens -->
                 <p>For more information, visit our <a href="#">GitHub</a>.</p>
-                <p>&copy; 2025 OffensiveGUI. All rights reserved by Jens Becker.</p>
+                <p>&copy; 2025 OffensiveGUI. All rights reserved by Jens Becker.</p> <!-- spellcheck:ignore Jens -->
             </div>
         </footer>
 
