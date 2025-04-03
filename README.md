@@ -51,8 +51,6 @@ OffensiveGUI is a web-based application designed to simplify the use of offensiv
     Open your web browser and navigate to `http://127.0.0.1:5000`.
 ---
 
-![alt text](nmap_web.png)
-
 ## 📖 Usage
 
 1. **Start a Scan**:
