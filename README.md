@@ -26,8 +26,8 @@ OffensiveGUI is a web-based application designed to simplify the use of offensiv
 ## ⚙️ Installation
 
 1. **Clone the Repository**:
-    ```bash
-    git clone https://github.com/yourusername/OffensiveGUI.git
+    ```
+    bash git clone https://github.com/yourusername/OffensiveGUI.git
     cd OffensiveGUI
     ´´´
 
@@ -38,13 +38,13 @@ OffensiveGUI is a web-based application designed to simplify the use of offensiv
     ```
 
 3. **Install Dependencies:**
-    ```bash
-    pip install -r requirements.txt
+    ```
+    bash pip install -r requirements.txt
     ```
 
 4. **Run the Application:**
-    ```bash
-    flask run
+    ```
+    bash flask run
     ```
 
 5. **Access the Application:**
