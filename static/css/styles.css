@@ -1,0 +1,61 @@
+/* In your main CSS file (e.g., style.css) */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import "~jquery-ui/themes/base/theme.css";
+@import "~jquery-ui/themes/base/core.css";
+
+.ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 5px 0;
+}
+
+li a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+li a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+    background-color: #007bff;
+}
+
+/* Add any additional custom styles here */
+
+/* Example custom styles */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+/* Add styles for the navigation bar */
+
+.navbar {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+.sidebar {
+    background-color: #343a40;
+    padding: 25px 0;
+    height: 100vh;
+    color: #ffffff;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
