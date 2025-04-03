@@ -3,6 +3,8 @@
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import "~jquery-ui/themes/base/theme.css";
 @import "~jquery-ui/themes/base/core.css";
+@import "../templates/css/custom.css"; /* Adjust the path as necessary */
+@import "../templates/css/sidebars.css"; /* Adjust the path as necessary */
 
 .ul {
     list-style-type: none;
@@ -30,6 +32,7 @@ li a:hover {
 body {
     background-color: #f8f9fa;
     font-family: Arial, sans-serif;
+    color: #333333;
 }
 
 h1 {
@@ -56,6 +59,17 @@ h3 {
     padding: 25px 0;
     height: 100vh;
     color: #ffffff;
-    border-radius: 15px;
     margin-bottom: 20px;
+    text-align: left;
+}
+
+.sidebar a p {
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin: 10px;
+    padding: 0;
+}
+.sidebar a:hover {
+    color: #007bff;
+    text-decoration: none;
 }

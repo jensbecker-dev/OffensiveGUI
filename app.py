@@ -14,6 +14,13 @@ def home():
     """
     return render_template('base.html')
 
+@app.route('/')
+def index():
+    """
+    Render the index.html template for the index page.
+    """
+    return render_template('index.html')
+
 @app.route('/nmap', methods=['POST', 'GET'])
 def nmap_scan_route():
     """
