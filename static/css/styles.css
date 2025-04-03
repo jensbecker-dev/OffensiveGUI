@@ -3,8 +3,46 @@
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import "~jquery-ui/themes/base/theme.css";
 @import "~jquery-ui/themes/base/core.css";
-@import "../templates/css/custom.css"; /* Adjust the path as necessary */
-@import "../templates/css/sidebars.css"; /* Adjust the path as necessary */
+
+@if $font-size-root != null {
+    --#{$prefix}root-font-size: #{$font-size-root};
+}
+
+/* responsive design for the sidebar */
+@media (max-width: 500px) {
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        padding: 15px;
+    }
+    .sidebar a {
+        display: block;
+        margin: 10px 0;
+    }
+    .sidebar a p {
+        font-size: 1.2rem;
+    }
+    .content {
+        margin-left: 0;
+        padding: 15px;
+    }
+    .content h1 {
+        font-size: 2rem;
+    }
+    .conntainer {
+        padding: 15px;
+        margin: 0;
+    }
+    .container-fluid {
+        padding: 15px;
+        margin: 0;
+    }
+    .container {
+        padding: 15px;
+        margin: 0;
+    }
+}
 
 .ul {
     list-style-type: none;

@@ -1,7 +1,3 @@
-"""
-This module sets up a simple Flask web application that serves HTML pages.
-"""
-
 from flask import Flask, render_template, request, redirect, url_for
 from modules.nmap_scan import nmap_scan  # Import the nmap_scan function
 
