@@ -1,34 +1,26 @@
 import nmap
 
 def nmap_scan(target, options):
-    
     """
     Perform an Nmap scan on the specified target with the given options.
-    
-    Args:
-        target (str): The target IP address or hostname to scan.
-        options (str): Additional Nmap options as a string.
-        
-    Returns:
-        str: The output of the Nmap scan.
     """
-    
     nm = nmap.PortScanner()
     try:
         nm.scan(target, arguments=options)
-        scan_results = nm.all_hosts()
-        
-        output = ""
-        for host in scan_results:
-            output += f"Host: {host}\n"
+        results = {'hosts': []}
+        for host in nm.all_hosts():
+            host_data = {
+                'address': host,
+                'protocols': {}
+            }
             for proto in nm[host].all_protocols():
-                output += f"Protocol: {proto}\n"
-                ports = nm[host][proto].keys()  # Use keys() to get the list of ports
-                for port in ports:
-                    output += f"Port: {port}, State: {nm[host][proto][port]['state']}\n"
-        
-        return output.strip()
-    except nmap.PortScannerError as e:
-        return f"Error: {e}"
+                host_data['protocols'][proto] = {}
+                for port in nm[host][proto].keys():
+                    host_data['protocols'][proto][port] = {
+                        'state': nm[host][proto][port]['state'],
+                        'service': nm[host][proto][port].get('name', 'Unknown')
+                    }
+            results['hosts'].append(host_data)
+        return results
     except Exception as e:
-        return str(e)
+        return {'error': str(e)}
