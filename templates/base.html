@@ -21,10 +21,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">  
         <meta name="theme-color" content="#000000">
         <meta name="apple-mobile-web-app-capable" content="yes">
+    </header>
 
+    <body>
         <!-- Navigation Bar -->
-        <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-            <div class="container-fluid">
+        <nav class="navbar navbar-dark bg-dark navbar-expand-lg" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
+        <div class="container-fluid" style="padding: 0 15px; overflow: hidden;">
+            <a class="navbar-brand" href="/">
+                    <img src="{{ url_for('static', filename='images/logo.svg') }}" 
+                        alt="Logo" 
+                        class="img-fluid"
+                        style="max-height: 100px; width: 100%; object-fit: contain;">
+                </a>
                 <!-- filepath: p:\DevEnv\OffensiveGUI\templates\base.html -->
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,22 +51,12 @@
                 </div>
             </div>
         </nav>
-    </header>
-
-    <body>
         <!-- Main Layout -->
         <div class="container-fade bg-dark text-white rounded shadow-lg mt-5 mb-5">
             <div class="row g-3 align-items-start">
                 <!-- Sidebar -->
                 <nav class="col-md-3 col-lg-2 p-3 bg-dark text-white sidebar">
-                    <a class="navbar-brand" href="/">
-                        <img src="{{ url_for('static', filename='images/logo.svg') }}" 
-                            alt="Logo" 
-                            class="img-fluid"
-                            style="max-height: auto; width: auto; margin: 0 auto;">
-                    </a>
                     <div class="position-sticky">
-                        <h4 class="text-center mt-3 mb-3">OffensiveGUI</h4>
                         <hr class="bg-light">
                         <ul class="nav flex-column">
                             <li class="nav-item">

@@ -8,14 +8,14 @@ body {
 
 header {
     position: sticky;
-    top: 0;
 }
 
 /* ===========================
     Sidebar Styles
    =========================== */
 .sidebar {
-    position: sticky;
+    position: relative;
+    width: 200px; /* Bootstrap-Klasse w-25 kann verwendet werden */
     top: 0;
     height: 100vh; /* Bootstrap-Klasse h-100 kann verwendet werden */
 }
