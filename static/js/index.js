@@ -81,6 +81,9 @@ document.addEventListener("DOMContentLoaded", () => {
             submitButton.style.color = "";
         });
     }
+
+    // Initialize the visibility of additional fields on page load
+    toggleAdditionalFields();
 });
 
 // Add CSS animations dynamically
@@ -93,3 +96,14 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// Function to toggle additional fields based on scan type
+function toggleAdditionalFields() {
+    const scanType = document.getElementById('scan_type').value;
+    const additionalFields = document.getElementById('additional-fields');
+    if (scanType === 'os') {
+        additionalFields.style.display = 'block';
+    } else {
+        additionalFields.style.display = 'none';
+    }
+}
