@@ -12,22 +12,13 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
         <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
         <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-        <style>
-            .sidebar {
-                height: 100vh; /* Full height */
-            }
-            .navbar-brand img {
-                height: 100px; /* Match the height of the sidebar */
-            }
-        </style>
     </head>
 
-    <header class="bg-dark text-white">
-        <title>OffensiveGUI</title>
+    <header>
         <meta name="description" content="OffensiveGUI - A web-based interface for penetration testing tools.">
         <meta name="keywords" content="OffensiveGUI, penetration testing, web interface, security tools">
         <meta name="author" content="Jens Becker">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
         <meta name="theme-color" content="#000000">
         <meta name="apple-mobile-web-app-capable" content="yes">
 
@@ -35,7 +26,7 @@
         <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">
-                    <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Logo" class="d-inline-block align-text-top">
+                    <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Logo" height="100px" class="d-inline-block align-text-top">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -56,6 +47,8 @@
     </header>
 
     <body class="bg-dark text-white">
+        
+
         <!-- Main Layout -->
         <div class="container-fluid">
             <div class="row">
@@ -85,7 +78,7 @@
                 </nav>
 
                 <!-- Main Content Area -->
-                <main class="col-md-9 col-lg-10 container px-4">
+                <main class="col-md-9 col-lg-10 px-4 py-4 container" role="main">
                     {% block content %}
                     <!-- Content will be injected here from child templates -->
                     {% endblock %}
