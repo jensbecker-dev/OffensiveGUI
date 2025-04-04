@@ -2,32 +2,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5 mb-5 bg-dark text-white rounded p-4 shadow-lg">
-    <h1 class="display-4 text-center">Nmap Web Interface</h1>
-    <p class="lead text-center mt-3">Run Nmap scans directly from your browser.</p>
-    <p class="text-center">Enter the target IP or domain and any additional Nmap options below.</p>
+<div class="container-fluid mb-5 bg-dark text-white rounded p-4 shadow-lg">
+    <h1 class="display-3 text-center">Nmap Web Interface</h1>
     <hr class="bg-light">
-
-    <!-- Form Section -->
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <form action="{{ url_for('nmap_scan_route') }}" method="post" class="p-3 bg-secondary rounded">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label for="target" class="form-label">Target IP/Domain:</label>
-                        <input type="text" id="target" name="target" class="form-control" placeholder="e.g., 192.168.1.1 or example.com" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="options" class="form-label">Nmap Options:</label>
-                        <input type="text" id="options" name="options" class="form-control" placeholder="-sV -Pn">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary w-100 mt-3">Run Scan</button>
-            </form>
-        </div>
+    <div class="row g-3 align-items-end">
+        <form action="{{ url_for('nmap_scan_route') }}" method="post" class="bg-secondary rounded d-flex justify-content-between align-items-center">
+            <div class="col-md-4">
+                <label for="target" class="form-label"></label>
+                <input type="text" id="target" name="target" class="form-control" placeholder="e.g., 192.168.1.1 or example.com" required>
+            </div>
+            <div class="col-md-4">
+                <label for="options" class="form-label"><span spellcheck="false"></span></label>
+                <select id="options" name="options" class="form-select" form="nmap-form" required autocomplete="off" spellcheck="false" aria-label="Default select example">
+                    <option value="" disabled selected>Select Scan Type</option>
+                    <option value="-sS">SYN Scan</option>
+                    <option value="-sT">TCP Connect Scan</option>
+                    <option value="-sU">UDP Scan</option>
+                    <option value="-sV">Service Version Detection</option>
+                    <option value="-O">OS Detection</option>
+                    <option value="-A">Aggressive Scan</option>
+                    <option value="-p-">Scan All Ports</option>
+                </select>
+            </div>
+            <div class="col-md-2 text-center p-4">
+                <button type="submit" class="btn btn-primary">Run Scan</button>
+            </div>
+        </form>
     </div>
 
     <!-- Results Section -->
+    
     {% if results %}
     <div class="table mt-5 bg-secondary rounded p-3 shadow-lg">
         <table class="table table-dark table-hover table-bordered align-middle">

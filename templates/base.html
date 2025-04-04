@@ -25,9 +25,8 @@
         <!-- Navigation Bar -->
         <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">
-                    <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Logo" width="auto" height="100" class="d-inline-block align-text-top">
-                </a>
+                <!-- filepath: p:\DevEnv\OffensiveGUI\templates\base.html -->
+                
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -48,12 +47,18 @@
 
     <body>
         <!-- Main Layout -->
-        <div class="container-fluid">
-            <div class="row">
+        <div class="container-fade bg-dark text-white rounded shadow-lg mt-5 mb-5">
+            <div class="row g-3 align-items-start">
                 <!-- Sidebar -->
                 <nav class="col-md-3 col-lg-2 p-3 bg-dark text-white sidebar">
+                    <a class="navbar-brand" href="/">
+                        <img src="{{ url_for('static', filename='images/logo.svg') }}" 
+                            alt="Logo" 
+                            class="img-fluid"
+                            style="max-height: auto; width: auto; margin: 0 auto;">
+                    </a>
                     <div class="position-sticky">
-                        <h4 class="text-center mt-3">Menu</h4>
+                        <h4 class="text-center mt-3 mb-3">OffensiveGUI</h4>
                         <hr class="bg-light">
                         <ul class="nav flex-column">
                             <li class="nav-item">
@@ -76,7 +81,7 @@
                 </nav>
 
                 <!-- Main Content Area -->
-                <main class="col-md-9 ms-sm-auto col-lg-10 px-4">
+                <main class="col-md-9 ms-sm-auto col-lg-10">
                     {% block content %}
                     <!-- Content will be injected here from child templates -->
                     {% endblock %}

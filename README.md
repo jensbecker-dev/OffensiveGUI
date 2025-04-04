@@ -50,7 +50,8 @@ OffensiveGUI is a web-based application designed to simplify the use of offensiv
 5. **Access the Application:**
     Open your web browser and navigate to `http://127.0.0.1:8080/`.
 
-![alt text](image.png)
+![alt text](nmap-web.png)
+
 ---
 
 ## 📖 Usage
@@ -81,6 +82,4 @@ Contributions are welcome! Please follow these steps:
 ---
 
 ## 📜 License
-
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-```

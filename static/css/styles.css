@@ -1,5 +1,4 @@
 body {
-    font-family: Arial, sans-serif; /* Bootstrap-Klasse font-family kann verwendet werden */
     background-color: #f8f9fa; /* Bootstrap-Klasse bg-light kann verwendet werden */
     color: #343a40; /* Bootstrap-Klasse text-dark kann verwendet werden */
 }
@@ -43,11 +42,24 @@ header {
 .sidebar ul li.active:hover {
     background-color: #0056b3; /* Bootstrap-Klasse bg-primary-dark kann verwendet werden */
 }
+.main-content {
+    margin-left: 220px; /* Bootstrap-Klasse ms-5 kann verwendet werden */
+    padding: 20px; /* Bootstrap-Klasse p-4 kann verwendet werden */
+}
+/* ===========================
+    Main Content Styles
+   =========================== */
+
 .row {
     margin-bottom: 20px; /* Bootstrap-Klasse mb-4 kann verwendet werden */
+    margin-top: 20px; /* Bootstrap-Klasse mt-4 kann verwendet werden */
+    padding: 10px; /* Bootstrap-Klasse p-2 kann verwendet werden */
+    display: flex; /* Bootstrap-Klasse d-flex kann verwendet werden */
 }
 .col {
     padding: 10px; /* Bootstrap-Klasse p-2 kann verwendet werden */
+    flex: 1; /* Bootstrap-Klasse flex-fill kann verwendet werden */
+    margin: 0 10px; /* Bootstrap-Klasse mx-2 kann verwendet werden */
 }
 
 /* ===========================
