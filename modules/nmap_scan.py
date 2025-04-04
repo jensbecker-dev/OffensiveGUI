@@ -40,20 +40,21 @@ def nmap_scan(target, scan_type):
             'hostname': {}
         }
         # Collecting scan results
-        if 'scaninfo' in nm.all_scans():
-            results['scaninfo'] = nm.all_scans()['scaninfo']
-        if 'osmatch' in nm.all_scans():
-            results['osmatch'] = nm.all_scans()['osmatch']
-        if 'hostnames' in nm.all_scans():
-            results['hostnames'] = nm.all_scans()['hostnames']
-        if 'tcp' in nm.all_scans():
-            results['tcp'] = nm.all_scans()['tcp']
-        if 'udp' in nm.all_scans():
-            results['udp'] = nm.all_scans()['udp']
-        if 'ip' in nm.all_scans():
-            results['ip'] = nm.all_scans()['ip']
-        if 'hostname' in nm.all_scans():
-            results['hostname'] = nm.all_scans()['hostname']
+        if 'scaninfo' in nm.scanstats():
+            results['scaninfo'] = nm.scanstats()
+        for host in nm.all_hosts():
+            if 'osmatch' in nm[host]:
+                results['osmatch'][host] = nm[host]['osmatch']
+            if 'hostnames' in nm[host]:
+                results['hostnames'][host] = nm[host]['hostnames']
+            if 'tcp' in nm[host]:
+                results['tcp'][host] = nm[host]['tcp']
+            if 'udp' in nm[host]:
+                results['udp'][host] = nm[host]['udp']
+            if 'addresses' in nm[host]:
+                results['ip'][host] = nm[host]['addresses']
+            if 'hostnames' in nm[host]:
+                results['hostname'][host] = nm[host]['hostnames']
         for host in nm.all_hosts():
             host_data = {
                 'os': (
