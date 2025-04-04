@@ -29,9 +29,7 @@
 
     <!-- Results Section -->
     {% if results %}
-    <div class="table mt-5">
-        <h2 class="text-center">Scan Results</h2>
-        <p class="text-center">Target: <strong>{{ target }}</strong></p>
+    <div class="table mt-5 bg-secondary rounded p-3 shadow-lg">
         <table class="table table-dark table-hover table-bordered align-middle">
             <thead>
                 <tr>
@@ -52,6 +50,10 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div class="text-dark text-center text-info mt-3">
+            <p>Scan completed successfully!</p>
+            <br>
+        </div>
     </div>
     {% else %}
     <div class="alert alert-warning mt-5 text-center" role="alert">
