@@ -45,7 +45,8 @@ def nmap_scan_route():
                         'port': port,
                         'protocol': protocol,
                         'state': details['state'],
-                        'service': details.get('service', 'Unknown')
+                        'service': details.get('service', 'Unknown'),
+                        'options': raw_result.get('options', '')
                     })
         return render_template(
             'nmap.html', results=parsed_results, target=target, scan_type=scan_type, scan_types=scan_types
