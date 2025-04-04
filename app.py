@@ -28,32 +28,41 @@ def nmap_scan_route():
     }
 
     if request.method == 'POST':
-        target = request.form.get('target', '127.0.0.1')  # Default target is localhost
+        target = request.form.get('target', '').strip()  # Get the target and strip whitespace
+        if not target:  # Use 127.0.0.1 if no input was provided
+            target = '127.0.0.1'
         scan_type = request.form.get('scan_type', '-sV')  # Default scan type is '-sV'
         
-        # Perform the nmap scan using the imported function
-        raw_result = nmap_scan(target=target, options=scan_type)
-        
-        # Parse the raw result into a structured format
-        parsed_results = []
-        for host in raw_result.get('hosts', []):
-            host_ip = host.get('ip', 'Unknown')
-            for protocol, ports in host.get('protocols', {}).items():
-                for port, details in ports.items():
-                    parsed_results.append({
-                        'host': host_ip,
-                        'port': port,
-                        'protocol': protocol,
-                        'state': details['state'],
-                        'service': details.get('service', 'Unknown'),
-                        'options': raw_result.get('options', '')
-                    })
-        return render_template(
-            'nmap.html', results=parsed_results, target=target, scan_type=scan_type, scan_types=scan_types
-        )
+        try:
+            # Perform the nmap scan using the imported function
+            raw_result = nmap_scan(target=target, options=scan_type)
+            
+            # Parse the raw result into a structured format
+            parsed_results = []
+            for host in raw_result.get('hosts', []):
+                host_ip = host.get('ip', target)  # Default to the target if IP is not found
+                for protocol, ports in host.get('protocols', {}).items():
+                    for port, details in ports.items():
+                        parsed_results.append({
+                            'host': host_ip,
+                            'port': port,
+                            'protocol': protocol,
+                            'state': details['state'],
+                            'service': details.get('service', 'Unknown'),
+                            'options': raw_result.get('options', '')
+                        })
+            return render_template(
+                'nmap.html', results=parsed_results, target=target, scan_type=scan_type, scan_types=scan_types
+            )
+        except Exception as e:
+            # Handle errors gracefully and display an error message
+            return render_template(
+                'nmap.html', results=None, scan_types=scan_types, error=str(e)
+            )
     else:
         # If the request method is GET, render the nmap.html template without results
         return render_template('nmap.html', results=None, scan_types=scan_types)
+
 
 if __name__ == '__main__':
     # Run the Flask development server

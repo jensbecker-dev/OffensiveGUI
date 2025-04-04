@@ -5,23 +5,27 @@
 <div class="container-fade mt-5 mb-5 bg-dark text-white rounded p-4">
     <hr class="bg-light">
     <form action="{{ url_for('nmap_scan_route') }}" method="post" class="bg-secondary rounded p-3">
-        <div class="mb-3">
-            <label for="target" class="form-label">Target</label>
-            <input type="text" id="target" name="target" class="form-control" placeholder="e.g., 192.168.1.1 or example.com" required>
+        <div class="d-flex align-items-end">
+            <div class="me-3 flex-grow-1">
+                <label for="target" class="form-label">Target</label>
+                <input type="text" id="target" name="target" class="form-control" placeholder="e.g., 192.168.1.1 or example.com" required>
+            </div>
+            <div class="me-3">
+                <label for="scan_type" class="form-label">Scan Type</label>
+                <select id="scan_type" name="scan_type" class="form-select" required>
+                    {% for name, option in scan_types.items() %}
+                    <option value="{{ option }}" {% if scan_type == option %}selected{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary mt-4">Run Scan</button>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="scan_type" class="form-label">Scan Type</label>
-            <select id="scan_type" name="scan_type" class="form-select" required>
-                {% for name, option in scan_types.items() %}
-                <option value="{{ option }}" {% if scan_type == option %}selected{% endif %}>{{ name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Run Scan</button>
     </form>
 
     {% if results %}
-    <div class="table-responsive mt-5" style="max-height: 400px; overflow-y: auto;">
+    <div class="table-responsive mt-5" style="max-height: 100vh; overflow-y: auto;">
         <h2 class="text-center">Scan Results</h2>
         <p class="text-center">Target: {{ target }}</p>
         <p class="text-center">Scan Type: {{ scan_type }}</p>
