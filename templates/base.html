@@ -21,6 +21,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">  
         <meta name="theme-color" content="#000000">
         <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="OffensiveGUI">
+        <meta name="application-name" content="OffensiveGUI">
+        <meta name="msapplication-TileColor" content="#000000">
+        <meta name="msapplication-TileImage" content="{{ url_for('static', filename='images/logo.svg') }}">
+        <meta name="msapplication-config" content="{{ url_for('static', filename='images/browserconfig.xml') }}">
+        <link rel="manifest" href="{{ url_for('static', filename='images/manifest.json') }}">
     </header>
 
     <body>
@@ -52,10 +59,10 @@
             </div>
         </nav>
         <!-- Main Layout -->
-        <div class="container-fade bg-dark text-white rounded shadow-lg mt-5 mb-5">
-            <div class="row g-3 align-items-start">
+        <div class="container-fade" style="margin-top: 80px;">
+            <div class="row">
                 <!-- Sidebar -->
-                <nav class="col-md-3 col-lg-2 p-3 bg-dark text-white sidebar">
+                <nav class="bg-dark text-white sidebar">
                     <div class="position-sticky">
                         <hr class="bg-light">
                         <ul class="nav flex-column">
@@ -77,9 +84,8 @@
                         </ul>
                     </div>
                 </nav>
-
                 <!-- Main Content Area -->
-                <main class="col-md-9 ms-sm-auto col-lg-10">
+                <main class="col-lg-10" style="margin-top: 80px; margin-left: 300px auto;">
                     {% block content %}
                     <!-- Content will be injected here from child templates -->
                     {% endblock %}

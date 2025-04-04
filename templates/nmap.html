@@ -2,41 +2,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container-fluid mb-5 bg-dark text-white rounded p-4 shadow-lg p-5">
+<div class="container-fade mt-5 mb-5 bg-dark text-white rounded p-4">
     <h1 class="display-3 text-center">Nmap Web Interface</h1>
     <hr class="bg-light">
-    <div class="row g-3 align-items-end">
-        <form action="{{ url_for('nmap_scan_route') }}" method="post" class="bg-secondary rounded d-flex justify-content-between align-items-center">
-            <div class="col-md-4">
-                <label for="target" class="form-label"></label>
-                <input type="text" id="target" name="target" class="form-control" placeholder="e.g., 192.168.1.1 or example.com" required>
-            </div>
-            <div class="col-md-4">
-                <label for="options" class="form-label"><span spellcheck="false"></span></label>
-                <select id="options" name="options" class="form-select" form="nmap-form" required autocomplete="off" spellcheck="false" aria-label="Default select example">
-                    <option value="" disabled selected>Select Scan Type</option>
-                    <option value="-sS">SYN Scan</option>
-                    <option value="-sT">TCP Connect Scan</option>
-                    <option value="-sU">UDP Scan</option>
-                    <option value="-sV">Service Version Detection</option>
-                    <option value="-O">OS Detection</option>
-                    <option value="-A">Aggressive Scan</option>
-                    <option value="-p-">Scan All Ports</option>
-                </select>
-            </div>
-            <div class="col-md-2 text-center p-4">
-                <button type="submit" class="btn btn-primary">Run Scan</button>
-            </div>
-        </form>
-    </div>
+    <form action="{{ url_for('nmap_scan_route') }}" method="post" class="bg-secondary rounded p-3">
+        <div class="mb-3">
+            <label for="target" class="form-label">Target</label>
+            <input type="text" id="target" name="target" class="form-control" placeholder="e.g., 192.168.1.1 or example.com" required>
+        </div>
+        <div class="mb-3">
+            <label for="scan_type" class="form-label">Scan Type</label>
+            <select id="scan_type" name="scan_type" class="form-select" required>
+                {% for name, option in scan_types.items() %}
+                <option value="{{ option }}" {% if scan_type == option %}selected{% endif %}>{{ name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Run Scan</button>
+    </form>
 
-    <!-- Results Section -->
-    
     {% if results %}
-    <div class="table mt-5 bg-secondary rounded p-3 shadow-lg">
+    <div class="table-responsive mt-5" style="max-height: 400px; overflow-y: auto;">
+        <h2 class="text-center">Scan Results</h2>
+        <p class="text-center">Target: {{ target }}</p>
+        <p class="text-center">Scan Type: {{ scan_type }}</p>
         <table class="table table-dark table-hover table-bordered align-middle">
             <thead>
                 <tr>
+                    <th class="text-center">Host</th>
                     <th class="text-center">Port</th>
                     <th class="text-center">Protocol</th>
                     <th class="text-center">State</th>
@@ -46,6 +39,7 @@
             <tbody>
                 {% for result in results %}
                 <tr>
+                    <td class="text-center">{{ result.host }}</td>
                     <td class="text-center">{{ result.port }}</td>
                     <td class="text-center">{{ result.protocol }}</td>
                     <td class="text-center">{{ result.state }}</td>
@@ -54,10 +48,6 @@
                 {% endfor %}
             </tbody>
         </table>
-        <div class="text-dark text-center text-info mt-3">
-            <p>Scan completed successfully!</p>
-            <br>
-        </div>
     </div>
     {% else %}
     <div class="alert alert-warning mt-5 text-center" role="alert">

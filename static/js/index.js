@@ -1,4 +1,5 @@
 // This file contains JavaScript code for the Nmap web application
+// spell-checker: disable Nmap nmap
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("JavaScript loaded successfully!");

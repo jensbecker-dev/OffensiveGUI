@@ -7,7 +7,10 @@ def nmap_scan(target, options):
     nm = nmap.PortScanner()
     try:
         nm.scan(target, arguments=options)
-        results = {'hosts': []}
+        results = {
+            'hosts': [],
+            'options': options  # Include options in the results
+        }
         for host in nm.all_hosts():
             host_data = {
                 'address': host,

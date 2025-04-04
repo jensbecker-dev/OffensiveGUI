@@ -24,13 +24,7 @@ def nmap_scan_route():
     Perform an nmap scan using the imported nmap_scan function and render the results.
     """
     scan_types = {
-        'TCP Connect Scan': '-sT',
-        'SYN Scan': '-sS',
-        'UDP Scan': '-sU',
-        'Service Version Detection': '-sV',
-        'OS Detection': '-O',
-        'Aggressive Scan': '-A',
-        'All Ports Scan': '-p-'
+        'Service Version Detection': '-sV'
     }
 
     if request.method == 'POST':
@@ -43,9 +37,11 @@ def nmap_scan_route():
         # Parse the raw result into a structured format
         parsed_results = []
         for host in raw_result.get('hosts', []):
+            host_ip = host.get('ip', 'Unknown')
             for protocol, ports in host.get('protocols', {}).items():
                 for port, details in ports.items():
                     parsed_results.append({
+                        'host': host_ip,
                         'port': port,
                         'protocol': protocol,
                         'state': details['state'],
