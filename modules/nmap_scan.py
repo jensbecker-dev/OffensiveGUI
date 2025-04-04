@@ -12,7 +12,7 @@ def nmap_scan(target, scan_type):
     nm = nmap.PortScanner()
     scan_options = {
         'quick': '-T4 -F',
-        'full': '-p-',
+        'full': '-T4 -p-',
         'os': '-O',
         'service': '-sV'
     }
@@ -67,39 +67,15 @@ def nmap_scan(target, scan_type):
             for proto in nm[host].all_protocols():
                 host_data['protocols'][proto] = {}
                 for port in nm[host][proto].keys():
-                    if scan_type == "quick":
-                        port_data = {
-                            'state': nm[host][proto][port]['state'],
-                            'service': nm[host][proto][port].get('name', 'Unknown')
-                        }
-                    elif scan_type == "full":
-                        port_data = {
-                            'state': nm[host][proto][port]['state'],
-                            'service': nm[host][proto][port].get('name', 'Unknown'),
-                            'version': nm[host][proto][port].get('version', 'Unknown')
-                        }
-                    elif scan_type == "os":
-                        port_data = {
-                            'state': nm[host][proto][port]['state'],
-                            'service': nm[host][proto][port].get('name', 'Unknown'),
-                            'os': host_data['os']
-                        }
-                    elif scan_type == "service":
-                        port_data = {
-                            'state': nm[host][proto][port]['state'],
-                            'service': nm[host][proto][port].get('name', 'Unknown'),
-                            'version': nm[host][proto][port].get('version', 'Unknown')
-                        }
-                    else:
-                        port_data = {
-                            'state': nm[host][proto][port]['state'],
-                            'service': nm[host][proto][port].get('name', 'Unknown')
-                        }
-                    if 'name' in nm[host][proto][port]:
-                        port_data['service'] = nm[host][proto][port]['name']
-                    if 'version' in nm[host][proto][port]:
-                        port_data['version'] = nm[host][proto][port]['version']
-                    host_data['protocols'][proto][port] = port_data
+                    state = nm[host][proto][port]['state']
+                    service = nm[host][proto][port].get('name', 'Unknown')
+                    version = nm[host][proto][port].get('version', 'N/A')
+                    host_data['protocols'][proto][port] = {
+                        'state': state,
+                        'service': service,
+                        'version': version
+                    }
+            # Append host data to results
             results['hosts'].append(host_data)
         return results
     except Exception as e:
