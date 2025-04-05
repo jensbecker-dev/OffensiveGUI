@@ -5,7 +5,7 @@ Module for performing nmap scans using the nmap library.
 import nmap  # Ensure the python-nmap library is installed
 
 
-def nmap_service_scan(target):
+def nmap_service_scan(target, scan_options):
     """
     Perform an Nmap service scan on the given target.
 
@@ -22,7 +22,8 @@ def nmap_service_scan(target):
             raise ValueError("Target cannot be empty.")
 
         # Perform a service version scan (-sV)
-        scanner.scan(hosts=target, arguments='-sV')
+        scan_args = f"-sV {scan_options}" if scan_options else "-sV"
+        scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
         for host in scanner.all_hosts():
@@ -43,7 +44,7 @@ def nmap_service_scan(target):
         raise RuntimeError(f"Error during Nmap service scan: {e}")
 
 
-def nmap_os_scan(target):
+def nmap_os_scan(target, scan_options):
     """
     Perform an Nmap OS scan on the given target.
 
@@ -60,7 +61,9 @@ def nmap_os_scan(target):
             raise ValueError("Target cannot be empty.")
 
         # Perform an OS detection scan (-O)
-        scanner.scan(hosts=target, arguments='-O')
+        scan_args = f"-O {scan_options}" if scan_options else "-O"
+
+        scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
         for host in scanner.all_hosts():
@@ -75,7 +78,7 @@ def nmap_os_scan(target):
     except Exception as e:
         raise RuntimeError(f"Error during Nmap OS scan: {e}")
 
-def nmap_tcp_scan(target):
+def nmap_tcp_scan(target, scan_options):
     """
     Perform an Nmap TCP scan on the given target.
 
@@ -92,7 +95,9 @@ def nmap_tcp_scan(target):
             raise ValueError("Target cannot be empty.")
 
         # Perform a TCP scan (-sS)
-        scanner.scan(hosts=target, arguments='-sS')
+        
+        scan_args = f"-sS {scan_options}" if scan_options else "-sS"
+        scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
         for host in scanner.all_hosts():
@@ -112,7 +117,7 @@ def nmap_tcp_scan(target):
     except Exception as e:
         raise RuntimeError(f"Error during Nmap TCP scan: {e}")
 
-def nmap_udp_scan(target):
+def nmap_udp_scan(target, scan_options):
     """
     Perform an Nmap UDP scan on the given target.
 
@@ -129,7 +134,8 @@ def nmap_udp_scan(target):
             raise ValueError("Target cannot be empty.")
 
         # Perform a UDP scan (-sU)
-        scanner.scan(hosts=target, arguments='-sU')
+        scan_args = f"-sU {scan_options}" if scan_options else "-sU"
+        scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
         for host in scanner.all_hosts():
@@ -149,7 +155,7 @@ def nmap_udp_scan(target):
     except Exception as e:
         raise RuntimeError(f"Error during Nmap UDP scan: {e}")
     
-def nmap_xmas_scan(target):
+def nmap_xmas_scan(target, scan_options):
     """
     Perform an Nmap Xmas scan on the given target.
 
@@ -166,7 +172,8 @@ def nmap_xmas_scan(target):
             raise ValueError("Target cannot be empty.")
 
         # Perform a Xmas scan (-sX)
-        scanner.scan(hosts=target, arguments='-sX')
+        scan_args = f"-sX {scan_options}" if scan_options else "-sX"
+        scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
         for host in scanner.all_hosts():

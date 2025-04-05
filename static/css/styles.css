@@ -51,12 +51,6 @@ header {
 
 .row {
     padding: 10px; /* Bootstrap-Klasse p-2 kann verwendet werden */
-    display: flex; /* Bootstrap-Klasse d-flex kann verwendet werden */
-}
-.col {
-    padding: 10px; /* Bootstrap-Klasse p-2 kann verwendet werden */
-    flex: 1; /* Bootstrap-Klasse flex-fill kann verwendet werden */
-    margin: 0 10px; /* Bootstrap-Klasse mx-2 kann verwendet werden */
 }
 
 /* ===========================
