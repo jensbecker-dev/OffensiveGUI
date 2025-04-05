@@ -3,7 +3,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center mb-4">
+<div class="d-flex justify-content-center align-items-center mb-4" style="margin-top: 80px;">
     <form method="post" action="{{ url_for('nmap_scan_route') }}" class="row g-3 bg-secondary p-4 rounded shadow">
         <div class="col-md-6">
             <label for="target" class="form-label text-white fw-bold">Target:</label>
@@ -32,10 +32,10 @@
             <thead>
                 <tr>
                     <th class="text-center">Host</th>
+                    {% if scan_type == "service" %}
                     <th class="text-center">Port</th>
                     <th class="text-center">Protocol</th>
                     <th class="text-center">State</th>
-                    {% if scan_type == "service" %}
                     <th class="text-center">Service</th>
                     <th class="text-center">Version</th>
                     {% elif scan_type == "os" %}
@@ -49,12 +49,16 @@
                 {% for result in results %}
                 <tr>
                     <td class="text-center">{{ result.host }}</td>
+                    {% if scan_type == "service" %}
                     <td class="text-center">{{ result.port }}</td>
                     <td class="text-center">{{ result.protocol }}</td>
                     <td class="text-center">{{ result.state }}</td>
-                    {% if scan_type == "service" %}
                     <td class="text-center">{{ result.service }}</td>
                     <td class="text-center">{{ result.version|default("N/A") }}</td>
+                    {% elif scan_type == "os" %}
+                    <td class="text-center">{{ result.os_name }}</td>
+                    <td class="text-center">{{ result.os_accuracy }}</td>
+                    <td class="text-center">{{ result.os_family }}</td>
                     {% endif %}
                 </tr>
                 {% endfor %}

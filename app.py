@@ -23,15 +23,15 @@ def nmap_scan_route():
     """
     if request.method == 'POST':
         target = request.form['target']
-        scan_type = request.form['scan_type']  # Get the selected scan type from the dropdown
+        scan_type = request.form['scan_type']
         try:
             if scan_type == 'service':
                 scan_results = nmap_service_scan(target)
             elif scan_type == 'os':
-                scan_results = nmap_os_scan(target)
-                return render_template('nmap.html', results=scan_results, target=target, scan_type=scan_type)
+                scan_results = nmap_os_scan(target)  # Ensure this function is implemented in nmap_scan.py
             else:
-                raise ValueError("Invalid scan type selected.")
+                scan_results = []
+
             return render_template('nmap.html', results=scan_results, target=target, scan_type=scan_type)
         except Exception as e:
             return render_template('nmap.html', error=str(e), target=target, scan_type=scan_type)
