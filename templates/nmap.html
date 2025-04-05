@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-center align-items-center mb-4 p-4" style="min-width: 100vh;">
+<div class="d-flex justify-content-center align-items-center mb-4 mt-2 p-4" style="min-width: 100vh;">
     <form method="post" action="{{ url_for('nmap_scan_route') }}" class="row g-3 bg-secondary p-4 rounded shadow d-flex align-items-center justify-content-between">
         <div class="col-md-4"> 
             <label for="target" class="form-label text-white fw-bold">Target</label>
@@ -26,7 +26,6 @@
     </form>
 </div>
 <div class="col-md-4 container mt-5 bg-dark text-white rounded p-4" style="min-width: 100vh;">
-    <hr class="bg-light">
 
     {% if results %}
 
@@ -102,7 +101,7 @@
     
     {% else %}
 
-    <div class="alert alert-warning text-center mt-4" role="alert">
+    <div class="alert alert-warning text-center" role="alert">
         No results to display. Please run a scan.
     </div>
 
