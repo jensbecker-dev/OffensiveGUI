@@ -4,28 +4,27 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-center align-items-center mb-4 mt-2 p-4" style="min-width: 100vh;">
-    <form method="post" action="{{ url_for('nmap_scan_route') }}" class="row g-3 bg-secondary p-4 rounded shadow d-flex align-items-center justify-content-between">
+<div class="d-flex justify-content-center align-items-center mt-2 p-4">
+    <form method="post" action="{{ url_for('nmap_scan_route') }}" class="row w-50 bg-dark p-5 rounded d-flex align-items-center justify-content-between">
         <div class="col-md-4"> 
-            <label for="target" class="form-label text-white fw-bold">Target</label>
             <input type="text" id="target" name="target" class="form-control" placeholder="Enter target IP or domain" required>
         </div>
         <div class="col-md-4">
-            <label for="scan_type" class="form-label text-white fw-bold">Scan Type</label>
             <select id="scan_type" name="scan_type" class="form-select" required>
                 <option value="" disabled selected>Select scan type</option>
                 <option value="service">Service Scan</option>
                 <option value="os">Operating System Scan</option>
                 <option value="tcp">TCP Scan</option>
                 <option value="udp">UDP Scan</option>
+                <option value="xmas">Xmas Scan</option>
             </select>
         </div>
         <div class="col-md-4 text-center">
-            <button type="submit" class="btn btn-primary fw-bold p-4">Start Scan</button>
+            <button type="submit" class="btn btn-primary fw-bold">Start Scan</button>
         </div>
     </form>
 </div>
-<div class="col-md-4 container mt-5 bg-dark text-white rounded p-4" style="min-width: 100vh;">
+<div class="col-md-4 container mb-5 bg-dark text-white rounded p-3" style="min-width: 50%;">
 
     {% if results %}
 
@@ -62,6 +61,13 @@
                     <th class="text-center">Protocol</th>
                     <th class="text-center">State</th>
                     <th class="text-center">Service</th>
+
+                    {% elif scan_type == "xmas" %}
+
+                    <th class="text-center">Port</th>
+                    <th class="text-center">Protocol</th>
+                    <th class="text-center">State</th>
+                    <th class="text-center">Service</th>
                     
                     {% endif %}
 
@@ -91,6 +97,11 @@
                     <td class="text-center">{{ result.protocol }}</td>
                     <td class="text-center">{{ result.state }}</td>
                     <td class="text-center">{{ result.service }}</td>
+                    {% elif scan_type == "xmas" %}
+                    <td class="text-center">{{ result.port }}</td>
+                    <td class="text-center">{{ result.protocol }}</td>
+                    <td class="text-center">{{ result.state }}</td>
+                    <td class="text-center">{{ result.service }}</td>
                     {% endif %}
                 </tr>
                 {% endfor %}
@@ -101,7 +112,7 @@
     
     {% else %}
 
-    <div class="alert alert-warning text-center" role="alert">
+    <div class="alert alert-warning text-center" role="alert" style="margin-top: 20px;">
         No results to display. Please run a scan.
     </div>
 
@@ -109,14 +120,4 @@
 
 </div>
 
-{% endblock %}
-
-{% block scripts %}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="{{ url_for('static', filename='js/index.js') }}"></script>
-{% endblock %}
-
-{% block styles %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 {% endblock %}

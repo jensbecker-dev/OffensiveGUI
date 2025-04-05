@@ -147,4 +147,41 @@ def nmap_udp_scan(target):
                     })
         return results
     except Exception as e:
-        raise RuntimeError(f"Error during Nmap UDP scan: {e}") 
+        raise RuntimeError(f"Error during Nmap UDP scan: {e}")
+    
+def nmap_xmas_scan(target):
+    """
+    Perform an Nmap Xmas scan on the given target.
+
+    Args:
+        target (str): The target IP address or hostname.
+
+    Returns:
+        list: A list of dictionaries containing Xmas scan results.
+    """
+    scanner = nmap.PortScanner()
+    try:
+        # Validate the target to ensure it's not empty
+        if not target:
+            raise ValueError("Target cannot be empty.")
+
+        # Perform a Xmas scan (-sX)
+        scanner.scan(hosts=target, arguments='-sX')
+
+        results = []
+        for host in scanner.all_hosts():
+            for protocol in scanner[host].all_protocols():
+                ports = scanner[host][protocol].keys()
+                for port in ports:
+                    port_info = scanner[host][protocol][port]
+                    results.append({
+                        'host': host,
+                        'port': port,
+                        'protocol': protocol,
+                        'state': port_info.get('state', 'unknown'),
+                        'service': port_info.get('name', 'unknown'),
+                        'version': port_info.get('version', 'N/A')
+                    })
+        return results
+    except Exception as e:
+        raise RuntimeError(f"Error during Nmap Xmas scan: {e}") 

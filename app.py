@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from modules.nmap_scan import nmap_service_scan  # Ensure this module exists and is correctly implemented
 from modules.nmap_scan import nmap_os_scan  # Import the OS scan function
 from modules.nmap_scan import nmap_udp_scan  # Import the UDP scan function
+from modules.nmap_scan import nmap_xmas_scan  # Import the Xmas scan function
 
 app = Flask(__name__)
 
@@ -37,6 +38,9 @@ def nmap_scan_route():
                 
             elif scan_type == 'udp':
                 scan_results = nmap_udp_scan(target)  # Ensure this function is implemented in nmap_scan.py
+            
+            elif scan_type == 'xmas':
+                scan_results = nmap_xmas_scan(target)  # Ensure this function is implemented in nmap_scan.py
                 
             else:
                 scan_results = []
