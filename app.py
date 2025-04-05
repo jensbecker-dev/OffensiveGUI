@@ -5,10 +5,12 @@ This module defines a Flask application for performing nmap scans and rendering 
 from flask import Flask, render_template, request, redirect, url_for, flash
 from modules.nmap_scan import nmap_service_scan  # Ensure this module exists and is correctly implemented
 from modules.nmap_scan import nmap_os_scan  # Import the OS scan function
+from modules.nmap_scan import nmap_tcp_scan  # Import the TCP scan function
 from modules.nmap_scan import nmap_udp_scan  # Import the UDP scan function
 from modules.nmap_scan import nmap_xmas_scan  # Import the Xmas scan function
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'  # Add a secret key for session management
 
 @app.route('/')
 @app.route('/home')
@@ -26,33 +28,35 @@ def nmap_scan_route():
     if request.method == 'POST':
         target = request.form['target']
         scan_type = request.form['scan_type']
-        scan_options = request.form.getlist('scan_options')
+        scan_speed = request.form['scan_speed']
         try:
         
             if scan_type == 'tcp':
-                scan_results = nmap_service_scan(target, scan_options)  # Ensure this function is implemented in nmap_scan.py
+                scan_results = nmap_tcp_scan(target, scan_speed)  # Ensure this function is implemented in nmap_scan.py
                 
             elif scan_type == 'udp':
-                scan_results = nmap_udp_scan(target, scan_options)  # Ensure this function is implemented in nmap_scan.py
+                scan_results = nmap_udp_scan(target, scan_speed)  # Ensure this function is implemented in nmap_scan.py
             
             elif scan_type == 'xmas':
-                scan_results = nmap_xmas_scan(target, scan_options)  # Ensure this function is implemented in nmap_scan.py
+                scan_results = nmap_xmas_scan(target, scan_speed)  # Ensure this function is implemented in nmap_scan.py
             
             elif scan_type == 'service':
-                scan_results = nmap_service_scan(target, scan_options)  # Ensure this function is implemented in nmap_scan.py
+                scan_results = nmap_service_scan(target, scan_speed)  # Ensure this function is implemented in nmap_scan.py
                 
             elif scan_type == 'os':
-                scan_results = nmap_os_scan(target, scan_options)  # Ensure this function is implemented in nmap_scan.py
+                scan_results = nmap_os_scan(target, scan_speed)  # Ensure this function is implemented in nmap_scan.py
                 
             else:
-                scan_results = []
+                results = []
 
-            return render_template('nmap.html', results=scan_results, target=target, scan_type=scan_type)
+            return render_template('nmap.html', target=target, scan_type=scan_type, scan_speed=scan_speed, results=scan_results)
         
-        except Exception as e:
-            return render_template('nmap.html', error=str(e), target=target, scan_type=scan_type)
+        except ValueError as ve:
+            flash(str(ve))
+            return render_template('nmap.html', target=target, scan_type=scan_type, scan_speed=scan_speed, results=[])
         
     else:
+        flash('Please select a scan type and enter a target.')
         return render_template('nmap.html')
     
 @app.route('/targets', methods=['POST', 'GET'])
@@ -67,4 +71,5 @@ def targets():
     return render_template('targets.html')
 
 if __name__ == '__main__':
+
     app.run(debug=True, port=8080)

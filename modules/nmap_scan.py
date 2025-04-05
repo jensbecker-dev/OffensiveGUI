@@ -4,7 +4,7 @@ Module for performing nmap scans using the nmap library.
 
 import nmap  # Ensure the python-nmap library is installed
 
-def nmap_tcp_scan(target, scan_options):
+def nmap_tcp_scan(target, scan_speed):
     """
     Perform an Nmap TCP scan on the given target.
 
@@ -22,7 +22,7 @@ def nmap_tcp_scan(target, scan_options):
 
         # Perform a TCP scan (-sS)
         
-        scan_args = f"-sS {scan_options}" if scan_options else "-sS"
+        scan_args = f"-sS -T{scan_speed}" if scan_speed else "-sS"
         scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
@@ -43,7 +43,7 @@ def nmap_tcp_scan(target, scan_options):
     except Exception as e:
         raise RuntimeError(f"Error during Nmap TCP scan: {e}")
 
-def nmap_udp_scan(target, scan_options):
+def nmap_udp_scan(target, scan_speed):
     """
     Perform an Nmap UDP scan on the given target.
 
@@ -60,7 +60,7 @@ def nmap_udp_scan(target, scan_options):
             raise ValueError("Target cannot be empty.")
 
         # Perform a UDP scan (-sU)
-        scan_args = f"-sU {scan_options}" if scan_options else "-sU"
+        scan_args = f"-sU -T{scan_speed}" if scan_speed else "-sU"
         scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
@@ -81,7 +81,7 @@ def nmap_udp_scan(target, scan_options):
     except Exception as e:
         raise RuntimeError(f"Error during Nmap UDP scan: {e}")
     
-def nmap_xmas_scan(target, scan_options):
+def nmap_xmas_scan(target, scan_speed):
     """
     Perform an Nmap Xmas scan on the given target.
 
@@ -98,7 +98,7 @@ def nmap_xmas_scan(target, scan_options):
             raise ValueError("Target cannot be empty.")
 
         # Perform a Xmas scan (-sX)
-        scan_args = f"-sX {scan_options}" if scan_options else "-sX"
+        scan_args = f"-sX -T{scan_speed}" if scan_speed else "-sX"
         scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
@@ -119,7 +119,7 @@ def nmap_xmas_scan(target, scan_options):
     except Exception as e:
         raise RuntimeError(f"Error during Nmap Xmas scan: {e}")
 
-def nmap_service_scan(target, scan_options):
+def nmap_service_scan(target, scan_speed):
     """
     Perform an Nmap service scan on the given target.
 
@@ -136,7 +136,7 @@ def nmap_service_scan(target, scan_options):
             raise ValueError("Target cannot be empty.")
 
         # Perform a service version scan (-sV)
-        scan_args = f"-sV {scan_options}" if scan_options else "-sV"
+        scan_args = f"-sV -T{scan_speed}" if scan_speed else "-sV"
         scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
@@ -157,7 +157,7 @@ def nmap_service_scan(target, scan_options):
     except Exception as e:
         raise RuntimeError(f"Error during Nmap service scan: {e}")
 
-def nmap_os_scan(target, scan_options):
+def nmap_os_scan(target, scan_speed):
     """
     Perform an Nmap OS scan on the given target.
 
@@ -174,7 +174,7 @@ def nmap_os_scan(target, scan_options):
             raise ValueError("Target cannot be empty.")
 
         # Perform an OS detection scan (-O)
-        scan_args = f"-O {scan_options}" if scan_options else "-O"
+        scan_args = f"-O -T{scan_speed}" if scan_speed else "-O"
 
         scanner.scan(hosts=target, arguments=scan_args)
 
