@@ -46,6 +46,17 @@ def nmap_scan_route():
             return render_template('nmap.html', error=str(e), target=target, scan_type=scan_type)
     else:
         return render_template('nmap.html')
+    
+@app.route('/targets', methods=['POST', 'GET'])
+def targets():
+    """
+    Render the targets.html template for the targets page.
+    """
+    if request.method == 'POST':
+        target = request.form['target']
+        flash(f'Target {target} added successfully!')
+        return redirect(url_for('targets'))
+    return render_template('targets.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

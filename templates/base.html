@@ -88,6 +88,9 @@
                 <main class="col-lg-10" style="margin-top: 80px;">
                     {% block content %}
                     <!-- Content will be injected here from child templates -->
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('targets') }}" class="btn btn-secondary">Target Menu</a>
+                    </div>
                     {% endblock %}
                 </main>
             </div>
