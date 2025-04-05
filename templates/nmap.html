@@ -4,14 +4,14 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-center align-items-center mb-4 p-4" style="margin-top: 80px;">
+<div class="d-flex justify-content-center align-items-center mb-4 p-4" style="min-width: 100vh;">
     <form method="post" action="{{ url_for('nmap_scan_route') }}" class="row g-3 bg-secondary p-4 rounded shadow d-flex align-items-center justify-content-between">
-        <div class="col-md-4">
-            <label for="target" class="form-label text-white fw-bold">Target:</label>
+        <div class="col-md-4"> 
+            <label for="target" class="form-label text-white fw-bold">Target</label>
             <input type="text" id="target" name="target" class="form-control" placeholder="Enter target IP or domain" required>
         </div>
         <div class="col-md-4">
-            <label for="scan_type" class="form-label text-white fw-bold">Scan Type:</label>
+            <label for="scan_type" class="form-label text-white fw-bold">Scan Type</label>
             <select id="scan_type" name="scan_type" class="form-select" required>
                 <option value="" disabled selected>Select scan type</option>
                 <option value="service">Service Scan</option>
@@ -25,8 +25,7 @@
         </div>
     </form>
 </div>
-<div class="container mt-5 bg-dark text-white rounded p-4 ;" style="max-width: 100vh; margin: auto;">
-    <h1 class="text-center">Nmap Scan Results</h1>
+<div class="col-md-4 container mt-5 bg-dark text-white rounded p-4" style="min-width: 100vh;">
     <hr class="bg-light">
 
     {% if results %}
@@ -99,6 +98,7 @@
             </tbody>
         </table>
     </div>
+    <p class="text-center mt-4">Scan completed successfully.</p>
     
     {% else %}
 

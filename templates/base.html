@@ -59,7 +59,7 @@
             </div>
         </nav>
         <!-- Main Layout -->
-        <div class="container-fade" style="margin-top: 80px;">
+        <div class="container-fade" style="margin-top: 80px; margin-bottom: 40px;">
             <div class="row">
                 <!-- Sidebar -->
                 <nav class="bg-dark text-white sidebar">
@@ -78,7 +78,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="/targets" class="nav-link text-white">
-                                    <i class="bi bi-hdd-network"></i> Targets
+                                    <i class="bi bi-bullseye"></i> Targets
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -90,12 +90,9 @@
                     </div>
                 </nav>
                 <!-- Main Content Area -->
-                <main class="col-lg-10" style="margin-top: 80px;">
+                <main class="col-lg-10" style="margin-top: 40px;">
                     {% block content %}
                     <!-- Content will be injected here from child templates -->
-                    <div class="text-center mt-4">
-                        <a href="{{ url_for('targets') }}" class="btn btn-secondary">Target Menu</a>
-                    </div>
                     {% endblock %}
                 </main>
             </div>
