@@ -58,7 +58,6 @@ OffensiveGUI is a web-based application designed to simplify the use of offensiv
 
 ![alt text](nmap.png)
 
-
 ## 📖 Usage
 
 1. **Start a Scan**:
