@@ -28,13 +28,8 @@ def nmap_scan_route():
         scan_type = request.form['scan_type']
         scan_options = request.form.getlist('scan_options')
         try:
-            if scan_type == 'service':
-                scan_results = nmap_service_scan(target, scan_options)  # Ensure this function is implemented in nmap_scan.py
-                
-            elif scan_type == 'os':
-                scan_results = nmap_os_scan(target, scan_options)  # Ensure this function is implemented in nmap_scan.py
-                
-            elif scan_type == 'tcp':
+        
+            if scan_type == 'tcp':
                 scan_results = nmap_service_scan(target, scan_options)  # Ensure this function is implemented in nmap_scan.py
                 
             elif scan_type == 'udp':
@@ -42,13 +37,21 @@ def nmap_scan_route():
             
             elif scan_type == 'xmas':
                 scan_results = nmap_xmas_scan(target, scan_options)  # Ensure this function is implemented in nmap_scan.py
+            
+            elif scan_type == 'service':
+                scan_results = nmap_service_scan(target, scan_options)  # Ensure this function is implemented in nmap_scan.py
+                
+            elif scan_type == 'os':
+                scan_results = nmap_os_scan(target, scan_options)  # Ensure this function is implemented in nmap_scan.py
                 
             else:
                 scan_results = []
 
             return render_template('nmap.html', results=scan_results, target=target, scan_type=scan_type)
+        
         except Exception as e:
             return render_template('nmap.html', error=str(e), target=target, scan_type=scan_type)
+        
     else:
         return render_template('nmap.html')
     
