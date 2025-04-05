@@ -5,6 +5,7 @@ This module defines a Flask application for performing nmap scans and rendering 
 from flask import Flask, render_template, request, redirect, url_for, flash
 from modules.nmap_scan import nmap_service_scan  # Ensure this module exists and is correctly implemented
 from modules.nmap_scan import nmap_os_scan  # Import the OS scan function
+from modules.nmap_scan import nmap_udp_scan  # Import the UDP scan function
 
 app = Flask(__name__)
 
@@ -27,8 +28,16 @@ def nmap_scan_route():
         try:
             if scan_type == 'service':
                 scan_results = nmap_service_scan(target)
+                
             elif scan_type == 'os':
                 scan_results = nmap_os_scan(target)  # Ensure this function is implemented in nmap_scan.py
+                
+            elif scan_type == 'tcp':
+                scan_results = nmap_service_scan(target)
+                
+            elif scan_type == 'udp':
+                scan_results = nmap_udp_scan(target)  # Ensure this function is implemented in nmap_scan.py
+                
             else:
                 scan_results = []
 
