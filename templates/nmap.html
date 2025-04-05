@@ -1,87 +1,69 @@
 <!-- filepath: p:\DevEnv\OffensiveGUI\templates\nmap.html -->
+
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container-fade mt-5 bg-dark text-white rounded p-4">
-    <hr class="bg-light">
-    <form action="{{ url_for('nmap_scan_route') }}" method="post" class="bg-secondary rounded p-3">
-        <div class="d-flex align-items-end">
-            <div class="me-3 flex-grow-1">
-                <label for="target" class="form-label">Target</label>
-                <input type="text" id="target" name="target" class="form-control" placeholder="e.g., 192.168.1.1 or example.com" required>
-            </div>
-            <div class="me-3">
-                <label for="scan_type" class="form-label">Scan Type</label>
-                <select id="scan_type" name="scan_type" class="form-select" required onchange="toggleAdditionalFields()">
-                    <option value="quick">Quick Scan</option>
-                    <option value="full">Full Scan</option>
-                    <option value="os">OS Detection</option>
-                    <option value="service">Service Detection</option>
-                </select>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-primary mt-4">Run Scan</button>
-            </div>
+<div class="d-flex justify-content-center align-items-center mb-4">
+    <form method="post" action="{{ url_for('nmap_scan_route') }}" class="row g-3 bg-secondary p-4 rounded shadow">
+        <div class="col-md-6">
+            <label for="target" class="form-label text-white fw-bold">Target:</label>
+            <input type="text" id="target" name="target" class="form-control" placeholder="Enter target IP or domain" required>
         </div>
-
-        <!-- Additional fields for specific scan types -->
-        <div id="additional-fields" class="mt-3" style="display: none;">
-            <label for="os_details" class="form-label">Operating System Details</label>
-            <input type="text" id="os_details" name="os_details" class="form-control" placeholder="e.g., Windows, Linux">
+        <div class="col-md-6">
+            <label for="scan_type" class="form-label text-white fw-bold">Scan Type:</label>
+            <select id="scan_type" name="scan_type" class="form-select" required>
+                <option value="" disabled selected>Select scan type</option>
+                <option value="service">Service Scan</option>
+                <option value="os">Operating System Scan</option>
+            </select>
+        </div>
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary w-50 fw-bold">Start Scan</button>
         </div>
     </form>
+</div>
+<div class="container mt-5 bg-dark text-white rounded p-4">
+    <h1 class="text-center">Nmap Scan Results</h1>
+    <hr class="bg-light">
 
     {% if results %}
-    <div class="table-responsive mt-5" style="max-height: 100vh; overflow-y: auto;">
-        <h2 class="text-center">Scan Results</h2>
-        <p class="text-center">Target: {{ target }}</p>
-        <p class="text-center">Scan Type: {{ scan_type }}</p>
-        {% if results.hosts %}
+    <div class="table-responsive mt-4">
         <table class="table table-dark table-hover table-bordered align-middle">
             <thead>
                 <tr>
                     <th class="text-center">Host</th>
-                    <th class="text-center">Protocol</th>
                     <th class="text-center">Port</th>
+                    <th class="text-center">Protocol</th>
                     <th class="text-center">State</th>
+                    {% if scan_type == "service" %}
                     <th class="text-center">Service</th>
-                    {% if scan_type == 'os' %}
-                    <th class="text-center">Operating System</th>
-                    {% elif scan_type == 'service' %}
                     <th class="text-center">Version</th>
+                    {% elif scan_type == "os" %}
+                    <th class="text-center">OS Name</th>
+                    <th class="text-center">OS Accuracy</th>
+                    <th class="text-center">OS Family</th>
                     {% endif %}
                 </tr>
             </thead>
             <tbody>
-                {% for host in results.hosts %}
-                {% for proto, ports in host.protocols.items() %}
-                {% for port, details in ports.items() %}
+                {% for result in results %}
                 <tr>
-                    <td class="text-center">{{ host.address }}</td>
-                    <td class="text-center">{{ proto }}</td>
-                    <td class="text-center">{{ port }}</td>
-                    <td class="text-center">{{ details.state }}</td>
-                    <td class="text-center">{{ details.service|default("N/A") }}</td>
-                    {% if scan_type == 'os' %}
-                    <td class="text-center">{{ host.os|default("N/A") }}</td>
-                    {% elif scan_type == 'service' %}
-                    <td class="text-center">{{ details.version|default("N/A") }}</td>
+                    <td class="text-center">{{ result.host }}</td>
+                    <td class="text-center">{{ result.port }}</td>
+                    <td class="text-center">{{ result.protocol }}</td>
+                    <td class="text-center">{{ result.state }}</td>
+                    {% if scan_type == "service" %}
+                    <td class="text-center">{{ result.service }}</td>
+                    <td class="text-center">{{ result.version|default("N/A") }}</td>
                     {% endif %}
                 </tr>
                 {% endfor %}
-                {% endfor %}
-                {% endfor %}
             </tbody>
         </table>
-        {% else %}
-        <div class="alert alert-danger text-center" role="alert">
-            No hosts found in the scan results.
-        </div>
-        {% endif %}
     </div>
     {% else %}
-    <div class="alert alert-warning mt-5 text-center" role="alert">
-        No results to display. Run a scan to see the output.
+    <div class="alert alert-warning text-center mt-4" role="alert">
+        No results to display. Please run a scan.
     </div>
     {% endif %}
 </div>
@@ -90,23 +72,9 @@
 {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-<script>
-    function toggleAdditionalFields() {
-        const scanType = document.getElementById('scan_type').value;
-        const additionalFields = document.getElementById('additional-fields');
-        if (scanType === 'os') {
-            additionalFields.style.display = 'block';
-        } else {
-            additionalFields.style.display = 'none';
-        }
-    }
-
-    // Initialize the visibility of additional fields on page load
-    document.addEventListener('DOMContentLoaded', toggleAdditionalFields);
-</script>
 {% endblock %}
 
 {% block styles %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
 {% endblock %}

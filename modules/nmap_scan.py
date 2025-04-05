@@ -1,83 +1,90 @@
 """
-Module for performing Nmap scans using the nmap library.
+Module for performing nmap scans using the nmap library.
 """
 
-import nmap
+import nmap  # Ensure the python-nmap library is installed
 
 
-def nmap_scan(target, scan_type):
+def nmap_service_scan(target):
     """
-    Perform an Nmap scan on the specified target with the selected scan type.
+    Perform an Nmap service scan on the given target.
+
+    Args:
+        target (str): The target IP address or hostname.
+
+    Returns:
+        list: A list of dictionaries containing scan results.
     """
-    nm = nmap.PortScanner()
-    scan_options = {
-        'quick': '-T4 -F',
-        'full': '-T4 -p-',
-        'os': '-O',
-        'service': '-sV'
-    }
+    scanner = nmap.PortScanner()
     try:
-        options = scan_options.get(scan_type, '-T4')
-        if scan_type == 'quick':
-            options += ' -sS'
-        elif scan_type == 'os':
-            options += ' -O'
-        elif scan_type == 'service':
-            options += ' -sV'
-        else:
-            options += ' -T4 -F'
-        nm.scan(target, arguments=options)
-        results = {
-            'hosts': [],
-            'scan_type': scan_type,
-            'options': options,
-            'scaninfo': {},
-            'osmatch': {},
-            'hostnames': {},
-            'tcp': {},
-            'udp': {},
-            'ip': {},
-            'hostname': {}
-        }
-        # Collecting scan results
-        if 'scaninfo' in nm.scanstats():
-            results['scaninfo'] = nm.scanstats()
-        for host in nm.all_hosts():
-            if 'osmatch' in nm[host]:
-                results['osmatch'][host] = nm[host]['osmatch']
-            if 'hostnames' in nm[host]:
-                results['hostnames'][host] = nm[host]['hostnames']
-            if 'tcp' in nm[host]:
-                results['tcp'][host] = nm[host]['tcp']
-            if 'udp' in nm[host]:
-                results['udp'][host] = nm[host]['udp']
-            if 'addresses' in nm[host]:
-                results['ip'][host] = nm[host]['addresses']
-            if 'hostnames' in nm[host]:
-                results['hostname'][host] = nm[host]['hostnames']
-        for host in nm.all_hosts():
-            host_data = {
-                'os': (
-                    nm[host]['osmatch'][0]['name']
-                    if 'osmatch' in nm[host] and nm[host]['osmatch']
-                    else 'Unknown'
-                ),
-                'address': host,
-                'protocols': {}
-            }
-            for proto in nm[host].all_protocols():
-                host_data['protocols'][proto] = {}
-                for port in nm[host][proto].keys():
-                    state = nm[host][proto][port]['state']
-                    service = nm[host][proto][port].get('name', 'Unknown')
-                    version = nm[host][proto][port].get('version', 'N/A')
-                    host_data['protocols'][proto][port] = {
-                        'state': state,
-                        'service': service,
-                        'version': version
-                    }
-            # Append host data to results
-            results['hosts'].append(host_data)
+        # Perform a service version scan (-sV)
+        scanner.scan(hosts=target, arguments='-sV')
+
+        results = []
+        for host in scanner.all_hosts():
+            for protocol in scanner[host].all_protocols():
+                ports = scanner[host][protocol].keys()
+                for port in ports:
+                    port_info = scanner[host][protocol][port]
+                    results.append({
+                        'host': host,
+                        'port': port,
+                        'protocol': protocol,
+                        'state': port_info.get('state', 'unknown'),
+                        'service': port_info.get('name', 'unknown'),
+                        'version': port_info.get('version', 'N/A')
+                    })
         return results
     except Exception as e:
-        return {'error': str(e)}
+        raise RuntimeError(f"Error during Nmap scan: {e}")
+
+
+def nmap_os_scan(target):
+    """
+    Perform an Nmap OS scan on the given target.
+
+    Args:
+        target (str): The target IP address or hostname.
+
+    Returns:
+        dict: A dictionary containing the OS scan results.
+    """
+    scanner = nmap.PortScanner()
+    try:
+        # Perform an OS detection scan (-O)
+        scanner.scan(hosts=target, arguments='-O -p- -vv')
+
+        os_info = {}
+        for host in scanner.all_hosts():
+            os_info[host] = {
+                'os': scanner[host].get('osmatch', [{}])[0].get('name', 'unknown'),
+                'accuracy': scanner[host].get('osmatch', [{}])[0].get('accuracy', 'unknown')
+            }
+        if os_info[host]['os'] == 'unknown':
+            try:
+                # If no OS match found, set default values
+                # Add XMAS scan to try to get OS information
+                scanner.scan(hosts=target, arguments='-sX -O -p- -vv')
+                for host in scanner.all_hosts():
+                    os_info[host] = {
+                        'os': scanner[host].get('osmatch', [{}])[0].get('name', 'unknown'),
+                        'accuracy': scanner[host].get('osmatch', [{}])[0].get('accuracy', 'unknown')
+                    }
+            except Exception:
+                # If XMAS scan fails, set default values
+                for host in scanner.all_hosts():
+                    os_info[host] = {
+                        'os': 'unknown',
+                        'accuracy': 'unknown'
+                    }
+                return os_info
+        else:
+            # If no OS match found, set default values
+            for host in scanner.all_hosts():
+                os_info[host] = {
+                    'os': 'unknown',
+                    'accuracy': 'unknown'
+                }
+        return os_info
+    except Exception as e:
+        raise RuntimeError(f"Error during Nmap OS scan: {e}")

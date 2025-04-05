@@ -60,6 +60,26 @@ header {
 }
 
 /* ===========================
+    nmap scan Styles
+   =========================== */
+
+.nmap-scan-table {
+    width: 100%; /* Bootstrap-Klasse w-100 kann verwendet werden */
+    border-collapse: collapse; /* Bootstrap-Klasse table kann verwendet werden */
+    margin: 20px 0; /* Bootstrap-Klasse my-4 kann verwendet werden */
+    background-color: #fff; /* Bootstrap-Klasse bg-white kann verwendet werden */
+    border-radius: 0.25rem; /* Bootstrap-Klasse rounded kann verwendet werden */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Bootstrap-Klasse shadow kann verwendet werden */
+    overflow: hidden; /* Bootstrap-Klasse overflow-hidden kann verwendet werden */
+    font-size: 0.9rem; /* Bootstrap-Klasse small kann verwendet werden */
+    color: #212529; /* Bootstrap-Klasse text-dark kann verwendet werden */
+    text-align: left; /* Bootstrap-Klasse text-left kann verwendet werden */
+    border: 1px solid #dee2e6; /* Bootstrap-Klasse border kann verwendet werden */
+    margin-bottom: 20px; /* Bootstrap-Klasse mb-4 kann verwendet werden */
+}
+
+
+/* ===========================
     Footer Styles
    =========================== */
 footer {
