@@ -50,6 +50,17 @@ header {
     text-align: center; /* Bootstrap-Klasse text-center kann verwendet werden */
     cursor: pointer;
 }
+
+select#scan_type {
+        background-color: #343a40;
+        color: white;
+        border: 1px solid #6c757d;
+    }
+    select#scan_type option {
+        background-color: #343a40;
+        color: white;
+    }
+
 .main-content {
     padding: 20px; /* Bootstrap-Klasse p-4 kann verwendet werden */
 }
