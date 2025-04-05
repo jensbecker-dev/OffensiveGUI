@@ -33,14 +33,22 @@ header {
     background-color: #006bd6; /* Keine direkte Bootstrap-Klasse */
     text-align: center; /* Bootstrap-Klasse text-center kann verwendet werden */
     cursor: pointer;
+    border-radius: 15px; /* Bootstrap-Klasse rounded kann verwendet werden */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect */
+    transform: scale(1.05); /* Slightly enlarge the item */
+    transition: background-color 0.3s ease, text-align 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .sidebar ul li.active {
     background-color: #007bff; /* Bootstrap-Klasse bg-primary kann verwendet werden */
     text-align: center; /* Bootstrap-Klasse text-center kann verwendet werden */
+    border-radius: 15px; /* Bootstrap-Klasse rounded kann verwendet werden */
 }
 .sidebar ul li.active:hover {
     background-color: #0056b3; /* Bootstrap-Klasse bg-primary-dark kann verwendet werden */
+    border-radius: 15px; /* Bootstrap-Klasse rounded kann verwendet werden */
+    text-align: center; /* Bootstrap-Klasse text-center kann verwendet werden */
+    cursor: pointer;
 }
 .main-content {
     padding: 20px; /* Bootstrap-Klasse p-4 kann verwendet werden */

@@ -21,6 +21,7 @@
         <meta name="theme-color" content="#000000">
         <meta name="application-name" content="OffensiveGUI">
         <meta name="msapplication-TileImage" content="{{ url_for('static', filename='images/logo.svg') }}">
+        <meta name="linux-icon" content="{{ url_for('static', filename='images/logo.svg') }}">
     </header>
 
     <body>
@@ -54,40 +55,48 @@
         <!-- Main Layout -->
         <div class="container-fade" style="margin-top: 80px; margin-bottom: 20px;">
             <div class="row">
-                <!-- Sidebar -->
-                <nav class="bg-dark text-white sidebar p-2">
-                    <div class="position-sticky">
-                        <hr class="bg-light">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a href="/" class="nav-link text-white">
-                                    <i class="bi bi-speedometer2"></i> Dashboard
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/nmap" class="nav-link text-white">
-                                    <i class="bi bi-hdd-network"></i> Nmap
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/targets" class="nav-link text-white">
-                                    <i class="bi bi-bullseye"></i> Targets
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link text-white">
-                                    <i class="bi bi-gear"></i> Settings
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-                <!-- Main Content Area -->
-                <main class="col-lg-10" style="margin-top: 20px;">
-                    {% block content %}
-                    <!-- Content will be injected here from child templates -->
-                    {% endblock %}
-                </main>
+            <!-- Sidebar -->
+            <nav class="bg-dark text-white sidebar p-4 col-lg-2" style="border-right: 2px solid #343a40; height: 100vh; position: sticky; top: 0;">
+                <div class="position-sticky">
+                <hr class="bg-light">
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-3">
+                    <a href="/" class="nav-link text-white d-flex align-items-center">
+                        <i class="bi bi-speedometer2 me-2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    </li>
+                    <li class="nav-item mb-3">
+                    <a href="/nmap" class="nav-link text-white d-flex align-items-center">
+                        <i class="bi bi-hdd-network me-2"></i>
+                        <span>Nmap</span>
+                    </a>
+                    </li>
+                    <li class="nav-item mb-3">
+                    <a href="/targets" class="nav-link text-white d-flex align-items-center">
+                        <i class="bi bi-bullseye me-2"></i>
+                        <span>Targets</span>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a href="#" class="nav-link text-white d-flex align-items-center">
+                        <i class="bi bi-gear me-2"></i>
+                        <span>Settings</span>
+                    </a>
+                    </li>
+                </ul>
+                <hr class="bg-light">
+                <div class="text-center">
+                    <small class="text-muted">© 2025 OffensiveGUI</small>
+                </div>
+                </div>
+            </nav>
+            <!-- Main Content Area -->
+            <main class="col-lg-10" style="margin-top: 20px;">
+                {% block content %}
+                <!-- Content will be injected here from child templates -->
+                {% endblock %}
+            </main>
             </div>
         </div>
 

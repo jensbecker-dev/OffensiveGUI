@@ -10,7 +10,7 @@ from modules.nmap_scan import nmap_udp_scan  # Import the UDP scan function
 from modules.nmap_scan import nmap_xmas_scan  # Import the Xmas scan function
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'  # Add a secret key for session management
+app.secret_key = 'S3Cr3T_K3Y'  # Add a secret key for session management
 
 @app.route('/')
 @app.route('/home')

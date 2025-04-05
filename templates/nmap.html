@@ -6,10 +6,12 @@
 
 <div class="container mt-5 mb-5 bg-dark text-white rounded p-4 shadow-lg">
     <form method="post" action="{{ url_for('nmap_scan_route') }}" class="row bg-dark p-5 rounded d-flex align-items-center justify-content-between">
-        <div class="col-md-4"> 
+        <div class="col-md-4">
+            <label for="target" class="form-label">Target</label>
             <input type="text" id="target" name="target" class="form-control" placeholder="Enter target IP or domain" required>
         </div>
         <div class="col-md-4 w-auto">
+            <label for="scan_type" class="form-label">Scan Type</label>
             <select id="scan_type" name="scan_type" class="form-select" required>
                 <option value="" disabled selected>Select scan type</option>
                 <option value="tcp">TCP Scan</option>
@@ -33,13 +35,12 @@
 <div class="container mt-5 mb-5 bg-dark text-white rounded p-4 shadow-lg">
 
     {% if results %}
-    <div class="text-center mb-4">
-        <h5 class="fw-bold">Scan Details</h5>
-        <p class="fs-5">
-            <span class="badge bg-primary">Target: {{ target }}</span>
-            <span class="badge bg-success">Scan Type: {{ scan_type }}</span>
-            <span class="badge bg-info">Speed: {{ scan_speed }}</span>
-        </p>
+    <table class="table table-dark table-bordered text-center mb-4">
+    
+    <div class="d-flex justify-content-center mb-4">
+        <span class="badge bg-primary me-2">Target: {{ target }}</span>
+        <span class="badge bg-success me-2">Scan Type: {{ scan_type }}</span>
+        <span class="badge bg-info">Scan Speed: {{ scan_speed }}</span>
     </div>
 
     <div class="table-responsive">
