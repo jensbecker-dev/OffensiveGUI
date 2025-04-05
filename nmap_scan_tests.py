@@ -11,9 +11,11 @@ def nmap_os_scan():
         dict: A dictionary containing the OS scan results.
     """
     scanner = nmap.PortScanner()
+    hosts = input("Enter the target IP address or hostname: ")
+    
     try:
         # Perform an OS detection scan (-O)
-        scanner.scan(hosts='127.0.0.1', arguments='-O -p- -vv')
+        scanner.scan(hosts=hosts, arguments='-O -p- -vv')
 
         os_info = {}
         for host in scanner.all_hosts():
