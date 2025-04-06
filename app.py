@@ -1,12 +1,17 @@
 """
 This module defines a Flask application for performing nmap scans and rendering results.
+export FLASK_APP=app.py  # On Linux/Mac
+set FLASK_APP=app.py     # On Windows
 """
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from modules.nmap_scan import nmap_tcp_scan, nmap_udp_scan, nmap_xmas_scan, nmap_service_scan, nmap_os_scan, stop_time
+from modules.target_mon import run_target_monitor
+import json
 from datetime import datetime
 
-app = Flask(__name__)
+app= Flask(__name__)
 app.secret_key = 'S3Cr3T_K3Y'
 
 # Initialize SQLAlchemy
@@ -14,11 +19,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///offsec_gui.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+# Initialize Flask-Migrate
+migrate = Migrate(app, db)
+
 # Define the Target model
 class Target(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     target_value = db.Column(db.String(255), nullable=False)
     scan_results = db.relationship('ScanResult', backref='target', lazy=True, cascade="all, delete-orphan")
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return f"<Target {self.target_value}>"
@@ -48,6 +57,32 @@ class ActionLog(db.Model):
 # Define a dictionary to store the last action
 last_action = {}
 
+
+@app.route('/target_monitor', methods=['GET'])
+def target_monitor():
+    """
+    Monitor target activities and display results on the dashboard.
+    """
+    targets = Target.query.all()
+    if not targets:
+        flash("No targets available to monitor.")
+        return redirect(url_for('home'))
+
+    # Run the target monitor
+    monitor_results = []
+    for target in targets:
+        result = run_target_monitor([target.target_value])[0]  # Get the first result
+        result['added_time'] = target.timestamp.strftime("%Y-%m-%d %H:%M:%S")  # Add timestamp
+        monitor_results.append(result)
+
+    return render_template(
+        'index.html',
+        targets=targets,
+        monitor_results=monitor_results,
+        last_action=last_action,
+        action_logs=ActionLog.query.order_by(ActionLog.timestamp.desc()).limit(10).all()
+    )
+
 @app.route('/')
 @app.route('/home', methods=['POST', 'GET'])
 def home():
@@ -74,6 +109,23 @@ def home():
         else:
             flash('Target value cannot be empty.')
         return redirect(url_for('home'))
+    
+    if request.method == 'GET':
+        targets = [target.target_value for target in Target.query.all()]
+        if not targets:
+            flash("No targets available to monitor.")
+            return redirect(url_for('home'))
+
+        # Run the target monitor
+        monitor_results = run_target_monitor(targets)
+
+        return render_template(
+            'index.html',
+            targets=Target.query.all(),
+            monitor_results=monitor_results,
+            last_action=last_action,
+            action_logs=ActionLog.query.order_by(ActionLog.timestamp.desc()).limit(10).all()
+        )
     
     all_targets = Target.query.all()
     action_logs = ActionLog.query.order_by(ActionLog.timestamp.desc()).limit(10).all()  # Fetch the last 10 actions
