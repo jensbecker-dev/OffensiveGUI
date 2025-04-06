@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+Settings - OffensiveGUI
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">Settings</h1>
+    <hr class="bg-light">
+    <div class="row g-4 justify-content-center">
+        <!-- Delete Database Section -->
+        <div class="col-lg-6">
+            <div class="bg-dark text-white rounded p-4">
+                <h2 class="text-center">
+                    <i class="fas fa-trash-alt me-2"></i>Delete Database
+                </h2>
+                <p class="text-center mt-3">
+                    This action will permanently delete all data in the database. Proceed with caution.
+                </p>
+                <form action="{{ url_for('delete_database') }}" method="POST" class="text-center">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash-alt me-2"></i>Delete Database
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Recreate Database Section -->
+        <div class="col-lg-6">
+            <div class="bg-dark text-white rounded p-4">
+                <h2 class="text-center">
+                    <i class="fas fa-database me-2"></i>Recreate Database
+                </h2>
+                <p class="text-center mt-3">
+                    This action will recreate the database structure. Existing data will be lost.
+                </p>
+                <form action="{{ url_for('recreate_database') }}" method="POST" class="text-center">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-database me-2"></i>Recreate Database
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

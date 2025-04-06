@@ -270,6 +270,40 @@ def delete_target(target_id):
     db.session.commit()
     return redirect(url_for('targets'))
 
+@app.route('/settings', methods=['POST', 'GET'])
+def settings():
+    """
+    Render the settings.html template for the settings page.
+    """
+    return render_template('settings.html')
+
+@app.route('/delete_database', methods=['POST'])
+def delete_database():
+    """
+    Delete the entire database and all its data.
+    """
+    try:
+        db.drop_all()
+        db.session.commit()
+        flash("Database deleted successfully!", "success")
+    except Exception as e:
+        flash(f"An error occurred while deleting the database: {str(e)}", "danger")
+    return redirect(url_for('settings'))
+
+@app.route('/recreate_database', methods=['POST'])
+def recreate_database():
+    """
+    Recreate the database structure.
+    """
+    try:
+        db.drop_all()
+        db.create_all()
+        db.session.commit()
+        flash("Database recreated successfully!", "success")
+    except Exception as e:
+        flash(f"An error occurred while recreating the database: {str(e)}", "danger")
+    return redirect(url_for('settings'))
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

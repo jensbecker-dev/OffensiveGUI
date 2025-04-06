@@ -19,6 +19,7 @@ header {
     left: 0;
     height: 100vh; /* Bootstrap-Klasse h-100 kann verwendet werden */
     width: 300px; /* Bootstrap-Klasse w-25 kann verwendet werden */
+    font-size: larger; /* Bootstrap-Klasse fs-4 kann verwendet werden */
 }
 
 .sidebar ul {
