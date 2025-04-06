@@ -1,24 +1,53 @@
 <!-- filepath: p:\DevEnv\OffensiveGUI\templates\targets.html -->
 
-{% extends "base.html"  %}
+{% extends "base.html" %}
 
 {% block title %}Targets - OffensiveGUI{% endblock %}
 
 {% block content %}
-
-<div class="container mt-5 mb-5 bg-dark text-white rounded p-4 shadow-lg">
-    <h1 class="display-4 text-center">Targets</h1>
-    <p class="lead text-center mt-3">Manage your targets for penetration testing.</p>
-    <hr class="bg-light">
-    <div class="text-center mt-4">
-        <p class="fs-5">Add, edit, or remove targets for your scans.</p>
-        <p class="fs-6 text-muted">This project is a work in progress and is not intended for production use.</p>
-    </div>
-    <div class="text-center mt-4">
-        <a href="#" class="btn btn-primary">Add Target</a>
-        <a href="#" class="btn btn-secondary">View Targets</a>
-        <a href="#" class="btn btn-danger">Delete Target</a>
+<div class="container mt-5">
+    <div class="card shadow-lg bg-dark text-white">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>Manage Targets</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('targets') }}" class="mb-4">
+                <div class="input-group">
+                    <input type="text" name="target" class="form-control bg-secondary text-white" placeholder="Enter target value" required>
+                    <button type="submit" class="btn btn-success">Add Target</button>
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-dark">
+                    <thead class="thead-dark justify-content-around">
+                        <tr>
+                            <th>ID</th>
+                            <th>Target</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for target in targets %}
+                        <tr>
+                            <td>{{ target.id }}</td>
+                            <td>{{ target.target_value }}</td>
+                            <td>
+                                <div class="d-flex justify-content-around">
+                                    <form method="POST" action="{{ url_for('delete_target', target_id=target.id) }}" class="d-inline">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                    <form method="POST" action="{{ url_for('edit_target', target_id=target.id) }}" class="d-inline">
+                                        <input type="text" name="new_target_value" class="form-control form-control-sm bg-secondary text-white d-inline-block w-auto" placeholder="New value" required>
+                                        <button type="submit" class="btn btn-warning btn-sm">Edit</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
-
 {% endblock %}

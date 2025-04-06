@@ -56,10 +56,10 @@ select#scan_type {
         color: white;
         border: 1px solid #6c757d;
     }
-    select#scan_type option {
+select#scan_type option {
         background-color: #343a40;
         color: white;
-    }
+}
 
 .main-content {
     padding: 20px; /* Bootstrap-Klasse p-4 kann verwendet werden */
