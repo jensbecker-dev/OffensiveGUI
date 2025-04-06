@@ -219,6 +219,10 @@ def targets():
             db.session.add(new_target)
             db.session.commit()
             flash(f'Target {target_value} added successfully!')
+            # Log the action
+            new_log = ActionLog(target_value=target_value, action="Added Target")
+            db.session.add(new_log)
+            db.session.commit()
         else:
             flash('Target value cannot be empty.')
         return redirect(url_for('targets'))
@@ -234,9 +238,14 @@ def edit_target(target_id):
     target_to_edit = Target.query.get_or_404(target_id)
     new_value = request.form.get('new_target_value')
     if new_value:
+        old_value = target_to_edit.target_value
         target_to_edit.target_value = new_value
         db.session.commit()
         flash(f'Target updated to {new_value} successfully!')
+        # Log the action
+        new_log = ActionLog(target_value=old_value, action=f"Edited Target to {new_value}")
+        db.session.add(new_log)
+        db.session.commit()
     else:
         flash('New target value cannot be empty.')
     return redirect(url_for('targets'))
