@@ -59,12 +59,12 @@
         </nav>
         <!-- Main Layout -->
         <div class="container-fade" style="margin-top: 40px; min-height: 100vh; overflow-y: hidden">
-            <div class="row g-2 justify-content-center" style="overflow: hidden;">
+            <div class="row g-2 justify-content-beteween" style="overflow: hidden;">
             <!-- Sidebar -->
             <nav class="bg-dark text-white sidebar p-4 col-lg-3" style="border-right: 2px solid #343a40; height: 100vh; position: fixed; top: 20px; left: 0;"> <!-- Adjusted position -->
                 <div class="position-sticky">
                 <a class="navbar-brand" href="/">
-                    <img src="{{ url_for('static', filename='images/logo.svg') }}" 
+                    <img src="{{ url_for('static', filename='images/logo.svg') }}"
                         alt="Logo" 
                         class="img-fluid"
                         style="max-height: 150px; width: 200%; object-fit: contain;">
@@ -105,7 +105,7 @@
             </nav>
             <!-- Main Content Area -->
             <main class="col-lg-10" style="margin-left: 350px; margin-right: 100px; padding: 20px 0;"> <!-- Adjusted margin -->
-            <div class="container-fluid m-4" style="overflow: hidden;">
+            <div class="container-fluid mt-4" style="overflow: hidden;">
                 {% block content %}
                 <!-- Content will be injected here from child templates -->
                 {% endblock %}

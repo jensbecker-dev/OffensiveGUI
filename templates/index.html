@@ -6,14 +6,14 @@ Home - OffensiveGUI
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid mt-4 mb-4" style="overflow: hidden; width: 100%;">
+<div class="container-fluid w-auto" style="overflow: hidden;">
     <div class="row g-3" style="overflow: hidden;">
         <!-- Hauptinhalt -->
         <div class="col-lg-9 order-2 order-lg-1" style="overflow: hidden;">
             <div class="row g-4" style="overflow: hidden;">
                 <!-- Section 1: Welcome Container -->
                 <div class="col-lg-6">
-                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="overflow-y: auto; max-height: 500px;">
+                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="overflow-y: auto; min-height: 500px; max-height: 600px;">
                         <h1 class="display-4 text-center">Welcome to OffensiveGUI</h1>
                         <p class="lead text-center mt-3">A web-based interface for penetration testing tools.</p>
                         <hr class="bg-light">
@@ -29,7 +29,7 @@ Home - OffensiveGUI
 
                 <!-- Section 2: Targets Overview -->
                 <div class="col-lg-6">
-                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="overflow-y: auto; max-height: 500px;">
+                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="overflow-y: auto; min-height: 500px; max-height: 600px;">
                         <h2 class="text-center">
                             <i class="fas fa-bullseye me-2"></i>Targets Overview
                         </h2>
@@ -145,7 +145,7 @@ Home - OffensiveGUI
         </div>
         <!-- Section 5: Summary Card -->
         <div class="col-lg-3 order-1 order-lg-2 p-2" style="overflow: hidden;">
-            <div class="bg-dark text-white rounded h-100 p-4 w-100" style="overflow-y: auto; max-height: 1000px;">
+            <div class="bg-dark text-white rounded h-100 p-4 w-auto" style="overflow-y: auto; max-height: 1100px;">
                 <h2 class="text-center">
                     <i class="fas fa-chart-pie me-2"></i>Summary
                 </h2>
