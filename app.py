@@ -2,12 +2,16 @@
 This module defines a Flask application for performing nmap scans and rendering results.
 """
 
+from tracemalloc import stop
+from typing import final
 from flask import Flask, render_template, request, redirect, url_for, flash
 from modules.nmap_scan import nmap_service_scan  # Ensure this module exists and is correctly implemented
 from modules.nmap_scan import nmap_os_scan  # Import the OS scan function
 from modules.nmap_scan import nmap_tcp_scan  # Import the TCP scan function
 from modules.nmap_scan import nmap_udp_scan  # Import the UDP scan function
 from modules.nmap_scan import nmap_xmas_scan  # Import the Xmas scan function
+from modules.nmap_scan import stop_time  # Import the scan time logging function
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'S3Cr3T_K3Y'  # Add a secret key for session management
@@ -29,6 +33,7 @@ def nmap_scan_route():
         target = request.form['target']
         scan_type = request.form['scan_type']
         scan_speed = request.form['scan_speed']
+        start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         try:
         
             if scan_type == 'tcp':
@@ -49,11 +54,16 @@ def nmap_scan_route():
             else:
                 results = []
 
-            return render_template('nmap.html', target=target, scan_type=scan_type, scan_speed=scan_speed, results=scan_results)
+            final_time_log = stop_time(start_time)  # Calculate the time taken for the scan
+            return render_template('nmap.html', target=target, scan_type=scan_type, scan_speed=scan_speed, results=scan_results, final_time_log=final_time_log)
         
         except ValueError as ve:
             flash(str(ve))
-            return render_template('nmap.html', target=target, scan_type=scan_type, scan_speed=scan_speed, results=[])
+            final_time_log = stop_time(start_time)  # Calculate the time taken for the scan
+            return render_template('nmap.html', target=target, scan_type=scan_type, scan_speed=scan_speed, results=[], final_time_log=final_time_log)
+        except RuntimeError as re:
+            flash(str(re))
+            return render_template('nmap.html', target=target, scan_type=scan_type, scan_speed=scan_speed, results=[], final_time_log=None)
         
     else:
         flash('Please select a scan type and enter a target.')

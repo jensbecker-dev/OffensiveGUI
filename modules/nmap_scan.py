@@ -3,6 +3,21 @@ Module for performing nmap scans using the nmap library.
 """
 
 import nmap  # Ensure the python-nmap library is installed
+from datetime import datetime
+
+def stop_time(start_time):
+    """
+    Calculate the time taken for a scan.
+
+    Args:
+        start_time (str): The start time of the scan in 'YYYY-MM-DD HH:MM:SS' format.
+
+    Returns:
+        str: The time taken for the scan in seconds.
+    """
+    start = datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
+    end = datetime.now()
+    return str((end - start).total_seconds())
 
 def nmap_tcp_scan(target, scan_speed):
     """
