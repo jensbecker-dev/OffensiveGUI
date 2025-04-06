@@ -15,9 +15,9 @@ header {
     Sidebar Styles
    =========================== */
 .sidebar {
-    width: 400px; /* Bootstrap-Klasse w-25 kann verwendet werden */
     top: 0;
     height: 100vh; /* Bootstrap-Klasse h-100 kann verwendet werden */
+    width: 300px; /* Bootstrap-Klasse w-25 kann verwendet werden */
 }
 
 .sidebar ul {
@@ -61,9 +61,6 @@ select#scan_type option {
         color: white;
 }
 
-.main-content {
-    padding: 20px; /* Bootstrap-Klasse p-4 kann verwendet werden */
-}
 /* ===========================
     Main Content Styles
    =========================== */

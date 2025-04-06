@@ -6,11 +6,11 @@ Home - OffensiveGUI
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid mt-4" style="margin: auto; overflow: hidden;">
-    <div class="row">
+<div class="container-fluid mt-4" style="overflow: hidden;">
+    <div class="row" style="overflow: hidden;">
         <!-- Hauptinhalt -->
-        <div class="col-lg-9 order-2 order-lg-1" style="width: calc(100% - 320px);"> 
-            <div class="row g-4 mx-auto">
+        <div class="col-lg-9 order-2 order-lg-1" style="width: calc(100% - 350px);"> <!-- Adjusted width -->
+            <div class="row g-3" style="overflow: hidden;">
 
                 <!-- Section 1: Welcome Container -->
                 <div class="col-lg-6">
@@ -145,8 +145,8 @@ Home - OffensiveGUI
             </div>
         </div>
         <!-- Section 5: Summary Card -->
-        <div class="col-lg-3 order-1 order-lg-2" style="min-width: auto; max-width: 320px;">
-            <div class="bg-dark text-white rounded p-4 h-100">
+        <div class="col-lg-2 order-1 order-lg-2" style="overflow: hidden; min-width: 300px;">
+            <div class="bg-dark text-white rounded p-4 h-100" style="overflow-y: auto;">
                 <h2 class="text-center">
                     <i class="fas fa-chart-pie me-2"></i>Summary
                 </h2>
