@@ -8,7 +8,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from modules.nmap_scan import nmap_tcp_scan, nmap_udp_scan, nmap_xmas_scan, nmap_service_scan, nmap_os_scan, stop_time
 from modules.target_mon import run_target_monitor
-import json
 from datetime import datetime
 
 app = Flask(__name__)
@@ -125,16 +124,22 @@ def home():
         # Fetch updated monitor results for active targets only
         monitor_results_to_display = MonitorResult.query.filter(
             MonitorResult.target.in_(active_target_values)
-        ).order_by(MonitorResult.added_time.desc()).all()
+        ).order_by(MonitorResult.added_time.desc()).limit(7).all()  # Fetch the last 8 targets
 
         action_logs = (
             ActionLog.query.order_by(ActionLog.timestamp.desc())
-            .limit(10)
+            .limit(7)  # Fetch the last 8 actions
             .all()
-        )  # Fetch the last 10 actions
+        )
 
         return render_template(
             'index.html',
+            title="Dashboard - Offensive GUI",
+            nav_links=[
+                {"name": "Home", "url": url_for('home')},
+                {"name": "Nmap Scans", "url": url_for('nmap_scan_route')},
+                {"name": "Targets", "url": url_for('targets')}
+            ],
             targets=all_targets,
             monitor_results=monitor_results_to_display,
             last_action=last_action,
