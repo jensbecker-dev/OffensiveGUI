@@ -2,16 +2,18 @@
 
 ![OffensiveGUI Logo](static/images/logo.svg)
 
-OffensiveGUI is a web-based application designed to simplify the use of offensive security tools like Nmap. Built with Flask, it provides an intuitive interface for running network scans and managing security tasks.
+OffensiveGUI is a web-based application designed to simplify the use of offensive security tools like Nmap. Built with Flask, it provides an intuitive interface for running network scans, managing targets, monitoring their status, and logging actions.
 
 ---
 
 ## 🚀 Features
 
-- **Nmap Integration**: Perform network scans directly from the web interface.
+- **Nmap Integration**: Perform various types of network scans (TCP, UDP, Xmas, Service, OS) directly from the web interface.
+- **Target Management**: Add, edit, and delete targets easily.
+- **Action Logging**: View a history of actions performed on targets.
+- **Target Monitoring**: Monitor the online/offline status of targets in real-time.
+- **Database Management**: Delete or recreate the database directly from the settings page.
 - **Responsive Design**: Built with Bootstrap 5 for a seamless experience across devices.
-- **Dynamic Feedback**: Real-time feedback during scan execution.
-- **Customizable Options**: Specify Nmap options and targets easily.
 
 ---
 
@@ -19,6 +21,7 @@ OffensiveGUI is a web-based application designed to simplify the use of offensiv
 
 - **Backend**: Flask (Python)
 - **Frontend**: HTML, CSS (Bootstrap 5), JavaScript
+- **Database**: SQLite (with SQLAlchemy ORM)
 - **Tools**: Nmap, Python `nmap` library
 
 ---
@@ -26,30 +29,30 @@ OffensiveGUI is a web-based application designed to simplify the use of offensiv
 ## ⚙️ Installation
 
 1. **Clone the Repository**:
-    ```
-    bash git clone https://github.com/yourusername/OffensiveGUI.git    
+    ```bash
+    git clone https://github.com/jensbecker-dev/OffensiveGUI.git    
     cd OffensiveGUI
     ```
 
 2. **Set Up a Virtual Environment:**
-    ```
+    ```bash
     python -m venv venv
     source venv/bin/activate  # On Windows: venv\Scripts\activate
     ```
 
 3. **Install Dependencies:**
-    ```
-    bash pip install -r requirements.txt
+    ```bash
+    pip install -r requirements.txt
     ```
 
 4. **Run the Application:**
-    ```
+    ```bash
     python app.py
     ```
 
     **or**
 
-    ```
+    ```bash
     flask run --port=8080
     ```
 
@@ -57,26 +60,46 @@ OffensiveGUI is a web-based application designed to simplify the use of offensiv
 
     Open your web browser and navigate to `http://127.0.0.1:8080/`.
 
-### Dashboard
-
-![alt text](dashboard.png)
-
-### Nmap
-
-![alt text](nmap.png)
+---
 
 ## 📖 Usage
 
-1. **Start a Scan**:
-    - Enter the target IP or domain in the input field.
-    - Select the desired Nmap options from the dropdown menu.
-    - Click the "Start Scan" button.
+### Dashboard
+- View an overview of targets, their statuses, and recent actions.
+- Monitor the online/offline status of targets in real-time.
 
-2. **View Results**:
-    - The scan results will be displayed in real-time on the results page.
+### Nmap Scans
+- Select a target and perform various types of scans:
+  - **TCP Scan**
+  - **UDP Scan**
+  - **Xmas Scan**
+  - **Service Scan**
+  - **OS Scan**
+- View detailed scan results.
 
-3. **Export Results**:
-    - Use the "Export" button to save the scan results as a file.
+### Target Management
+- Add new targets to the database.
+- Edit or delete existing targets.
+
+### Settings
+- **Delete Database**: Permanently delete all data in the database.
+- **Recreate Database**: Recreate the database structure, clearing all existing data.
+
+---
+
+## 🖼️ Screenshots
+
+### Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+### Nmap Scans
+
+![Nmap Scans](screenshots/nmap.png)
+
+### Settings
+
+![alt text](screenshots/settings.png)
 
 ---
 
