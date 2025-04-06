@@ -11,7 +11,7 @@ from modules.target_mon import run_target_monitor
 import json
 from datetime import datetime
 
-app= Flask(__name__)
+app = Flask(__name__)
 app.secret_key = 'S3Cr3T_K3Y'
 
 # Initialize SQLAlchemy
@@ -54,34 +54,15 @@ class ActionLog(db.Model):
     def __repr__(self):
         return f"<ActionLog {self.action} on {self.target_value}>"
 
+# Define the MonitorResult model
+class MonitorResult(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    target = db.Column(db.String(100), nullable=False)
+    status = db.Column(db.String(50), nullable=False)
+    added_time = db.Column(db.DateTime, default=datetime.utcnow)
+
 # Define a dictionary to store the last action
 last_action = {}
-
-
-@app.route('/target_monitor', methods=['GET'])
-def target_monitor():
-    """
-    Monitor target activities and display results on the dashboard.
-    """
-    targets = Target.query.all()
-    if not targets:
-        flash("No targets available to monitor.")
-        return redirect(url_for('home'))
-
-    # Run the target monitor
-    monitor_results = []
-    for target in targets:
-        result = run_target_monitor([target.target_value])[0]  # Get the first result
-        result['added_time'] = target.timestamp.strftime("%Y-%m-%d %H:%M:%S")  # Add timestamp
-        monitor_results.append(result)
-
-    return render_template(
-        'index.html',
-        targets=targets,
-        monitor_results=monitor_results,
-        last_action=last_action,
-        action_logs=ActionLog.query.order_by(ActionLog.timestamp.desc()).limit(10).all()
-    )
 
 @app.route('/')
 @app.route('/home', methods=['POST', 'GET'])
@@ -111,25 +92,34 @@ def home():
         return redirect(url_for('home'))
     
     if request.method == 'GET':
-        targets = [target.target_value for target in Target.query.all()]
-        if not targets:
-            flash("No targets available to monitor.")
-            return redirect(url_for('home'))
+        all_targets = Target.query.all()
+        action_logs = (
+            ActionLog.query.order_by(ActionLog.timestamp.desc())
+            .limit(10)
+            .all()
+        )  # Fetch the last 10 actions
 
-        # Run the target monitor
-        monitor_results = run_target_monitor(targets)
+        # Run monitoring for all targets
+        monitor_results = run_target_monitor([target.target_value for target in all_targets])
+
+        # Update or insert monitoring results into the database
+        for result in monitor_results:
+            existing_result = MonitorResult.query.filter_by(target=result['target']).first()
+            if existing_result:
+                existing_result.status = result['status']
+                existing_result.added_time = datetime.utcnow()
+            else:
+                new_result = MonitorResult(target=result['target'], status=result['status'])
+                db.session.add(new_result)
+        db.session.commit()
 
         return render_template(
             'index.html',
-            targets=Target.query.all(),
-            monitor_results=monitor_results,
+            targets=all_targets,
+            monitor_results=MonitorResult.query.order_by(MonitorResult.added_time.desc()).all(),
             last_action=last_action,
-            action_logs=ActionLog.query.order_by(ActionLog.timestamp.desc()).limit(10).all()
+            action_logs=action_logs,
         )
-    
-    all_targets = Target.query.all()
-    action_logs = ActionLog.query.order_by(ActionLog.timestamp.desc()).limit(10).all()  # Fetch the last 10 actions
-    return render_template('index.html', targets=all_targets, last_action=last_action, action_logs=action_logs)
 
 @app.route('/nmap', methods=['POST', 'GET'])
 def nmap_scan_route():

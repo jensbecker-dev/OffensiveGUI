@@ -23,8 +23,4 @@ def run_target_monitor(targets):
         result = check_target_status(target)
         results.append(result)
 
-    # Save results to a JSON file for persistence
-    with open('results.json', 'w') as file:
-        json.dump(results, file, indent=4)
-
     return results
