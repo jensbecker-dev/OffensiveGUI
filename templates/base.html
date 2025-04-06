@@ -30,12 +30,6 @@
         <!-- Navigation Bar -->
         <nav class="navbar navbar-dark bg-dark navbar-expand-lg" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
         <div class="container-fluid" style="padding: 0 15px;">
-            <a class="navbar-brand" href="/">
-                    <img src="{{ url_for('static', filename='images/logo.svg') }}" 
-                        alt="Logo" 
-                        class="img-fluid"
-                        style="max-height: 100px; width: 150%; object-fit: contain;">
-                </a>
                 <!-- filepath: p:\DevEnv\OffensiveGUI\templates\base.html -->
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,12 +49,19 @@
             </div>
         </nav>
         <!-- Main Layout -->
-        <div class="container-fade" style="margin-top: 80px; min-height: 100vh; overflow-y: hidden">
+        <div class="container-fade" style="margin-top: 40px; min-height: 100vh; overflow-y: hidden">
             <div class="row g-2 justify-content-center" style="overflow: hidden;">
             <!-- Sidebar -->
-            <nav class="bg-dark text-white sidebar p-4 col-lg-3" style="border-right: 2px solid #343a40; height: 100vh; position: fixed; top: 100px; left: 0;"> <!-- Adjusted position -->
+            <nav class="bg-dark text-white sidebar p-4 col-lg-3" style="border-right: 2px solid #343a40; height: 100vh; position: fixed; top: 20px; left: 0;"> <!-- Adjusted position -->
                 <div class="position-sticky">
+                <a class="navbar-brand" href="/">
+                    <img src="{{ url_for('static', filename='images/logo.svg') }}" 
+                        alt="Logo" 
+                        class="img-fluid"
+                        style="max-height: 100px; width: 150%; object-fit: contain;">
+                </a>
                 <hr class="bg-light">
+
                 <ul class="nav flex-column">
                     <li class="nav-item mb-3">
                     <a href="/" class="nav-link text-white d-flex align-items-center">

@@ -15,7 +15,8 @@ header {
     Sidebar Styles
    =========================== */
 .sidebar {
-    top: 100px; /* Bootstrap-Klasse mt-5 kann verwendet werden */
+    top: 0; /* Bootstrap-Klasse mt-3 kann verwendet werden */
+    left: 0;
     height: 100vh; /* Bootstrap-Klasse h-100 kann verwendet werden */
     width: 300px; /* Bootstrap-Klasse w-25 kann verwendet werden */
 }
