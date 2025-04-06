@@ -1,5 +1,4 @@
 from scapy.all import sr1, IP, ICMP
-import json
 
 def check_target_status(target):
     """

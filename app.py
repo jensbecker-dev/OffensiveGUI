@@ -91,34 +91,54 @@ def home():
             flash('Target value cannot be empty.')
         return redirect(url_for('home'))
     
-    if request.method == 'GET':
+    elif request.method == 'POST':
+        target_id = request.form['delete']
+        target_to_delete = Target.query.get_or_404(target_id)
+        db.session.delete(target_to_delete)
+        db.session.commit()
+        flash(f'Target {target_to_delete.target_value} deleted successfully!')
+        # Log the action
+        new_log = ActionLog(target_value=target_to_delete.target_value, action="Deleted Target")
+        db.session.add(new_log)
+        db.session.commit()
+        return redirect(url_for('home'))
+    
+    elif request.method == 'GET':
         all_targets = Target.query.all()
+        active_target_values = [target.target_value for target in all_targets]
+
+        # Run monitoring for active targets
+        monitor_results = run_target_monitor(active_target_values)
+
+        # Update or insert monitoring results into the database
+        for result in monitor_results:
+            if result['target'] in active_target_values:  # Ensure the target exists in the database
+                existing_result = MonitorResult.query.filter_by(target=result['target']).first()
+                if existing_result:
+                    existing_result.status = result['status']
+                    existing_result.added_time = datetime.utcnow()
+                else:
+                    new_result = MonitorResult(target=result['target'], status=result['status'])
+                    db.session.add(new_result)
+        db.session.commit()
+
+        # Fetch updated monitor results for active targets only
+        monitor_results_to_display = MonitorResult.query.filter(
+            MonitorResult.target.in_(active_target_values)
+        ).order_by(MonitorResult.added_time.desc()).all()
+
         action_logs = (
             ActionLog.query.order_by(ActionLog.timestamp.desc())
             .limit(10)
             .all()
         )  # Fetch the last 10 actions
 
-        # Run monitoring for all targets
-        monitor_results = run_target_monitor([target.target_value for target in all_targets])
-
-        # Update or insert monitoring results into the database
-        for result in monitor_results:
-            existing_result = MonitorResult.query.filter_by(target=result['target']).first()
-            if existing_result:
-                existing_result.status = result['status']
-                existing_result.added_time = datetime.utcnow()
-            else:
-                new_result = MonitorResult(target=result['target'], status=result['status'])
-                db.session.add(new_result)
-        db.session.commit()
-
         return render_template(
             'index.html',
             targets=all_targets,
-            monitor_results=MonitorResult.query.order_by(MonitorResult.added_time.desc()).all(),
+            monitor_results=monitor_results_to_display,
             last_action=last_action,
-            action_logs=action_logs,
+            action_logs=action_logs
         )
 
 @app.route('/nmap', methods=['POST', 'GET'])
