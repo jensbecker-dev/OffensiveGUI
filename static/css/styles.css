@@ -1,6 +1,7 @@
 body {
     background-color: #f8f9fa; /* Bootstrap-Klasse bg-light kann verwendet werden */
     color: #343a40; /* Bootstrap-Klasse text-dark kann verwendet werden */
+    font-family: 'Arial', sans-serif; /* Bootstrap-Klasse font-family kann verwendet werden */
 }
 /* ===========================
     Header Styles
@@ -14,8 +15,7 @@ header {
     Sidebar Styles
    =========================== */
 .sidebar {
-    position: relative;
-    width: 200px; /* Bootstrap-Klasse w-25 kann verwendet werden */
+    width: 400px; /* Bootstrap-Klasse w-25 kann verwendet werden */
     top: 0;
     height: 100vh; /* Bootstrap-Klasse h-100 kann verwendet werden */
 }
