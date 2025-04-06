@@ -11,7 +11,7 @@
             <select id="target" name="target" class="form-select bg-dark text-white border-light" required>
                 <option value="" disabled selected>Select a target</option>
                 {% for target in targets %}
-                <option value="{{ target.target_value }}">{{ target.target_value }}</option>
+                <option value="{{ target.id }}">{{ target.target_value }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -19,11 +19,11 @@
             <label for="scan_type" class="form-label">Scan Type</label>
             <select id="scan_type" name="scan_type" class="form-select" required>
                 <option value="" disabled selected>Select scan type</option>
-                <option value="tcp">TCP Scan</option>
-                <option value="udp">UDP Scan</option>
-                <option value="xmas">Xmas Scan</option>
+                <option value="tcp">TCP SYN</option>
+                <option value="udp">UDP</option>
+                <option value="xmas">XMAS</option>
                 <hr class="bg-light">
-                <option value="service">Service Version Detection</option>
+                <option value="service">Service Version</option>
                 <option value="os">OS Fingerprinting</option>
             </select>
         </div>

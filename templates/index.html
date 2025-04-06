@@ -33,6 +33,7 @@ Home - OffensiveGUI
                     <div class="bg-dark text-white rounded p-4 shadow-lg h-100">
                         <h2 class="text-center">Targets Overview</h2>
                         <hr class="bg-light">
+                        <p class="text-center fs-5">Total Targets: {{ targets|length }}</p>
                         <table class="table table-dark table-bordered text-center">
                             <thead>
                                 <tr>
@@ -59,15 +60,24 @@ Home - OffensiveGUI
                                 {% endif %}
                             </tbody>
                         </table>
+                        <hr class="bg-light">
                     </div>
                 </div>
 
-                <!-- Section 3: Placeholder -->
+                <!-- Section 3: Logging Monitor -->
                 <div class="col-lg-6">
-                    <div class="bg-secondary text-white rounded p-4 shadow-lg h-100">
-                        <h2 class="text-center">Placeholder Section 3</h2>
+                    <div class="bg-dark text-white rounded p-4 shadow-lg h-100">
+                        <h2 class="text-center">Logging Monitor</h2>
                         <hr class="bg-light">
-                        <p class="text-center">This is a placeholder for future content.</p>
+                        {% if last_action %}
+                        <div class="text-center">
+                            <p class="fs-5"><strong>Last Target:</strong> {{ last_action.target_value }}</p>
+                            <p class="fs-5"><strong>Action:</strong> {{ last_action.action }}</p>
+                            <p class="fs-5"><strong>Timestamp:</strong> {{ last_action.timestamp }}</p>
+                        </div>
+                        {% else %}
+                        <p class="text-center">No recent actions to display.</p>
+                        {% endif %}
                     </div>
                 </div>
 
