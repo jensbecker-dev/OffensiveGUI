@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="container mt-5 mb-5 bg-dark text-white rounded p-4 shadow-lg">
+<div class="container mt-5 mb-5 bg-dark text-white rounded p-4 shadow-lg" style="overflow: hidden;">
     <form method="post" action="{{ url_for('nmap_scan_route') }}" class="row bg-dark p-3 rounded d-flex align-items-center justify-content-between">
         <div class="col-md-4">
             <label for="target" class="form-label text-white">Target</label>
