@@ -38,7 +38,7 @@
     <body>
         <!-- Navigation Bar -->
         <nav class="navbar navbar-dark bg-dark navbar-expand-lg" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
-        <div class="container-fluid" style="padding: 0 30px;">
+            <div class="container-fluid" style="padding: 0 30px;">
                 <!-- filepath: p:\DevEnv\OffensiveGUI\templates\base.html -->
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,10 +58,10 @@
             </div>
         </nav>
         <!-- Main Layout -->
-        <div class="container-fade" style="margin-top: 30px; min-height: 100vh; overflow: auto;">
+        <div class="container-fade" style="margin-top: 30px; min-height: auto; max-height: 100vh;">
             <div class="row g-2 justify-content-center:" style="overflow: hidden;">
             <!-- Sidebar -->
-            <nav class="bg-dark text-white sidebar p-4 col-lg-3 w-auto" style="border-right: 2px solid #343a40; height: 100vh; position: fixed; top: 20px; left: 0; overflow: auto;"> <!-- Adjusted position -->
+            <nav class="bg-dark text-white sidebar p-4 col-lg-3 w-auto" style="border-right: 2px solid #343a40; height: 100vh; position: fixed; top: 20px; left: 0; overflow-y: auto;"> <!-- Adjusted position -->
                 <div class="position-sticky">
                 <a class="navbar-brand" href="/">
                     <img src="{{ url_for('static', filename='images/logo.svg') }}"
