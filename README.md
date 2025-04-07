@@ -101,6 +101,10 @@ OffensiveGUI is a web-based application designed to simplify the use of offensiv
 
 ![alt text](screenshots/settings.png)
 
+### Targets
+
+![alt text](screenshots/targets.png)
+
 ---
 
 ## 🤝 Contributing

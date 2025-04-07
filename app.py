@@ -124,7 +124,7 @@ def home():
         # Fetch updated monitor results for active targets only
         monitor_results_to_display = MonitorResult.query.filter(
             MonitorResult.target.in_(active_target_values)
-        ).order_by(MonitorResult.added_time.desc()).limit(8).all()  # Fetch the last 8 targets
+        ).order_by(MonitorResult.added_time.desc()).limit(8).all()
 
         action_logs = (
             ActionLog.query.order_by(ActionLog.timestamp.desc())
