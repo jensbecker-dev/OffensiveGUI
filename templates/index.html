@@ -6,15 +6,15 @@ Home - OffensiveGUI
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid w-auto">
-    <div class="row g-3; justify-content-center" style="min-height: auto; max-height: 100vh;">
+<div class="container-fluid">
+    <div class="row g-3 justify-content-center" style="min-height: auto; max-height: 100vh; overflow-x: hidden;">
         <!-- Hauptinhalt -->
         <div class="col-lg-9 order-2 order-lg-1">
             <div class="row g-4" style="min-height: auto;">
 
                 <!-- Section 1: Welcome Container -->
                 <div class="col-lg-6">
-                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: auto; min-width: 400px; max-width: auto;">
+                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: auto; overflow: auto;">
                         <h1 class="display-4 text-center">Welcome to OffensiveGUI</h1>
                         <p class="lead text-center mt-3">A web-based interface for penetration testing tools.</p>
                         <hr class="bg-light">
@@ -30,7 +30,7 @@ Home - OffensiveGUI
 
                 <!-- Section 2: Targets Overview -->
                 <div class="col-lg-6">
-                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: 500px; max-height: auto; min-width: auto;">
+                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: 500px; overflow: auto;">
                         <h2 class="text-center">
                             <i class="fas fa-bullseye me-2"></i>Targets Overview
                         </h2>
@@ -68,7 +68,7 @@ Home - OffensiveGUI
 
                 <!-- Section 3: Logging Monitor -->
                 <div class="col-lg-6">
-                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: auto; max-height: auto; min-width: 400px; max-width: auto">
+                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: auto; overflow: auto;">
                         <h2 class="text-center">
                             <i class="fas fa-history me-2"></i>Action History
                         </h2>
@@ -99,8 +99,8 @@ Home - OffensiveGUI
                 </div>
 
                 <!-- Section 4: Target Monitor -->
-                <div class="col-lg-6 overflow-y-auto">
-                    <div class="bg-dark text-white rounded p-4 h-100 w-100", style="min-height: 500px; max-height: 100vh; min-width: auto;">
+                <div class="col-lg-6">
+                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: 500px; overflow: auto;">
                         <h2 class="text-center">
                             <i class="fas fa-network-wired me-2"></i>Target Monitor
                         </h2>
@@ -146,7 +146,7 @@ Home - OffensiveGUI
         </div>
         <!-- Section 5: Summary Card -->
         <div class="col-lg-3 order-1 order-lg-2 p-2">
-            <div class="bg-dark text-white rounded h-100 p-4" style="min-height: auto; max-height: 100vh; min-width: auto; max-width: 500px">
+            <div class="bg-dark text-white rounded h-100 p-4 w-auto" style="min-height: auto; overflow: auto;">
                 <h2 class="text-center">
                     <i class="fas fa-chart-pie me-2"></i>Summary
                 </h2>

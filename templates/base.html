@@ -58,10 +58,10 @@
             </div>
         </nav>
         <!-- Main Layout -->
-        <div class="container-fade justify-content-between" style="margin-top: 30px; min-height: auto; max-height: 100vh;">
-            <div class="row g-2;">
+        <div class="container-fade" style="margin-top: 30px; min-height: auto; max-height: 100vh;">
+            <div class="row g-2">
             <!-- Sidebar -->
-            <nav class="bg-dark text-white sidebar p-4 col-lg-3 overflow-y-auto" style="border-right: 2px solid #343a40; height: 100vh; position: fixed; top: 20px; left: 0;"> <!-- Adjusted position -->
+            <nav class="bg-dark text-white sidebar p-4 col-lg-3" style="border-right: 2px solid #343a40; height: 100vh; position: fixed; top: 20px; left: 0; z-index: 1000; overflow-y: auto; width: 260px;">
                 <div class="position-sticky">
                 <a class="navbar-brand" href="/">
                     <img src="{{ url_for('static', filename='images/logo.svg') }}"
@@ -98,14 +98,11 @@
                     </li>
                 </ul>
                 <hr class="bg-light">
-                <div class="text-center">
-                    <small class="text-muted">© 2025 OffensiveGUI</small>
-                </div>
                 </div>
             </nav>
             <!-- Main Content Area -->
-            <main class="col-lg-11" style="margin-left: 280px; padding: 20px 0;"> <!-- Adjusted margin -->
-            <div class="container-fluid mb-2">
+            <main class="col-lg-10" style="margin-left: 260px; padding: 20px 0;"> <!-- Adjusted margin -->
+            <div class="container-fade">
                 {% block content %}
                 <!-- Content will be injected here from child templates -->
                 {% endblock %}
