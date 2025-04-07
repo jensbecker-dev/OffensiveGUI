@@ -124,11 +124,11 @@ def home():
         # Fetch updated monitor results for active targets only
         monitor_results_to_display = MonitorResult.query.filter(
             MonitorResult.target.in_(active_target_values)
-        ).order_by(MonitorResult.added_time.desc()).limit(7).all()  # Fetch the last 8 targets
+        ).order_by(MonitorResult.added_time.desc()).limit(8).all()  # Fetch the last 8 targets
 
         action_logs = (
             ActionLog.query.order_by(ActionLog.timestamp.desc())
-            .limit(7)  # Fetch the last 8 actions
+            .limit(8)  # Fetch the last 8 actions
             .all()
         )
 
@@ -233,7 +233,20 @@ def targets():
         return redirect(url_for('targets'))
 
     all_targets = Target.query.all()
-    return render_template('targets.html', targets=all_targets)
+    monitor_results = {result.target: result for result in MonitorResult.query.all()}  # Fetch monitor results
+
+    # Combine target data with monitor results
+    targets_with_status = [
+        {
+            "id": target.id,
+            "target_value": target.target_value,
+            "status": monitor_results[target.target_value].status if target.target_value in monitor_results else "Unknown",
+            "last_updated": monitor_results[target.target_value].added_time if target.target_value in monitor_results else "N/A"
+        }
+        for target in all_targets
+    ]
+
+    return render_template('targets.html', targets=targets_with_status)
 
 @app.route('/edit_target/<int:target_id>', methods=['POST', 'GET'])
 def edit_target(target_id):

@@ -7,14 +7,14 @@ Home - OffensiveGUI
 
 {% block content %}
 <div class="container-fluid">
-    <div class="row g-3 justify-content-between" style="min-height: auto; max-height: 100vh;">
+    <div class="row g-3 justify-content-between" style="min-height: calc(100vh - 120px);">
         <!-- Hauptinhalt -->
         <div class="col-lg-9 order-2 order-lg-1">
             <div class="row g-4" style="min-height: auto;">
 
                 <!-- Section 1: Welcome Container -->
                 <div class="col-lg-6">
-                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: auto; min-width: auto; max-width: auto; overflow-y: hidden;">
+                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: 500px; max-height: 100vh; overflow-y: auto;">
                         <h1 class="display-4 text-center">Welcome to OffensiveGUI</h1>
                         <p class="lead text-center mt-3">A web-based interface for penetration testing tools.</p>
                         <hr class="bg-light">
@@ -30,7 +30,7 @@ Home - OffensiveGUI
 
                 <!-- Section 2: Targets Overview -->
                 <div class="col-lg-6">
-                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: 500px; max-height: auto; min-width: auto; overflow-y: hidden;">
+                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: auto; max-height: 100vh; overflow-y: auto;">
                         <h2 class="text-center">
                             <i class="fas fa-bullseye me-2"></i>Targets Overview
                         </h2>
@@ -67,12 +67,13 @@ Home - OffensiveGUI
                 </div>
 
                 <!-- Section 3: Logging Monitor -->
-                <div class="col-lg-6">
-                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: auto; max-height: auto; min-width: 400px; max-width: auto; overflow-y: hidden;">
+                <div class="col-lg-6" style="padding-bottom: 2rem;">
+                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: max-height: calc(100% - 2rem); max-height: calc(100% - 2rem); overflow-y: auto;">
                         <h2 class="text-center">
-                            <i class="fas fa-history me-2"></i>Action History
+                            <i class="fas fa-file-alt me-2"></i>Logging Monitor
                         </h2>
                         <hr class="bg-light">
+                        <p class="text-center fs-5">Recent Actions</p>
                         {% if action_logs %}
                         <table class="table table-dark table-hover table-bordered text-center">
                             <thead>
@@ -99,8 +100,8 @@ Home - OffensiveGUI
                 </div>
 
                 <!-- Section 4: Target Monitor -->
-                <div class="col-lg-6 overflow-y-auto">
-                    <div class="bg-dark text-white rounded p-4 h-100 w-100", style="min-height: 500px; max-height: 100vh; min-width: auto;  overflow-y: hidden;">
+                <div class="col-lg-6" style="padding-bottom: 2rem;">
+                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: max-height: calc(100% - 2rem); max-height: calc(100% - 2rem); overflow-y: auto;">
                         <h2 class="text-center">
                             <i class="fas fa-network-wired me-2"></i>Target Monitor
                         </h2>
@@ -144,9 +145,10 @@ Home - OffensiveGUI
                 </div>
             </div>
         </div>
+
         <!-- Section 5: Summary Card -->
-        <div class="col-lg-3 order-1 order-lg-2 p-2">
-            <div class="bg-dark text-white rounded h-100 p-4 w-100" style="min-height: auto; max-height: 100vh; min-width: 600px; max-width: auto; overflow-y: hidden;">
+        <div class="col-lg-3 order-1 order-lg-2 p-2" style="padding-top: 2rem; padding-bottom: 2rem;">
+            <div class="bg-dark text-white rounded h-100 p-4 w-100" style="max-height: calc(100% - 4rem); overflow-y: auto;">
                 <h2 class="text-center">
                     <i class="fas fa-chart-pie me-2"></i>Summary
                 </h2>
