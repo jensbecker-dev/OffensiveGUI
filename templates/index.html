@@ -6,14 +6,14 @@ Home - OffensiveGUI
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid w-auto" style="overflow-y: auto;">
+<div class="container-fluid w-auto" style="overflow-y: hidden;">
     <div class="row g-3" style="overflow: hidden;">
         <!-- Hauptinhalt -->
         <div class="col-lg-9 order-2 order-lg-1" style="overflow: hidden;">
             <div class="row g-4 justify-content-center" style="overflow: hidden;">
                 <!-- Section 1: Welcome Container -->
                 <div class="col-lg-6">
-                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="overflow-y: auto; min-height: auto;  max-height: 100vh; min-width: 400px; max-width: auto;">
+                    <div class="bg-dark text-white rounded p-4 h-100 w-100" style="min-height: auto;  max-height: 100vh; min-width: 400px; max-width: auto;">
                         <h1 class="display-4 text-center">Welcome to OffensiveGUI</h1>
                         <p class="lead text-center mt-3">A web-based interface for penetration testing tools.</p>
                         <hr class="bg-light">
@@ -144,8 +144,8 @@ Home - OffensiveGUI
             </div>
         </div>
         <!-- Section 5: Summary Card -->
-        <div class="col-lg-3 order-1 order-lg-2 p-2" style="overflow-y: auto; right: 0;">
-            <div class="bg-dark text-white rounded h-100 p-4" style="overflow: auto; min-height: 80vh; max-height: 100vh; max-width: 500px; min-width: auto">
+        <div class="col-lg-3 order-1 order-lg-2 p-2" style="margin-right: 0:">
+            <div class="bg-dark text-white rounded h-100 p-4" style="overflow-y: auto; min-height: auto; max-height: 100vh; min-width: auto; max-width: 500px">
                 <h2 class="text-center">
                     <i class="fas fa-chart-pie me-2"></i>Summary
                 </h2>
