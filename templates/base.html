@@ -61,7 +61,7 @@
         <div class="container-fade">
             <div class="row g-2">
             <!-- Sidebar -->
-            <nav class="bg-dark text-white sidebar p-4 col-lg-3" style="border-right: 2px solid #343a40; height: calc(100vh - 120px); position: fixed; top: 40px; left: 0; z-index: 1000; overflow-y: auto; width: 260px;">
+            <nav class="bg-dark text-white sidebar p-4 col-lg-3" style="border-right: 2px solid #343a40; height: calc(100vh - 120px); position: fixed; left: 0; z-index: 1000; overflow-y: auto; width: 260px;">
                 <div class="position-sticky">
                 <a class="navbar-brand" href="/">
                     <img src="{{ url_for('static', filename='images/logo.svg') }}"
@@ -101,7 +101,7 @@
                 </div>
             </nav>
             <!-- Main Content Area -->
-            <main class="col-lg-10" style="margin-left: 260px; padding: 20px 0; min-height: calc(100vh - 100px); min-width: calc(100% - 260px);">
+            <main class="col-lg-10" style="margin-left: 260px; padding: 20px 0; min-height: calc(100vh - 120px); min-width: calc(100% - 260px);">
             <div class="container-fade mt-4">
                 {% block content %}
                 <!-- Content will be injected here from child templates -->
