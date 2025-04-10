@@ -1,111 +1,102 @@
-# OffensiveGUI
+# OffensiveGUI Pro Edition
 
-![OffensiveGUI Logo](static/images/logo.svg)
+![OG Pro Logo](static/images/logo.svg)
 
-OffensiveGUI is a web-based application designed to simplify the use of offensive security tools like Nmap. Built with Flask, it provides an intuitive interface for running network scans, managing targets, monitoring their status, and logging actions.
+OffensiveGUI Pro Edition is an advanced version of [OffensiveGUI](https://github.com/jensbecker-dev/OffensiveGUI), specifically designed for bug bounty hunters. This edition provides additional features and tools tailored for scanning and identifying vulnerabilities in websites and assets of companies registered in the HackerOne Bug Bounty Program.
 
 ---
 
 ## 🚀 Features
 
-- **Nmap Integration**: Perform various types of network scans (TCP, UDP, Xmas, Service, OS) directly from the web interface.
-- **Target Management**: Add, edit, and delete targets easily.
-- **Action Logging**: View a history of actions performed on targets.
-- **Target Monitoring**: Monitor the online/offline status of targets in real-time.
-- **Database Management**: Delete or recreate the database directly from the settings page.
-- **Responsive Design**: Built with Bootstrap 5 for a seamless experience across devices.
+- **Nmap Integration**: Support for various scan types such as TCP, UDP, XMAS, Service Version, and OS Fingerprinting.
+- **CVE Scanner**: Integration of an advanced CVE scanner querying multiple databases like NVD, Exploit-DB, Vulners, MITRE, and Rapid7.
+- **Target Monitoring**: Real-time monitoring of target statuses (Online, Offline, Unreachable).
+- **Database Management**: Options to delete or recreate the database.
+- **Logging**: Comprehensive logging of all actions and scans for better traceability.
+- **Web-Based Interface**: Intuitive and responsive user interface built with Flask and Bootstrap.
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Installation
 
-- **Backend**: Flask (Python)
-- **Frontend**: HTML, CSS (Bootstrap 5), JavaScript
-- **Database**: SQLite (with SQLAlchemy ORM)
-- **Tools**: Nmap, Python `nmap` library
+### Prerequisites
 
----
+- Python 3.8 or higher
+- [pip](https://pip.pypa.io/en/stable/)
+- [Nmap](https://nmap.org/) (must be installed on your system)
+- Dependencies listed in `requirements.txt`
 
-## ⚙️ Installation
+### Steps
 
-1. **Clone the Repository**:
-    ```bash
-    git clone https://github.com/jensbecker-dev/OffensiveGUI.git    
-    cd OffensiveGUI
-    ```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/jensbecker-dev/OffensiveGUI-Pro.git
+   cd OffensiveGUI-Pro
+   ```
 
 2. **Set Up a Virtual Environment:**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    ```
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
 3. **Install Dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 4. **Run the Application:**
-    ```bash
-    python app.py
-    ```
+   ```bash
+   python app.py
+   ```
 
-    **or**
+   **or**
 
-    ```bash
-    flask run --port=8080
-    ```
+   ```bash
+   flask run --port=8080
+   ```
 
 5. **Access the Application:**
 
-    Open your web browser and navigate to `http://127.0.0.1:8080/`.
+   Open your web browser and navigate to `http://127.0.0.1:8080/`.
 
 ---
 
 ## 📖 Usage
 
+### Target Management
+- **Add Targets**: Add new targets by specifying their IP address or domain name.
+- **Edit Targets**: Modify existing target details.
+- **Delete Targets**: Remove targets from the monitoring list.
+
+### Scanning
+- **Nmap Scans**: Perform various Nmap scans (TCP, UDP, XMAS, Service Version, OS Fingerprinting) on selected targets.
+- **CVE Scans**: Scan targets for known vulnerabilities using multiple databases.
+- **Scan History**: Review the history of performed scans and their results.
+
+### Database Management
+- **Clear Database**: Delete all data from the database.
+- **Rebuild Database**: Recreate the database structure.
+
+### Logging
+- **View Logs**: Access detailed logs of all actions and scans.
+- **Filter Logs**: Filter logs by date, target, or action type.
+
 ### Dashboard
 - View an overview of targets, their statuses, and recent actions.
 - Monitor the online/offline status of targets in real-time.
 
-### Nmap Scans
-- Select a target and perform various types of scans:
-  - **TCP Scan**
-  - **UDP Scan**
-  - **Xmas Scan**
-  - **Service Scan**
-  - **OS Scan**
-- View detailed scan results.
-
-### Target Management
-- Add new targets to the database.
-- Edit or delete existing targets.
-
-### Settings
-- **Delete Database**: Permanently delete all data in the database.
-- **Recreate Database**: Recreate the database structure, clearing all existing data.
-
 ---
 
-## 🖼️ Screenshots
+## 📸 Screenshots
 
 ### Dashboard
 
 ![Dashboard](screenshots/dashboard.png)
 
-### Nmap Scans
-
-![Nmap Scans](screenshots/nmap.png)
-
 ### Settings
 
 ![alt text](screenshots/settings.png)
-
-### Targets
-
-![alt text](screenshots/targets.png)
-
----
 
 ## 🤝 Contributing
 
@@ -120,4 +111,8 @@ Contributions are welcome! Please follow these steps:
 ---
 
 ## 📜 License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+
+Similar code found with 1 license type
