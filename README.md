@@ -1,6 +1,6 @@
 # OffensiveGUI
 
-![OffensiveGUI](static/images/logo.svg)
+![alt text](static/images/logo.png)
 
 OffensiveGUI is an open-source tool designed for network administrators and cybersecurity enthusiasts to perform network scans, monitor targets, and manage databases efficiently. It provides a user-friendly interface for leveraging the power of Nmap and other scanning tools.
 
