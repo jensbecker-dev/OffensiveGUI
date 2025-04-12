@@ -92,7 +92,15 @@ OffensiveGUI Pro Edition is an advanced version of [OffensiveGUI](https://github
 
 ### Dashboard
 
-![Dashboard](screenshots/dashboard.png)
+![alt text](screenshots/dashboard.png)
+
+### Nmap Scanner
+
+![alt text](screenshots/nmap.png)
+
+### Targets
+
+![alt text](screenshots/targets.png)
 
 ### Settings
 

@@ -112,14 +112,43 @@ def nmap_scan_route():
     Perform an nmap scan using the imported nmap_scan function and render the results.
     """
     global last_action
-    targets = Target.query.all()
+
+    if request.method == 'GET':
+        # Abrufen aller Targets aus der Datenbank
+        all_targets = Target.query.all()
+        active_target_values = [target.target_value for target in all_targets]
+
+        # Überwache die aktiven Targets
+        monitor_results = run_target_monitor(active_target_values)
+
+        return render_template(
+            'nmap.html',
+            title="Nmap Scans - Offensive GUI",
+            nav_links=[
+                {"name": "Home", "url": url_for('home')},
+                {"name": "Nmap Scans", "url": url_for('nmap_scan_route')},
+                {"name": "Targets", "url": url_for('targets')}
+            ],
+            targets=all_targets,  # Zeige nur Targets aus der Datenbank an
+            monitor_results=monitor_results
+        )
+
     if request.method == 'POST':
+        # Überprüfen, ob ein Target ausgewählt wurde
+        if 'target' not in request.form:
+            flash('Please select a target.')
+            return redirect(url_for('nmap_scan_route'))
+
         target_id = request.form['target']
         scan_type = request.form['scan_type']
         scan_speed = request.form['scan_speed']
         start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
         try:
+            # Abrufen des ausgewählten Targets aus der Datenbank
             target = Target.query.get_or_404(target_id)
+
+            # Durchführung des Scans basierend auf dem ausgewählten Typ
             if scan_type == 'tcp':
                 scan_results = nmap_tcp_scan(target.target_value, scan_speed)
             elif scan_type == 'udp':
@@ -137,17 +166,28 @@ def nmap_scan_route():
                 flash("Unexpected scan results format.")
                 scan_results = []
 
+            # Logge die Aktion
             last_action = {
                 "target_value": target.target_value,
                 "action": f"Performed {scan_type.upper()} Scan",
                 "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             }
-            # Log the action
-            new_log = DatabaseLog(action=f"Performed {scan_type.upper()} Scan", details=f"Scan on {target.target_value}.")
+            new_log = DatabaseLog(
+                action=f"Performed {scan_type.upper()} Scan",
+                details=f"Scan on {target.target_value}.",
+                target_value=target.target_value
+            )
             db.session.add(new_log)
             db.session.commit()
 
+            # Berechne die Scanzeit
             final_time_log = stop_time(start_time)
+
+            # Abrufen aller Targets und deren Status nach dem Scan
+            all_targets = Target.query.all()
+            active_target_values = [target.target_value for target in all_targets]
+            monitor_results = run_target_monitor(active_target_values)
+
             return render_template(
                 'nmap.html',
                 target=target.target_value,
@@ -155,13 +195,24 @@ def nmap_scan_route():
                 scan_speed=scan_speed,
                 results=scan_results,
                 final_time_log=final_time_log,
-                targets=targets
+                targets=all_targets,  # Zeige nur Targets aus der Datenbank an
+                monitor_results=monitor_results
             )
         except ValueError as ve:
             flash(str(ve))
         except RuntimeError as re:
             flash(str(re))
-    return render_template('nmap.html', targets=targets)
+
+    # Standard-GET-Route
+    all_targets = Target.query.all()
+    active_target_values = [target.target_value for target in all_targets]
+    monitor_results = run_target_monitor(active_target_values)
+
+    return render_template(
+        'nmap.html',
+        targets=all_targets,
+        monitor_results=monitor_results
+    )
 
 @app.route('/targets', methods=['POST', 'GET'])
 def targets():
@@ -279,9 +330,9 @@ def create_example_targets():
     try:
         # Add 3 example targets
         example_targets = [
+            Target(target_value="127.0.0.1"),
             Target(target_value="192.168.1.1"),
-            Target(target_value="192.168.1.2"),
-            Target(target_value="192.168.1.3"),
+            Target(target_value="example.com"),
         ]
         db.session.add_all(example_targets)
         db.session.commit()
