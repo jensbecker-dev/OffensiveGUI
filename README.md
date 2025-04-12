@@ -1,8 +1,10 @@
-# OffensiveGUI Pro Edition
+# OffensiveGUI
 
-![OG Pro Logo](static/images/logo.svg)
+![OffensiveGUI](static/images/logo.svg)
 
-OffensiveGUI Pro Edition is an advanced version of [OffensiveGUI](https://github.com/jensbecker-dev/OffensiveGUI), specifically designed for bug bounty hunters. This edition provides additional features and tools tailored for scanning and identifying vulnerabilities in websites and assets of companies registered in the HackerOne Bug Bounty Program.
+OffensiveGUI is an open-source tool designed for network administrators and cybersecurity enthusiasts to perform network scans, monitor targets, and manage databases efficiently. It provides a user-friendly interface for leveraging the power of Nmap and other scanning tools.
+
+If you're looking for advanced features tailored for bug bounty hunters, check out [OffensiveGUI Pro Edition](https://github.com/jensbecker-dev/OffensiveGUI-Pro), which includes additional tools for vulnerability scanning and asset discovery.
 
 ---
 
