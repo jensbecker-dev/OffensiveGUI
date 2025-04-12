@@ -82,7 +82,6 @@ For advanced features like vulnerability scanning and asset discovery, explore [
 
 ## 📸 Screenshots
 
-
 ### Dashboard
 
 ![Dashboard Screenshot](screenshots/dashboard.png)
