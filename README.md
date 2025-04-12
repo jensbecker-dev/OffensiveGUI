@@ -88,7 +88,7 @@ For advanced features like vulnerability scanning and asset discovery, explore [
 
 ### Nmap Scanner
 
-![Nmap Scanner Screenshot](screenshots/nmap.png)
+![Nmap Screenshot](screenshots/nmap.png)
 
 ### Target Management
 
