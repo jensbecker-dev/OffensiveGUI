@@ -1,86 +1,196 @@
+/* ===========================
+    General Styles
+   =========================== */
 body {
-    background-color: #f8f9fa; /* Bootstrap-Klasse bg-light kann verwendet werden */
-    color: #343a40; /* Bootstrap-Klasse text-dark kann verwendet werden */
-    font-family: 'Arial', sans-serif; /* Bootstrap-Klasse font-family kann verwendet werden */
+    background-color: #f8f9fa;
+    color: #343a40;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
 }
+
+.container-fluid {
+    padding: 20px;
+}
+
 /* ===========================
     Header Styles
    =========================== */
-
 header {
     position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #343a40;
+    color: white;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* ===========================
     Sidebar Styles
    =========================== */
 .sidebar {
-    top: 0; /* Bootstrap-Klasse mt-3 kann verwendet werden */
+    position: fixed;
+    top: 0;
     left: 0;
-    height: 100vh; /* Bootstrap-Klasse h-100 kann verwendet werden */
-    width: 300px; /* Bootstrap-Klasse w-25 kann verwendet werden */
-    font-size: larger; /* Bootstrap-Klasse fs-4 kann verwendet werden */
+    height: 100vh;
+    width: 250px;
+    background-color: #343a40;
+    color: white;
+    padding: 20px;
+    overflow-y: auto;
 }
 
 .sidebar ul {
+    list-style: none;
     padding: 0;
     margin: 0;
 }
 
+/* Sidebar Hover Effect */
 .sidebar ul li {
-    transition: background-color 0.3s ease, text-align 0.3s ease;
-    border-radius: 15px; /* Bootstrap-Klasse rounded kann verwendet werden */
-    padding: 10px; /* Bootstrap-Klasse p-2 kann verwendet werden */
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    text-align: center;
 }
 
 .sidebar ul li:hover {
-    background-color: #006bd6; /* Keine direkte Bootstrap-Klasse */
-    text-align: center; /* Bootstrap-Klasse text-center kann verwendet werden */
+    background-color: #007bff; /* Blaues Highlight */
+    color: white;
+    transform: scale(1.05); /* Leichte Vergrößerung */
     cursor: pointer;
-    border-radius: 15px; /* Bootstrap-Klasse rounded kann verwendet werden */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect */
-    transform: scale(1.05); /* Slightly enlarge the item */
-    transition: background-color 0.3s ease, text-align 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .sidebar ul li.active {
-    background-color: #007bff; /* Bootstrap-Klasse bg-primary kann verwendet werden */
-    text-align: center; /* Bootstrap-Klasse text-center kann verwendet werden */
-    border-radius: 15px; /* Bootstrap-Klasse rounded kann verwendet werden */
-}
-.sidebar ul li.active:hover {
-    background-color: #0056b3; /* Bootstrap-Klasse bg-primary-dark kann verwendet werden */
-    border-radius: 15px; /* Bootstrap-Klasse rounded kann verwendet werden */
-    text-align: center; /* Bootstrap-Klasse text-center kann verwendet werden */
-    cursor: pointer;
+    background-color: #0056b3;
+    font-weight: bold;
 }
 
-select#scan_type {
-        background-color: #343a40;
-        color: white;
-        border: 1px solid #6c757d;
-    }
-select#scan_type option {
-        background-color: #343a40;
-        color: white;
+/* Sidebar Hover Effect */
+.sidebar ul li.hovered {
+    background-color: #007bff;
+    color: white;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
 }
 
 /* ===========================
     Main Content Styles
    =========================== */
+.main-content {
+    margin-left: 270px; /* Adjust for sidebar width */
+    padding: 20px;
+}
 
-.row {
-    padding: 10px; /* Bootstrap-Klasse p-2 kann verwendet werden */
+.card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* ===========================
+    Table Styles
+   =========================== */
+.table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #343a40;
+    color: white;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* ===========================
+    Form Styles
+   =========================== */
+form {
+    margin-bottom: 20px;
+}
+
+form input,
+form select,
+form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0056b3;
 }
 
 /* ===========================
     Footer Styles
    =========================== */
 footer {
-    color: white; /* Bootstrap-Klasse text-white kann verwendet werden */
-    text-align: center; /* Bootstrap-Klasse text-center kann verwendet werden */
-    padding: 10px 0; /* Bootstrap-Klasse py-2 kann verwendet werden */
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
     position: fixed;
     bottom: 0;
-    width: 100%; /* Bootstrap-Klasse w-100 kann verwendet werden */
+    width: 100%;
+}
+
+/* ===========================
+    Responsive Design
+   =========================== */
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .table th,
+    .table td {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
 }
