@@ -28,6 +28,7 @@ class DatabaseLog(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     action = db.Column(db.String(100), nullable=False)
     details = db.Column(db.Text, nullable=False)
+    target_value = db.Column(db.String(100), nullable=True)  # Neue Spalte für das Target
 
 # Define the Target model
 class Target(db.Model):
@@ -189,13 +190,22 @@ def targets():
 @app.route('/edit_target/<int:target_id>', methods=['POST'])
 def edit_target(target_id):
     target = Target.query.get_or_404(target_id)
-    if 'target_value' in request.form:
-        target.target_value = request.form['target_value']
-        target.last_updated = datetime.utcnow()
-        db.session.commit()
-        flash("Target updated successfully!", "success")
-    else:
-        flash("Target value is missing in the form submission.", "danger")
+    new_value = request.form['target_value']
+    old_value = target.target_value
+    target.target_value = new_value
+    target.last_updated = datetime.utcnow()
+    db.session.commit()
+
+    # Log the action
+    new_log = DatabaseLog(
+        action="Edited Target",
+        details=f"Target changed from {old_value} to {new_value}.",
+        target_value=new_value  # Speichern des neuen Targets im Log
+    )
+    db.session.add(new_log)
+    db.session.commit()
+
+    flash(f"Target updated successfully!", "success")
     return redirect(url_for('targets'))
 
 @app.route('/delete_target/<int:target_id>', methods=['POST', 'GET'])
@@ -313,6 +323,28 @@ def clear_all_targets():
         flash(f"An error occurred while clearing targets: {str(e)}", "danger")
 
     return redirect(url_for('settings'))
+
+@app.route('/add_target', methods=['POST'])
+def add_target():
+    target_value = request.form['target']
+    if target_value:
+        new_target = Target(target_value=target_value)
+        db.session.add(new_target)
+        db.session.commit()
+
+        # Log the action
+        new_log = DatabaseLog(
+            action="Added Target",
+            details=f"Target {target_value} was added.",
+            target_value=target_value  # Speichern des Targets im Log
+        )
+        db.session.add(new_log)
+        db.session.commit()
+
+        flash(f"Target {target_value} added successfully!", "success")
+    else:
+        flash("Target value cannot be empty.", "danger")
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     with app.app_context():
