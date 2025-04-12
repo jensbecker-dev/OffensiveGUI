@@ -2,73 +2,81 @@
 
 {% extends "base.html" %}
 
-{% block title %}Targets - OffensiveGUI{% endblock %}
+{% block title %}
+Targets Management - OffensiveGUI
+{% endblock %}
 
 {% block content %}
-<div class="container mt-5 w-100 mx-auto">
-    <div class="card shadow-lg bg-dark text-white">
-        <div class="card-header bg-primary text-white text-center p-4">
-            <h2>Manage Targets</h2>
-        </div>
-        <div class="card-body">
-            <form method="POST" action="{{ url_for('targets') }}" class="mb-4">
-                <div class="input-group">
-                    <input type="text" name="target" class="form-control bg-secondary text-white" placeholder="Enter Target" required>
-                    <button type="submit" class="btn btn-success">Add Target</button>
-                </div>
-            </form>
-            <div class="table-responsive">
-                <table class="table table-dark table-hover table-bordered text-center">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Target</th>
-                            <th>Status</th>
-                            <th>Last Updated</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for target in targets %}
-                        <tr>
-                            <td>{{ target.id }}</td>
-                            <td>{{ target.target_value }}</td>
-                            <td>
-                                {% if target.status == "Online" %}
-                                <span class="badge bg-success">{{ target.status }}</span>
-                                {% elif target.status == "Offline" %}
-                                <span class="badge bg-danger">{{ target.status }}</span>
-                                {% else %}
-                                <span class="badge bg-warning text-dark">{{ target.status }}</span>
-                                {% endif %}
-                            </td>
-                            <td>{{ target.last_updated.strftime('%Y-%m-%d %H:%M:%S') if target.last_updated != "N/A" else "N/A" }}</td>
-                            <td>
-                                <td colspan="5">
-                                    <div class="d-flex justify-content-center">
-                                        <form method="POST" action="{{ url_for('edit_target', target_id=target.id) }}" class="m-lg-auto">
-                                            <div class="input-group">
-                                                <input type="text" name="new_target_value" class="form-control bg-secondary text-white" placeholder="Edit Target" required>
-                                                <button type="submit" class="btn btn-sm btn-primary">Update</button>
-                                            </div>
-                                        </form>
-                                        <form method="POST" action="{{ url_for('delete_target', target_id=target.id) }}" class="mt-1">
-                                            <div class="input-group">
-                                                <button type="submit" class="btn btn-sm btn-danger h-100" style="paddling: 10px">Delete</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </td>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        {% if not targets %}
-                        <tr>
-                            <td colspan="5">No targets available</td>
-                        </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
+<div class="container mt-5">
+    <!-- Header Panel -->
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-dark text-white rounded p-4 text-center shadow-sm">
+                <h1 class="mb-0">
+                    <i class="fas fa-tasks me-2"></i>Targets Management
+                </h1>
             </div>
+        </div>
+    </div>
+
+    <!-- Add Target Form -->
+    <div class="card shadow-sm border-0 mt-4">
+        <div class="card-body bg-dark text-white rounded">
+            <form action="{{ url_for('targets') }}" method="POST" class="d-flex align-items-center justify-content-between">
+                <div class="form-group mb-0 flex-grow-1 me-3">
+                    <label for="target" class="form-label">Add New Target</label>
+                    <input type="text" class="form-control" id="target" name="target" placeholder="Enter target value (e.g., 192.168.1.1)" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-lg">
+                    <i class="fas fa-plus-circle me-2"></i>Add Target
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Targets Table -->
+    <div class="card shadow-sm border-0 mt-4">
+        <div class="card-body bg-dark text-white rounded">
+            <h2 class="text-center mb-4">
+                <i class="fas fa-bullseye me-2"></i>Targets Overview
+            </h2>
+            <table class="table table-dark table-hover table-bordered text-center">
+                <thead class="table-light text-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Target</th>
+                        <th>Last Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for target in targets %}
+                    <tr>
+                        <td>{{ target.id }}</td>
+                        <td>{{ target.target_value }}</td>
+                        <td>{{ target.last_updated.strftime('%Y-%m-%d %H:%M:%S') if target.last_updated else "N/A" }}</td>
+                        <td>
+                            <form action="{{ url_for('edit_target', target_id=target.id) }}" method="POST" class="d-inline">
+                                <input type="text" name="target_value" class="form-control d-inline-block w-auto me-2" placeholder="Edit target" required>
+                                <button type="submit" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                            </form>
+                            <form action="{{ url_for('delete_target', target_id=target.id) }}" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if not targets %}
+                    <tr>
+                        <td colspan="4">No targets available</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

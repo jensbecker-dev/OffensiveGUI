@@ -4,61 +4,36 @@ export FLASK_APP=app.py  # On Linux/Mac
 set FLASK_APP=app.py     # On Windows
 """
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from modules.nmap_scan import nmap_tcp_scan, nmap_udp_scan, nmap_xmas_scan, nmap_service_scan, nmap_os_scan, stop_time
 from modules.target_mon import run_target_monitor
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
+db = SQLAlchemy()
+
 app = Flask(__name__)
-app.secret_key = 'S3Cr3T_K3Y'
+app.secret_key = 'your_secret_key'
 
 # Initialize SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///offsec_gui.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///offensivegui.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Initialize Flask-Migrate
 migrate = Migrate(app, db)
 
+class DatabaseLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    action = db.Column(db.String(100), nullable=False)
+    details = db.Column(db.Text, nullable=False)
+
 # Define the Target model
 class Target(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    target_value = db.Column(db.String(255), nullable=False)
-    scan_results = db.relationship('ScanResult', backref='target', lazy=True, cascade="all, delete-orphan")
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return f"<Target {self.target_value}>"
-
-# Define the ScanResult model
-class ScanResult(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    target_id = db.Column(db.Integer, db.ForeignKey('target.id'), nullable=False)
-    scan_type = db.Column(db.String(50), nullable=False)
-    scan_speed = db.Column(db.String(50), nullable=False)
-    results = db.Column(db.Text, nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return f"<ScanResult {self.scan_type} for Target {self.target_id}>"
-
-# Define the ActionLog model
-class ActionLog(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    target_value = db.Column(db.String(255), nullable=True)
-    action = db.Column(db.String(255), nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return f"<ActionLog {self.action} on {self.target_value}>"
-
-# Define the MonitorResult model
-class MonitorResult(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    target = db.Column(db.String(100), nullable=False)
-    status = db.Column(db.String(50), nullable=False)
-    added_time = db.Column(db.DateTime, default=datetime.utcnow)
+    target_value = db.Column(db.String(100), nullable=False)
+    last_updated = db.Column(db.DateTime, nullable=True)  # Neue Spalte
 
 # Define a dictionary to store the last action
 last_action = {}
@@ -83,7 +58,7 @@ def home():
                 "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             }
             # Log the action
-            new_log = ActionLog(target_value=target_value, action="Added Target")
+            new_log = DatabaseLog(action="Added Target", details=f"Target {target_value} added.")
             db.session.add(new_log)
             db.session.commit()
         else:
@@ -97,7 +72,7 @@ def home():
         db.session.commit()
         flash(f'Target {target_to_delete.target_value} deleted successfully!')
         # Log the action
-        new_log = ActionLog(target_value=target_to_delete.target_value, action="Deleted Target")
+        new_log = DatabaseLog(action="Deleted Target", details=f"Target {target_to_delete.target_value} deleted.")
         db.session.add(new_log)
         db.session.commit()
         return redirect(url_for('home'))
@@ -109,25 +84,9 @@ def home():
         # Run monitoring for active targets
         monitor_results = run_target_monitor(active_target_values)
 
-        # Update or insert monitoring results into the database
-        for result in monitor_results:
-            if result['target'] in active_target_values:  # Ensure the target exists in the database
-                existing_result = MonitorResult.query.filter_by(target=result['target']).first()
-                if existing_result:
-                    existing_result.status = result['status']
-                    existing_result.added_time = datetime.utcnow()
-                else:
-                    new_result = MonitorResult(target=result['target'], status=result['status'])
-                    db.session.add(new_result)
-        db.session.commit()
-
         # Fetch updated monitor results for active targets only
-        monitor_results_to_display = MonitorResult.query.filter(
-            MonitorResult.target.in_(active_target_values)
-        ).order_by(MonitorResult.added_time.desc()).limit(8).all()
-
         action_logs = (
-            ActionLog.query.order_by(ActionLog.timestamp.desc())
+            DatabaseLog.query.order_by(DatabaseLog.timestamp.desc())
             .limit(8)  # Fetch the last 8 actions
             .all()
         )
@@ -141,7 +100,7 @@ def home():
                 {"name": "Targets", "url": url_for('targets')}
             ],
             targets=all_targets,
-            monitor_results=monitor_results_to_display,
+            monitor_results=monitor_results,
             last_action=last_action,
             action_logs=action_logs
         )
@@ -177,22 +136,13 @@ def nmap_scan_route():
                 flash("Unexpected scan results format.")
                 scan_results = []
 
-            new_scan = ScanResult(
-                target_id=target.id,
-                scan_type=scan_type,
-                scan_speed=scan_speed,
-                results=str(scan_results)
-            )
-            db.session.add(new_scan)
-            db.session.commit()
-
             last_action = {
                 "target_value": target.target_value,
                 "action": f"Performed {scan_type.upper()} Scan",
                 "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             }
             # Log the action
-            new_log = ActionLog(target_value=target.target_value, action=f"Performed {scan_type.upper()} Scan")
+            new_log = DatabaseLog(action=f"Performed {scan_type.upper()} Scan", details=f"Scan on {target.target_value}.")
             db.session.add(new_log)
             db.session.commit()
 
@@ -225,7 +175,7 @@ def targets():
             db.session.commit()
             flash(f'Target {target_value} added successfully!')
             # Log the action
-            new_log = ActionLog(target_value=target_value, action="Added Target")
+            new_log = DatabaseLog(action="Added Target", details=f"Target {target_value} added.")
             db.session.add(new_log)
             db.session.commit()
         else:
@@ -233,39 +183,19 @@ def targets():
         return redirect(url_for('targets'))
 
     all_targets = Target.query.all()
-    monitor_results = {result.target: result for result in MonitorResult.query.all()}  # Fetch monitor results
 
-    # Combine target data with monitor results
-    targets_with_status = [
-        {
-            "id": target.id,
-            "target_value": target.target_value,
-            "status": monitor_results[target.target_value].status if target.target_value in monitor_results else "Unknown",
-            "last_updated": monitor_results[target.target_value].added_time if target.target_value in monitor_results else "N/A"
-        }
-        for target in all_targets
-    ]
+    return render_template('targets.html', targets=all_targets)
 
-    return render_template('targets.html', targets=targets_with_status)
-
-@app.route('/edit_target/<int:target_id>', methods=['POST', 'GET'])
+@app.route('/edit_target/<int:target_id>', methods=['POST'])
 def edit_target(target_id):
-    """
-    Edit a target in the database.
-    """
-    target_to_edit = Target.query.get_or_404(target_id)
-    new_value = request.form.get('new_target_value')
-    if new_value:
-        old_value = target_to_edit.target_value
-        target_to_edit.target_value = new_value
+    target = Target.query.get_or_404(target_id)
+    if 'target_value' in request.form:
+        target.target_value = request.form['target_value']
+        target.last_updated = datetime.utcnow()
         db.session.commit()
-        flash(f'Target updated to {new_value} successfully!')
-        # Log the action
-        new_log = ActionLog(target_value=old_value, action=f"Edited Target to {new_value}")
-        db.session.add(new_log)
-        db.session.commit()
+        flash("Target updated successfully!", "success")
     else:
-        flash('New target value cannot be empty.')
+        flash("Target value is missing in the form submission.", "danger")
     return redirect(url_for('targets'))
 
 @app.route('/delete_target/<int:target_id>', methods=['POST', 'GET'])
@@ -278,17 +208,15 @@ def delete_target(target_id):
     db.session.commit()
     flash(f'Target {target_to_delete.target_value} deleted successfully!')
     # Log the action
-    new_log = ActionLog(target_value=target_to_delete.target_value, action="Deleted Target")
+    new_log = DatabaseLog(action="Deleted Target", details=f"Target {target_to_delete.target_value} deleted.")
     db.session.add(new_log)
     db.session.commit()
     return redirect(url_for('targets'))
 
-@app.route('/settings', methods=['POST', 'GET'])
+@app.route('/settings', methods=['GET', 'POST'])
 def settings():
-    """
-    Render the settings.html template for the settings page.
-    """
-    return render_template('settings.html')
+    db_logs = DatabaseLog.query.order_by(DatabaseLog.timestamp.desc()).all()
+    return render_template('settings.html', db_logs=db_logs)
 
 @app.route('/delete_database', methods=['POST'])
 def delete_database():
@@ -296,9 +224,19 @@ def delete_database():
     Delete the entire database and all its data.
     """
     try:
-        db.drop_all()
+        Target.query.delete()
+        DatabaseLog.query.delete()
         db.session.commit()
-        flash("Database deleted successfully!", "success")
+
+        # Log the action
+        new_log = DatabaseLog(
+            action="Delete Database",
+            details="All data in the database was deleted."
+        )
+        db.session.add(new_log)
+        db.session.commit()
+
+        flash("Database deleted successfully!", "danger")
     except Exception as e:
         flash(f"An error occurred while deleting the database: {str(e)}", "danger")
     return redirect(url_for('settings'))
@@ -312,9 +250,68 @@ def recreate_database():
         db.drop_all()
         db.create_all()
         db.session.commit()
+
+        # Log the action
+        new_log = DatabaseLog(
+            action="Recreate Database",
+            details="Database structure recreated."
+        )
+        db.session.add(new_log)
+        db.session.commit()
+
         flash("Database recreated successfully!", "success")
     except Exception as e:
         flash(f"An error occurred while recreating the database: {str(e)}", "danger")
+    return redirect(url_for('settings'))
+
+@app.route('/create_example_targets', methods=['POST'])
+def create_example_targets():
+    try:
+        # Add 3 example targets
+        example_targets = [
+            Target(target_value="192.168.1.1"),
+            Target(target_value="192.168.1.2"),
+            Target(target_value="192.168.1.3"),
+        ]
+        db.session.add_all(example_targets)
+        db.session.commit()
+
+        # Log the action
+        new_log = DatabaseLog(
+            action="Create Example Targets",
+            details="3 example targets created for testing purposes."
+        )
+        db.session.add(new_log)
+        db.session.commit()
+
+        flash("3 example targets created successfully!", "success")
+    except Exception as e:
+        flash(f"An error occurred while creating example targets: {str(e)}", "danger")
+
+    return redirect(url_for('settings'))
+
+@app.route('/clear_all_targets', methods=['POST'])
+def clear_all_targets():
+    """
+    Clear all targets from the database.
+    """
+    try:
+        # Delete all targets
+        Target.query.delete()
+        db.session.commit()
+
+        # Log the action
+        new_log = DatabaseLog(
+            action="Clear All Targets",
+            details="All targets were deleted from the database."
+        )
+        db.session.add(new_log)
+        db.session.commit()
+
+        flash("All targets cleared successfully!", "danger")
+    except Exception as e:
+        flash(f"An error occurred while clearing targets: {str(e)}", "danger")
+
     return redirect(url_for('settings'))
 
 if __name__ == '__main__':
