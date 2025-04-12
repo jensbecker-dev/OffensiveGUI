@@ -19,11 +19,11 @@ Nmap Scanner - OffensiveGUI
         </div>
     </div>
 
-    <div class="row g-3 mt-4">
+    <div class="row g-3 mt-1">
         <!-- Main Nmap Sections -->
         <div class="col-lg-9" style="overflow: auto; max-height: 80vh;">
             <!-- Nmap Scan Form -->
-            <div class="container-fluid mb-5 bg-dark text-white rounded p-4 shadow-lg" style="overflow: hidden;">
+            <div class="container-fluid mb-4 bg-dark text-white rounded p-4 shadow-lg" style="overflow: hidden;">
                 <form method="post" action="{{ url_for('nmap_scan_route') }}" class="row bg-dark p-3 rounded d-flex align-items-center justify-content-between">
                     <div class="col-md-4">
                         <label for="target" class="form-label text-white">Target</label>
@@ -107,7 +107,7 @@ Nmap Scanner - OffensiveGUI
                                 <td class="text-center">{{ result.port }}</td>
                                 <td class="text-center">{{ result.protocol }}</td>
                                 <td class="text-center">{{ result.state }}</td>
-                                <td class="text-center">{{ result.service }}</td>
+                                <td class="text-center">{{ result.service|default("N/A") }}</td>
                                 {% endif %}
                             </tr>
                             {% endfor %}
@@ -123,7 +123,7 @@ Nmap Scanner - OffensiveGUI
         </div>
 
         <!-- Target Monitor Section -->
-        <div class="col-lg-3" style="overflow: auto; height: 70vh;">
+        <div class="col-lg-3" style="overflow: auto; height: 80vh;">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body bg-dark text-white rounded d-flex flex-column">
                     <h2 class="text-center">
