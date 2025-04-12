@@ -90,7 +90,7 @@ For advanced features like vulnerability scanning and asset discovery, explore [
 
 ![Nmap Scanner Screenshot](screenshots/nmap.png)
 
-### Targets
+### Target Management
 
 ![Targets Screenshot](screenshots/targets.png)
 
