@@ -9,7 +9,6 @@ OffensiveGUI Pro Edition is an advanced version of [OffensiveGUI](https://github
 ## 🚀 Features
 
 - **Nmap Integration**: Support for various scan types such as TCP, UDP, XMAS, Service Version, and OS Fingerprinting.
-- **CVE Scanner**: Integration of an advanced CVE scanner querying multiple databases like NVD, Exploit-DB, Vulners, MITRE, and Rapid7.
 - **Target Monitoring**: Real-time monitoring of target statuses (Online, Offline, Unreachable).
 - **Database Management**: Options to delete or recreate the database.
 - **Logging**: Comprehensive logging of all actions and scans for better traceability.
