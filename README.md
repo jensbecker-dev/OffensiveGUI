@@ -1,7 +1,7 @@
 <img src="static/images/banner_logo.png" alt="OffensiveGUI Logo" width="100%">
 <br>
 <br>
-<a align="center">
+<div align="center">
 
    ![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)
    ![Flask](https://img.shields.io/badge/Flask-1.1.2%2B-blue?logo=Flask&logoColor=white)
@@ -11,7 +11,7 @@
    ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.1%2B-blue?logo=Bootstrap&logoColor=white)
    ![Nmap](https://img.shields.io/badge/Nmap-7.90%2B-blue?logo=Nmap&logoColor=white)
 
-</a>
+</div>
 
 ---
 
