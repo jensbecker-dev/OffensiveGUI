@@ -83,7 +83,7 @@ def nmap_udp_scan(target, scan_speed):
             raise ValueError("Target cannot be empty.")
 
         # Perform a UDP scan (-sU)
-        scan_args = f"-sU -T{scan_speed}" if scan_speed else "-sU"
+        scan_args = f"-sU -T{scan_speed} -vv" if scan_speed else "-sU -vv"
         scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
@@ -121,7 +121,7 @@ def nmap_xmas_scan(target, scan_speed):
             raise ValueError("Target cannot be empty.")
 
         # Perform a Xmas scan (-sX)
-        scan_args = f"-sX -T{scan_speed}" if scan_speed else "-sX"
+        scan_args = f"-sX -T{scan_speed} -vv" if scan_speed else "-sX -vv"
         scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
@@ -159,7 +159,7 @@ def nmap_fin_scan(target, scan_speed):
             raise ValueError("Target cannot be empty.")
 
         # Perform a FIN scan (-sF)
-        scan_args = f"-sF -T{scan_speed}" if scan_speed else "-sF"
+        scan_args = f"-sF -T{scan_speed} -vv" if scan_speed else "-sF -vv"
         scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
@@ -205,7 +205,7 @@ def nmap_ack_scan(target, scan_speed):
             raise ValueError("Target cannot be empty.")
 
         # Perform an ACK scan (-sA)
-        scan_args = f"-sA -T{scan_speed}" if scan_speed else "-sA"
+        scan_args = f"-sA -T{scan_speed} -vv" if scan_speed else "-sA -vv"
         scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
@@ -251,7 +251,7 @@ def nmap_null_scan(target, scan_speed):
             raise ValueError("Target cannot be empty.")
 
         # Perform a Null scan (-sN)
-        scan_args = f"-sN -T{scan_speed}" if scan_speed else "-sN"
+        scan_args = f"-sN -T{scan_speed} -vv" if scan_speed else "-sN -vv"
         scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
@@ -289,7 +289,7 @@ def nmap_window_scan(target, scan_speed):
             raise ValueError("Target cannot be empty.")
 
         # Perform a Window scan (-sW)
-        scan_args = f"-sW -T{scan_speed}" if scan_speed else "-sW"
+        scan_args = f"-sW -T{scan_speed} -vv" if scan_speed else "-sW -vv"
         scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
@@ -335,7 +335,7 @@ def nmap_service_scan(target, scan_speed):
             raise ValueError("Target cannot be empty.")
 
         # Perform a service version scan (-sV)
-        scan_args = f"-sV -T{scan_speed}" if scan_speed else "-sV"
+        scan_args = f"-sV -T{scan_speed} -vv" if scan_speed else "-sV -vv"
         scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
@@ -380,7 +380,8 @@ def nmap_os_scan(target, scan_speed):
             raise ValueError("Target cannot be empty.")
 
         # Perform an OS detection scan (-O)
-        scanner.scan(hosts=target, arguments="-O")
+        scan_args = f"-O -T{scan_speed} -vv" if scan_speed else "-O -vv"
+        scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
         for host in scanner.all_hosts():
@@ -388,13 +389,16 @@ def nmap_os_scan(target, scan_speed):
             if os_info:
                 os_name = os_info[0].get('name', 'unknown')
                 os_accuracy = os_info[0].get('accuracy', 'unknown')
+                os_family = os_info[0].get('os_class', 'unknown')
+                os_version = os_info[0].get('os_version', 'unknown')
+                os_vendor = os_info[0].get('os_vendor', 'unknown')
                 os_results = {
                     'host': host,
                     'os_name': os_name,
                     'os_accuracy': os_accuracy,
-                    'os_family': os_info[0].get('os_class', 'unknown'),
-                    'os_version': os_info[0].get('os_version', 'unknown'),
-                    'os_vendor': os_info[0].get('os_vendor', 'unknown'),
+                    'os_family': os_family,
+                    'os_version': os_version,
+                    'os_vendor': os_vendor
                 }
                 results.append(os_results)
             else:
