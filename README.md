@@ -109,12 +109,6 @@ These scan types provide flexibility for various network analysis needs.
 ### Dashboard
 - Monitor target statuses and recent actions in real-time.
 
-### User Management
-- Assign roles and permissions using the RBAC system.
-
-### Theme Customization
-- Switch between light and dark modes for a personalized experience.
-
 ---
 
 ## 📸 Screenshots
