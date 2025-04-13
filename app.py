@@ -215,32 +215,64 @@ def nmap_scan_route():
         monitor_results=monitor_results
     )
 
-@app.route('/targets', methods=['POST', 'GET'])
+@app.route('/targets', methods=['GET', 'POST'])
 def targets():
     """
-    Render the targets.html template for the targets page and manage target values.
+    Render the targets page and handle adding new targets.
     """
     if request.method == 'POST':
-        target_value = request.form['target']
+        # Add a new target
+        target_value = request.form.get('target')
         if target_value:
             new_target = Target(target_value=target_value)
             db.session.add(new_target)
             db.session.commit()
-            flash(f'Target {target_value} added successfully!')
-            # Log the action
-            new_log = DatabaseLog(action="Added Target", details=f"Target {target_value} added.")
-            db.session.add(new_log)
-            db.session.commit()
+            flash(f"Target {target_value} added successfully!", "success")
         else:
-            flash('Target value cannot be empty.')
+            flash("Target value cannot be empty.", "danger")
         return redirect(url_for('targets'))
 
+    # Fetch all targets from the database
     all_targets = Target.query.all()
 
-    return render_template('targets.html', targets=all_targets)
+    # Monitor active targets
+    active_target_values = [target.target_value for target in all_targets]
+    monitor_results = run_target_monitor(active_target_values)
+
+    return render_template(
+        'targets.html',
+        targets=all_targets,
+        monitor_results=monitor_results
+    )
+
+@app.route('/update_target/<int:target_id>', methods=['POST'])
+def update_target(target_id):
+
+    global last_action
+
+    target = Target.query.get_or_404(target_id)
+    new_value = request.form['target_value']
+    old_value = target.target_value
+    target.target_value = new_value
+    db.session.commit()
+
+    # Log the action
+    new_log = DatabaseLog(
+        action="Updated Target",
+        details=f"Target {old_value} changed to {new_value}.",
+        target_value=new_value  # Speichern des neuen Targets im Log
+    )
+    db.session.add(new_log)
+    db.session.commit()
+
+    flash(f"Target updated successfully!", "success")
+    return redirect(url_for('targets'))
 
 @app.route('/edit_target/<int:target_id>', methods=['POST'])
 def edit_target(target_id):
+
+    global last_action
+
     target = Target.query.get_or_404(target_id)
     new_value = request.form['target_value']
     old_value = target.target_value
@@ -265,6 +297,9 @@ def delete_target(target_id):
     """
     Delete a target from the database.
     """
+
+    global last_action
+
     target_to_delete = Target.query.get_or_404(target_id)
     db.session.delete(target_to_delete)
     db.session.commit()

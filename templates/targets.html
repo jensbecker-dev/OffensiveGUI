@@ -45,6 +45,7 @@ Targets Management - OffensiveGUI
                         <th>ID</th>
                         <th>Target</th>
                         <th>Last Updated</th>
+                        <th>Connection State</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -54,6 +55,23 @@ Targets Management - OffensiveGUI
                         <td>{{ target.id }}</td>
                         <td>{{ target.target_value }}</td>
                         <td>{{ target.last_updated.strftime('%Y-%m-%d %H:%M:%S') if target.last_updated else "N/A" }}</td>
+                        <td>
+                            {% if monitor_results %}
+                                {% for result in monitor_results %}
+                                    {% if result.target == target.target_value %}
+                                        {% if result.status == "Online" %}
+                                        <span class="badge bg-success px-3 py-2">{{ result.status }}</span>
+                                        {% elif result.status == "Offline" %}
+                                        <span class="badge bg-danger px-3 py-2">{{ result.status }}</span>
+                                        {% else %}
+                                        <span class="badge bg-warning text-dark px-3 py-2">{{ result.status }}</span>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <span class="badge bg-secondary px-3 py-2">Unknown</span>
+                            {% endif %}
+                        </td>
                         <td>
                             <form action="{{ url_for('edit_target', target_id=target.id) }}" method="POST" class="d-inline">
                                 <input type="text" name="target_value" class="form-control d-inline-block w-auto me-2" placeholder="Edit target" required>
@@ -71,7 +89,7 @@ Targets Management - OffensiveGUI
                     {% endfor %}
                     {% if not targets %}
                     <tr>
-                        <td colspan="4">No targets available</td>
+                        <td colspan="5">No targets available</td>
                     </tr>
                     {% endif %}
                 </tbody>
