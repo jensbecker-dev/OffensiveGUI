@@ -8,17 +8,39 @@ Targets Management - OffensiveGUI
 
 {% block content %}
 <div class="container-fluid mt-5">
-    <!-- Header Panel -->
+    <!-- Header Panel with Animation -->
     <div class="row g-3 mb-4 mt-5">
         <div class="col-12">
-            <div class="bg-dark text-white rounded p-4 text-center shadow" style="background: linear-gradient(to right, #1a1a2e, #16213e);">
-                <h1 class="mb-0 display-5 fw-bold">
-                    <i class="fas fa-crosshairs me-3 text-danger"></i>Targets Management
+            <div class="bg-dark text-white rounded p-4 text-center shadow animate__animated animate__fadeIn animate__faster" style="background: linear-gradient(to right, #1a1a2e, #16213e);">
+                <h1 class="mb-0 display-5 fw-bold animate__animated animate__slideInDown">
+                    <i class="fas fa-crosshairs me-3 text-danger animate__animated animate__pulse animate__infinite animate__slow"></i>Targets Management
                 </h1>
-                <p class="text-light mt-2 mb-0 lead">Monitor and manage your target systems</p>
+                <p class="text-light mt-2 mb-0 lead animate__animated animate__fadeIn animate__delay-1s">Monitor and manage your target systems</p>
             </div>
         </div>
     </div>
+
+    <!-- Add this style block for custom animations -->
+    <style>
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px rgba(255,0,0,0.2); }
+            50% { text-shadow: 0 0 20px rgba(255,0,0,0.6); }
+            100% { text-shadow: 0 0 10px rgba(255,0,0,0.2); }
+        }
+        
+        .text-danger {
+            animation: glow 2s infinite;
+        }
+        
+        .card {
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(31, 28, 28, 0.4) !important;
+        }
+    </style>
 
     <!-- Add Target Form -->
     <div class="card shadow border-0 mb-4">
@@ -130,7 +152,7 @@ Targets Management - OffensiveGUI
                                 <div class="modal-dialog">
                                     <div class="modal-content bg-dark text-white">
                                         <div class="modal-header">
-                                            <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Edit Target</h5>
+                                            <div class="modal-title"><i class="fas fa-edit me-2"></i>Edit Target</div>
                                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <form action="{{ url_for('edit_target', target_id=target.id) }}" method="POST">
