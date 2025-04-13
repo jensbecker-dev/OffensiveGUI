@@ -90,13 +90,13 @@
                     <!-- Logo -->
                     <a class="navbar-brand" href="/">
                         <div class="text-center">
-                            <div class="logo-container bg-dark text-white mx-auto d-flex align-items-center justify-content-center shadow position-relative logo-hover mt-4" style="width: 220px; height: 110px; border-radius: 20px; border: 2px solid #29B6F6; z-index: 10; overflow: hidden; position: relative;">
+                            <div class="logo-container bg-dark text-white mx-auto d-flex align-items-center justify-content-center shadow position-relative logo-hover mt-4" style="width: 220px; height: 130px; border-radius: 20px; border: 2px solid #29B6F6; z-index: 1000; overflow: hidden; position: relative;">
                                 <!-- Professional Logo with Gradient -->
                                 <div class="text-center d-flex flex-column">
-                                    <h1 style="font-size: 2.5rem; font-weight: italic; background: linear-gradient(90deg, #29B6F6, #6c757d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0; margin-top: 0.5rem; letter-spacing: 0.1rem;">
-                                        <i class="bi bi-shield-lock">FFGUI</i>
+                                    <h1 style="font-size: 4rem; font-weight: bold; background: linear-gradient(90deg, #29B6F6, #6c757d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0; margin-top: 0.5rem; letter-spacing: 0.1rem;">
+                                        <i class="bi bi-shield-lock me-2">FFG</i>
                                     </h1>
-                                    <p style="font-size: 1rem; font-weight: 600; color: #d1d1d1; margin-top: 0.2rem; letter-spacing: 0.1rem;">
+                                    <p style="font-size: 0.9rem; font-weight: 600; color: #d1d1d1; margin-top: 0.2rem; letter-spacing: 0.1rem;">
                                         Community Edition
                                     </p>
                                 </div>
@@ -108,15 +108,13 @@
                     </a>
 
                     <style>
-                        @keyframes shimmer {
-                            0% {
-                                transform: translate(-100%, -100%) rotate(45deg);
-                            }
-                            100% {
-                                transform: translate(100%, 100%) rotate(45deg);
-                            }
+                        .navbar-brand img {
+                            transition: transform 0.3s ease, filter 0.3s ease;
                         }
-
+                        .navbar-brand img:hover {
+                            transform: scale(1.1);
+                            filter: brightness(1.2);
+                        }
                         .logo-hover {
                             transition: transform 0.3s ease, box-shadow 0.3s ease;
                         }
