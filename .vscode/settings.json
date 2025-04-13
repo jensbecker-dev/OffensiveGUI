@@ -3,5 +3,6 @@
         "activityBar.background": "#531737",
         "titleBar.activeBackground": "#74204D",
         "titleBar.activeForeground": "#FEFCFD"
-    }
+    },
+    "files.autoSave": "afterDelay"
 }
