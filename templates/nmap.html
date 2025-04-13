@@ -41,6 +41,10 @@ Nmap Scanner - OffensiveGUI
                             <option value="tcp">TCP SYN</option>
                             <option value="udp">UDP</option>
                             <option value="xmas">XMAS</option>
+                            <option value="fin">FIN</option>
+                            <option value="ack">ACK</option>
+                            <option value="null">NULL</option>
+                            <option value="window">Window</option>
                             <option value="service">Service Version</option>
                             <option value="os">OS Fingerprinting</option>
                         </select>
@@ -81,12 +85,12 @@ Nmap Scanner - OffensiveGUI
                                 <th class="text-center">OS Name</th>
                                 <th class="text-center">OS Accuracy</th>
                                 <th class="text-center">OS Family</th>
-                                {% elif scan_type in ["tcp", "udp", "xmas"] %}
+                                {% elif scan_type in ["tcp", "udp", "xmas", "fin", "ack", "null", "window"] %}
                                 <th class="text-center">Port</th>
                                 <th class="text-center">Protocol</th>
                                 <th class="text-center">State</th>
-                                <th class="text-center">Service</th>
                                 {% endif %}
+
                             </tr>
                         </thead>
                         <tbody>
@@ -103,11 +107,20 @@ Nmap Scanner - OffensiveGUI
                                 <td class="text-center">{{ result.os_name }}</td>
                                 <td class="text-center">{{ result.os_accuracy }}</td>
                                 <td class="text-center">{{ result.os_family }}</td>
-                                {% elif scan_type in ["tcp", "udp", "xmas"] %}
+                                {% elif scan_type in ["tcp", "udp", "xmas", "fin", "ack", "null", "window"] %}
                                 <td class="text-center">{{ result.port }}</td>
                                 <td class="text-center">{{ result.protocol }}</td>
-                                <td class="text-center">{{ result.state }}</td>
-                                <td class="text-center">{{ result.service|default("N/A") }}</td>
+                                <td class="text-center">
+                                    {% if result.state == "open" %}
+                                    <span class="badge bg-success px-3 py-2">{{ result.state }}</span>
+                                    {% elif result.state == "closed" %}
+                                    <span class="badge bg-danger px-3 py-2">{{ result.state }}</span>
+                                    {% elif result.state == "open|filtered" %}
+                                    <span class="badge bg-warning text-dark px-3 py-2">{{ result.state }}</span>
+                                    {% else %}
+                                    {{ result.state }}
+                                    {% endif %}
+                                </td>
                                 {% endif %}
                             </tr>
                             {% endfor %}

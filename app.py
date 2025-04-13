@@ -5,7 +5,8 @@ set FLASK_APP=app.py     # On Windows
 """
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_migrate import Migrate
-from modules.nmap_scan import nmap_tcp_scan, nmap_udp_scan, nmap_xmas_scan, nmap_service_scan, nmap_os_scan, stop_time
+from modules.nmap_scan import nmap_tcp_scan, nmap_udp_scan, nmap_xmas_scan, nmap_service_scan, nmap_os_scan, nmap_fin_scan, nmap_ack_scan, nmap_window_scan, nmap_null_scan
+from modules.nmap_scan import stop_time
 from modules.target_mon import run_target_monitor
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -114,11 +115,11 @@ def nmap_scan_route():
     global last_action
 
     if request.method == 'GET':
-        # Abrufen aller Targets aus der Datenbank
+        # Fetch all targets from the database
         all_targets = Target.query.all()
         active_target_values = [target.target_value for target in all_targets]
 
-        # Überwache die aktiven Targets
+        # Monitor active targets
         monitor_results = run_target_monitor(active_target_values)
 
         return render_template(
@@ -129,12 +130,12 @@ def nmap_scan_route():
                 {"name": "Nmap Scans", "url": url_for('nmap_scan_route')},
                 {"name": "Targets", "url": url_for('targets')}
             ],
-            targets=all_targets,  # Zeige nur Targets aus der Datenbank an
+            targets=all_targets,
             monitor_results=monitor_results
         )
 
     if request.method == 'POST':
-        # Überprüfen, ob ein Target ausgewählt wurde
+        # Check if a target is selected
         if 'target' not in request.form:
             flash('Please select a target.')
             return redirect(url_for('nmap_scan_route'))
@@ -145,28 +146,37 @@ def nmap_scan_route():
         start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         try:
-            # Abrufen des ausgewählten Targets aus der Datenbank
+            # Fetch the selected target from the database
             target = Target.query.get_or_404(target_id)
 
-            # Durchführung des Scans basierend auf dem ausgewählten Typ
+            # Initialize scan_results with a default value
+            scan_results = []
+
+            # Perform the scan based on the selected type
             if scan_type == 'tcp':
                 scan_results = nmap_tcp_scan(target.target_value, scan_speed)
             elif scan_type == 'udp':
                 scan_results = nmap_udp_scan(target.target_value, scan_speed)
             elif scan_type == 'xmas':
                 scan_results = nmap_xmas_scan(target.target_value, scan_speed)
+            elif scan_type == 'fin':
+                scan_results = nmap_fin_scan(target.target_value, scan_speed)
+            elif scan_type == 'ack':
+                scan_results = nmap_ack_scan(target.target_value, scan_speed)
+            elif scan_type == 'null':
+                scan_results = nmap_null_scan(target.target_value, scan_speed)
+            elif scan_type == 'window':
+                scan_results = nmap_window_scan(target.target_value, scan_speed)
             elif scan_type == 'service':
                 scan_results = nmap_service_scan(target.target_value, scan_speed)
             elif scan_type == 'os':
                 scan_results = nmap_os_scan(target.target_value, scan_speed)
-            else:
-                scan_results = []
 
             if not isinstance(scan_results, list):
                 flash("Unexpected scan results format.")
                 scan_results = []
 
-            # Logge die Aktion
+            # Log the action
             last_action = {
                 "target_value": target.target_value,
                 "action": f"Performed {scan_type.upper()} Scan",
@@ -180,10 +190,10 @@ def nmap_scan_route():
             db.session.add(new_log)
             db.session.commit()
 
-            # Berechne die Scanzeit
+            # Calculate the scan time
             final_time_log = stop_time(start_time)
 
-            # Abrufen aller Targets und deren Status nach dem Scan
+            # Fetch all targets and their status after the scan
             all_targets = Target.query.all()
             active_target_values = [target.target_value for target in all_targets]
             monitor_results = run_target_monitor(active_target_values)
@@ -195,7 +205,7 @@ def nmap_scan_route():
                 scan_speed=scan_speed,
                 results=scan_results,
                 final_time_log=final_time_log,
-                targets=all_targets,  # Zeige nur Targets aus der Datenbank an
+                targets=all_targets,
                 monitor_results=monitor_results
             )
         except ValueError as ve:
@@ -203,7 +213,7 @@ def nmap_scan_route():
         except RuntimeError as re:
             flash(str(re))
 
-    # Standard-GET-Route
+    # Default GET route
     all_targets = Target.query.all()
     active_target_values = [target.target_value for target in all_targets]
     monitor_results = run_target_monitor(active_target_values)

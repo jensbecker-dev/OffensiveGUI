@@ -133,6 +133,182 @@ def nmap_xmas_scan(target, scan_speed):
         return results
     except Exception as e:
         raise RuntimeError(f"Error during Nmap Xmas scan: {e}")
+    
+def nmap_fin_scan(target, scan_speed):
+    """
+    Perform an Nmap FIN scan on the given target.
+
+    Args:
+        target (str): The target IP address or hostname.
+
+    Returns:
+        list: A list of dictionaries containing FIN scan results.
+    """
+    scanner = nmap.PortScanner()
+    try:
+        # Validate the target to ensure it's not empty
+        if not target:
+            raise ValueError("Target cannot be empty.")
+
+        # Perform a FIN scan (-sF)
+        scan_args = f"-sF -T{scan_speed}" if scan_speed else "-sF"
+        scanner.scan(hosts=target, arguments=scan_args)
+
+        results = []
+        for host in scanner.all_hosts():
+            for protocol in scanner[host].all_protocols():
+                ports = scanner[host][protocol].keys()
+                for port in ports:
+                    port_info = scanner[host][protocol][port]
+                    results.append({
+                        'host': host,
+                        'port': port,
+                        'protocol': protocol,
+                        'state': port_info.get('state', 'unknown'),
+                        'reason': port_info.get('reason', 'N/A'),  # Include reason for state
+                        'service': port_info.get('name', 'unknown'),
+                        'version': port_info.get('version', 'N/A')
+                    })
+            # Add host-specific information if no ports are found
+            if not results:
+                results.append({
+                    'host': host,
+                    'state': scanner[host].get('status', {}).get('state', 'unknown'),
+                    'reason': scanner[host].get('status', {}).get('reason', 'N/A')
+                })
+        return results
+    except Exception as e:
+        raise RuntimeError(f"Error during Nmap FIN scan: {e}")
+
+def nmap_ack_scan(target, scan_speed):
+    """
+    Perform an Nmap ACK scan on the given target.
+
+    Args:
+        target (str): The target IP address or hostname.
+
+    Returns:
+        list: A list of dictionaries containing ACK scan results.
+    """
+    scanner = nmap.PortScanner()
+    try:
+        # Validate the target to ensure it's not empty
+        if not target:
+            raise ValueError("Target cannot be empty.")
+
+        # Perform an ACK scan (-sA)
+        scan_args = f"-sA -T{scan_speed}" if scan_speed else "-sA"
+        scanner.scan(hosts=target, arguments=scan_args)
+
+        results = []
+        for host in scanner.all_hosts():
+            for protocol in scanner[host].all_protocols():
+                ports = scanner[host][protocol].keys()
+                for port in ports:
+                    port_info = scanner[host][protocol][port]
+                    results.append({
+                        'host': host,
+                        'port': port,
+                        'protocol': protocol,
+                        'state': port_info.get('state', 'unknown'),
+                        'reason': port_info.get('reason', 'N/A'),  # Include reason for state
+                        'service': port_info.get('name', 'unknown'),
+                        'version': port_info.get('version', 'N/A')
+                    })
+            # Add host-specific information if no ports are found
+            if not results:
+                results.append({
+                    'host': host,
+                    'state': scanner[host].get('status', {}).get('state', 'unknown'),
+                    'reason': scanner[host].get('status', {}).get('reason', 'N/A')
+                })
+        return results
+    except Exception as e:
+        raise RuntimeError(f"Error during Nmap ACK scan: {e}")
+
+def nmap_null_scan(target, scan_speed):
+    """
+    Perform an Nmap Null scan on the given target.
+
+    Args:
+        target (str): The target IP address or hostname.
+
+    Returns:
+        list: A list of dictionaries containing Null scan results.
+    """
+    scanner = nmap.PortScanner()
+    try:
+        # Validate the target to ensure it's not empty
+        if not target:
+            raise ValueError("Target cannot be empty.")
+
+        # Perform a Null scan (-sN)
+        scan_args = f"-sN -T{scan_speed}" if scan_speed else "-sN"
+        scanner.scan(hosts=target, arguments=scan_args)
+
+        results = []
+        for host in scanner.all_hosts():
+            for protocol in scanner[host].all_protocols():
+                ports = scanner[host][protocol].keys()
+                for port in ports:
+                    port_info = scanner[host][protocol][port]
+                    results.append({
+                        'host': host,
+                        'port': port,
+                        'protocol': protocol,
+                        'state': port_info.get('state', 'unknown'),
+                        'service': port_info.get('name', 'unknown'),
+                        'version': port_info.get('version', 'N/A')
+                    })
+        return results
+    except Exception as e:
+        raise RuntimeError(f"Error during Nmap Null scan: {e}")
+
+def nmap_window_scan(target, scan_speed):
+    """
+    Perform an Nmap Window scan on the given target.
+
+    Args:
+        target (str): The target IP address or hostname.
+
+    Returns:
+        list: A list of dictionaries containing Window scan results.
+    """
+    scanner = nmap.PortScanner()
+    try:
+        # Validate the target to ensure it's not empty
+        if not target:
+            raise ValueError("Target cannot be empty.")
+
+        # Perform a Window scan (-sW)
+        scan_args = f"-sW -T{scan_speed}" if scan_speed else "-sW"
+        scanner.scan(hosts=target, arguments=scan_args)
+
+        results = []
+        for host in scanner.all_hosts():
+            for protocol in scanner[host].all_protocols():
+                ports = scanner[host][protocol].keys()
+                for port in ports:
+                    port_info = scanner[host][protocol][port]
+                    results.append({
+                        'host': host,
+                        'port': port,
+                        'protocol': protocol,
+                        'state': port_info.get('state', 'unknown'),
+                        'reason': port_info.get('reason', 'N/A'),  # Include reason for state
+                        'service': port_info.get('name', 'unknown'),
+                        'version': port_info.get('version', 'N/A')
+                    })
+            # Add host-specific information if no ports are found
+            if not results:
+                results.append({
+                    'host': host,
+                    'state': scanner[host].get('status', {}).get('state', 'unknown'),
+                    'reason': scanner[host].get('status', {}).get('reason', 'N/A')
+                })
+        return results
+    except Exception as e:
+        raise RuntimeError(f"Error during Nmap Window scan: {e}")
 
 def nmap_service_scan(target, scan_speed):
     """
