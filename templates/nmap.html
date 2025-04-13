@@ -89,13 +89,21 @@ Nmap Scanner - OffensiveGUI
                                 <th class="text-center">OS Family</th>
                                 <th class="text-center">OS Version</th>
                                 <th class="text-center">OS Vendor</th>
-                                {% elif scan_type in ["tcp", "udp", "xmas", "fin", "ack", "null", "window"] %}
+                                {% elif scan_type in ["tcp", "udp", "xmas", "fin", "ack", "null"] %}
                                 <th class="text-center">Port</th>
                                 <th class="text-center">Protocol</th>
                                 <th class="text-center">State</th>
                                 <th class="text-center">Service</th>
                                 <th class="text-center">Version</th>
                                 <th class="text-center">OS Name</th>
+                                {% elif scan_type == "window" %}
+                                <th class="text-center">Port</th>
+                                <th class="text-center">Protocol</th>
+                                <th class="text-center">State</th>
+                                <th class="text-center">Service</th>
+                                <th class="text-center">Version</th>
+                                <th class="text-center">Reason</th>
+                                <th class="text-center">Window Size</th>
                                 {% endif %}
                             </tr>
                         </thead>
@@ -115,7 +123,7 @@ Nmap Scanner - OffensiveGUI
                                 <td class="text-center">{{ result.os_family }}</td>
                                 <td class="text-center">{{ result.os_version|default("N/A") }}</td>
                                 <td class="text-center">{{ result.os_vendor|default("N/A") }}</td>
-                                {% elif scan_type in ["tcp", "udp", "xmas", "fin", "ack", "null", "window"] %}
+                                {% elif scan_type in ["tcp", "udp", "xmas", "fin", "ack", "null"] %}
                                 <td class="text-center">{{ result.port }}</td>
                                 <td class="text-center">{{ result.protocol }}</td>
                                 <td class="text-center">
@@ -134,6 +142,26 @@ Nmap Scanner - OffensiveGUI
                                 <td class="text-center">{{ result.service }}</td>
                                 <td class="text-center">{{ result.version|default("N/A") }}</td>
                                 <td class="text-center">{{ result.os_name|default("N/A") }}</td>
+                                {% elif scan_type == "window" %}
+                                <td class="text-center">{{ result.port }}</td>
+                                <td class="text-center">{{ result.protocol }}</td>
+                                <td class="text-center">
+                                    {% if result.state == "open" %}
+                                    <span class="badge bg-success px-3 py-2">{{ result.state }}</span>
+                                    {% elif result.state == "closed" %}
+                                    <span class="badge bg-danger px-3 py-2">{{ result.state }}</span>
+                                    {% elif result.state == "open|filtered" %}
+                                    <span class="badge bg-warning text-dark px-3 py-2">{{ result.state }}</span>
+                                    {% elif result.state == "filtered" %}
+                                    <span class="badge bg-warning text-dark px-3 py-2">Filtered</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary px-3 py-2">Unfiltered</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">{{ result.service }}</td>
+                                <td class="text-center">{{ result.version|default("N/A") }}</td>
+                                <td class="text-center">{{ result.reason|default("N/A") }}</td>
+                                <td class="text-center">{{ result.window_size|default("N/A") }}</td>
                                 {% endif %}
                             </tr>
                             {% endfor %}
