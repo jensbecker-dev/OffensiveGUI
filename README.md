@@ -1,12 +1,27 @@
-# OffensiveGUI
 
-![OffensiveGUI Logo](static/images/logo.gif)
-
-OffensiveGUI is an open-source tool tailored for network administrators and cybersecurity professionals. It simplifies network scanning, target monitoring, and database management through an intuitive web-based interface. Built on top of Nmap and other tools, it provides a seamless experience for managing network security tasks.
-
-For advanced features like vulnerability scanning and asset discovery, explore [OffensiveGUI Pro Edition](https://github.com/jensbecker-dev/OffensiveGUI-Pro).
 
 ---
+
+<img src="static/images/logo.gif" alt="OffensiveGUI Logo" width="50%">
+   <br>
+   <br>
+
+   ![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)
+   ![Flask](https://img.shields.io/badge/Flask-1.1.2%2B-blue?logo=Flask&logoColor=white)
+   ![HTML5](https://img.shields.io/badge/HTML5-5.1.1%2B-blue?logo=HTML5&logoColor=white)
+   ![CSS3](https://img.shields.io/badge/CSS3-3.2.1%2B-blue?logo=CSS3&logoColor=white)
+   ![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-blue?logo=JavaScript&logoColor=white)
+   ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.1%2B-blue?logo=Bootstrap&logoColor=white)
+   ![Nmap](https://img.shields.io/badge/Nmap-7.90%2B-blue?logo=Nmap&logoColor=white)
+
+Welcome to **OffensiveGUI** – your ultimate companion for network security management! 🚀
+
+Designed for network administrators and cybersecurity professionals, OffensiveGUI simplifies tasks like network scanning, target monitoring, and database management. Built on top of powerful tools like Nmap, it offers an intuitive, web-based interface to streamline your workflow.
+
+For advanced features such as vulnerability scanning and asset discovery, check out [OffensiveGUI Pro Edition](https://github.com/jensbecker-dev/OffensiveGUI-Pro).
+
+---
+
 
 ## 🚀 Features
 
