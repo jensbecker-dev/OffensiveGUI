@@ -101,6 +101,7 @@ For advanced features such as vulnerability scanning and asset discovery, check 
 ### Dashboard
 
 ![Dashboard Screenshot](screenshots/dashboard.png)
+![alt text](image.png)
 
 ### Nmap Scanner
 
