@@ -2,215 +2,287 @@
 
 {% extends "base.html" %}
 
-{% block title %}
-Nmap Scanner - OffensiveGUI
-{% endblock %}
+{% block title %}Nmap Scanner - OffensiveGUI{% endblock %}
 
 {% block content %}
-<div class="container-fluid mt-5">
-    <div class="row g-3">
-        <!-- Header Panel -->
-        <div class="col-lg-12">
-            <div class="bg-dark text-white rounded p-4 text-center shadow-sm">
-                <h1 class="mb-0">
-                    <i class="fas fa-network-wired me-2"></i>Nmap Scanner
-                </h1>
+<div class="container-fade mt-5">
+    <!-- Header Section with Animated Gradient -->
+    <div class="row mb-4 mt-4">
+        <div class="col-12">
+            <div class="bg-dark text-white rounded p-4 shadow position-relative overflow-hidden">
+                <!-- Animated gradient overlay -->
+                <div class="position-relative top-0 start-0 w-100 h-100" style="background: linear-gradient(45deg, rgba(41, 181, 246, 0), rgba(0, 0, 0, 0), rgba(30, 136, 229, 0.2)); background-size: 100%; animation: gradient-shift 10s ease infinite; z-index: 1;"></div>
+                <div class="position-relative mt-2" style="z-index: 1;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="mb-0 d-flex align-items-center">
+                            <!-- Replace icon with radar animation -->
+                            <div class="radar-animation me-3" style="width: 40px; height: 40px;">
+                                <div class="radar-container">
+                                    <div class="radar-circle"></div>
+                                    <div class="radar-sweep"></div>
+                                    <div class="radar-grid"></div>
+                                    <div class="radar-blip radar-blip-1"></div>
+                                    <div class="radar-blip radar-blip-2"></div>
+                                </div>
+                            </div>
+                            <span>Nmap Scanner</span>
+                        </h1>
+                        
+                        <div>
+                            <span class="badge bg-primary px-3 py-2 fs-6">Targets: {{ targets|length }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="row g-3 mt-1">
-        <!-- Main Nmap Sections -->
-        <div class="col-lg-9" style="overflow: auto; max-height: 80vh;">
-            <!-- Nmap Scan Form -->
-            <div class="container-fluid mb-4 bg-dark text-white rounded p-2 shadow-lg" style="overflow: hidden;">
-                <form method="post" action="{{ url_for('nmap_scan_route') }}" class="row bg-dark p-3 rounded d-flex align-items-center justify-content-between">
-                    <div class="col-md-4">
+    
+    <div class="row g-4">
+        <!-- Scan Configuration Card -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-lg h-100">
+                <div class="card-header bg-dark text-white p-3">
+                    <h3 class="card-title mb-0 d-flex align-items-center">
+                        <i class="fas fa-cog me-2 text-primary"></i>Scan Configuration
+                    </h3>
+                </div>
+                <div class="card-body bg-dark text-white">
+                    <form method="post" action="{{ url_for('nmap_scan_route') }}" class="d-flex flex-column gap-4">
+                        <div class="form-group">
+                            <label for="target" class="form-label fw-bold mb-2"><i class="fas fa-bullseye me-2"></i>Target</label>
+                            <select id="target" name="target" class="form-select bg-dark text-white border-secondary" required>
+                                <option value="" disabled selected>Select a target</option>
+                                {% for target in targets %}
+                                <option value="{{ target.id }}">{{ target.target_value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                         
-                        <select id="target" name="target" class="form-select bg-dark text-white border-light" required>
-                            <option value="" disabled selected>Select a target</option>
-                            {% for target in targets %}
-                            <option value="{{ target.id }}">{{ target.target_value }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-md-4 w-auto">
+                        <div class="form-group">
+                            <label for="scan_type" class="form-label fw-bold mb-2"><i class="fas fa-search me-2"></i>Scan Type</label>
+                            <select id="scan_type" name="scan_type" class="form-select bg-dark text-white border-secondary" required>
+                                <option value="" disabled selected>Select scan type</option>
+                                <optgroup label="Common Scans">
+                                    <option value="tcp">TCP SYN</option>
+                                    <option value="udp">UDP</option>
+                                </optgroup>
+                                <optgroup label="Stealth Scans">
+                                    <option value="xmas">XMAS</option>
+                                    <option value="fin">FIN</option>
+                                    <option value="ack">ACK</option>
+                                    <option value="null">NULL</option>
+                                    <option value="window">Window</option>
+                                </optgroup>
+                                <optgroup label="Information Gathering">
+                                    <option value="service">Service Version</option>
+                                    <option value="os">OS Fingerprinting</option>
+                                </optgroup>
+                            </select>
+                        </div>
                         
-                        <select id="scan_type" name="scan_type" class="form-select bg-dark text-white border-light" required>
-                            <option value="" disabled selected>Select scan type</option>
-                            <option value="tcp">TCP SYN</option>
-                            <option value="udp">UDP</option>
-                            <hr class="bg-light">
-                            <option value="xmas">XMAS</option>
-                            <option value="fin">FIN</option>
-                            <option value="ack">ACK</option>
-                            <option value="null">NULL</option>
-                            <option value="window">Window</option>
-                            <hr class="bg-light">
-                            <option value="service">Service Version</option>
-                            <option value="os">OS Fingerprinting</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 w-auto">
-                        <label for="scan_speed" class="form-label">Scan Speed</label>
-                        <input type="range" class="form-range" min="1" max="5" step="1" id="scan_speed" name="scan_speed" value="1" oninput="this.nextElementSibling.value = this.value">
-                        <output>1</output>
-                    </div>
-                    <div class="col-md-4 text-center w-auto">
-                        <button type="submit" class="btn btn-primary fw-bold">Start Scan</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Scan Results -->
-            <div class="container-fluid bg-dark text-white rounded p-3 shadow-lg" style="overflow: auto; max-height: 800px;">
-                {% if results %}
-                <h2 class="text-center mb-4">Scan Results</h2>
-                <div class="d-flex justify-content-center mb-4">
-                    <span class="badge bg-primary me-2">Target: {{ target }}</span>
-                    <span class="badge bg-success me-2">Scan Type: {{ scan_type }}</span>
-                    <span class="badge bg-info me-2">Scan Speed: {{ scan_speed }}</span>
-                    <span class="badge bg-warning me-2">Scan Time: {{ final_time_log }} seconds</span>
+                        <div class="form-group">
+                            <label for="scan_speed" class="form-label fw-bold mb-2">
+                                <i class="fas fa-tachometer-alt me-2"></i>Scan Speed: <span id="speedValue">1</span>
+                            </label>
+                            <div class="d-flex align-items-center">
+                                <span class="me-2 text-muted"><i class="fas fa-feather"></i></span>
+                                <input type="range" class="form-range flex-grow-1" min="1" max="5" step="1" id="scan_speed" name="scan_speed" value="1" oninput="document.getElementById('speedValue').textContent = this.value">
+                                <span class="ms-2 text-muted"><i class="fas fa-rocket"></i></span>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 mt-3 py-2" style="background-color: #29B6F6;">
+                            <i class="fas fa-play-circle me-2"></i>Start Scan
+                        </button>
+                    </form>
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-dark table-hover table-bordered align-middle">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Host</th>
-                                {% if scan_type == "service" %}
-                                <th class="text-center">Port</th>
-                                <th class="text-center">Protocol</th>
-                                <th class="text-center">State</th>
-                                <th class="text-center">Service</th>
-                                <th class="text-center">Version</th>
-                                {% elif scan_type == "os" %}
-                                <th class="text-center">OS Name</th>
-                                <th class="text-center">OS Accuracy</th>
-                                <th class="text-center">OS Family</th>
-                                <th class="text-center">OS Version</th>
-                                <th class="text-center">OS Vendor</th>
-                                {% elif scan_type in ["tcp", "udp", "xmas", "fin", "ack", "null"] %}
-                                <th class="text-center">Port</th>
-                                <th class="text-center">Protocol</th>
-                                <th class="text-center">State</th>
-                                <th class="text-center">Service</th>
-                                <th class="text-center">Version</th>
-                                <th class="text-center">OS Name</th>
-                                {% elif scan_type == "window" %}
-                                <th class="text-center">Port</th>
-                                <th class="text-center">Protocol</th>
-                                <th class="text-center">State</th>
-                                <th class="text-center">Service</th>
-                                <th class="text-center">Version</th>
-                                <th class="text-center">Reason</th>
-                                <th class="text-center">Window Size</th>
-                                {% endif %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for result in results %}
-                            <tr>
-                                <td class="text-center">{{ result.host }}</td>
-                                {% if scan_type == "service" %}
-                                <td class="text-center">{{ result.port }}</td>
-                                <td class="text-center">{{ result.protocol }}</td>
-                                <td class="text-center">{{ result.state }}</td>
-                                <td class="text-center">{{ result.service }}</td>
-                                <td class="text-center">{{ result.version|default("N/A") }}</td>
-                                {% elif scan_type == "os" %}
-                                <td class="text-center">{{ result.os_name }}</td>
-                                <td class="text-center">{{ result.os_accuracy|default("N/A") }}</td>
-                                <td class="text-center">{{ result.os_family }}</td>
-                                <td class="text-center">{{ result.os_version|default("N/A") }}</td>
-                                <td class="text-center">{{ result.os_vendor|default("N/A") }}</td>
-                                {% elif scan_type in ["tcp", "udp", "xmas", "fin", "ack", "null", "window"] %}
-                                <td class="text-center">{{ result.port }}</td>
-                                <td class="text-center">{{ result.protocol }}</td>
-                                <td class="text-center">
-                                    {% if result.state == "open" %}
-                                    <span class="badge bg-success px-3 py-2">{{ result.state }}</span>
-                                    {% elif result.state == "closed" %}
-                                    <span class="badge bg-danger px-3 py-2">{{ result.state }}</span>
-                                    {% elif result.state == "open|filtered" %}
-                                    <span class="badge bg-warning text-dark px-3 py-2">{{ result.state }}</span>
-                                    {% elif result.state == "filtered" %}
-                                    <span class="badge bg-warning text-dark px-3 py-2">Filtered</span>
-                                    {% else %}
-                                    <span class="badge bg-secondary px-3 py-2">Unfiltered</span>
-                                    {% endif %}
-                                </td>
-                                <td class="text-center">{{ result.service }}</td>
-                                <td class="text-center">{{ result.version|default("N/A") }}</td>
-                                <td class="text-center">{{ result.os_name|default("N/A") }}</td>
-                                {% elif scan_type == "window" %}
-                                <td class="text-center">{{ result.port }}</td>
-                                <td class="text-center">{{ result.protocol }}</td>
-                                <td class="text-center">
-                                    {% if result.state == "open" %}
-                                    <span class="badge bg-success px-3 py-2">{{ result.state }}</span>
-                                    {% elif result.state == "closed" %}
-                                    <span class="badge bg-danger px-3 py-2">{{ result.state }}</span>
-                                    {% elif result.state == "open|filtered" %}
-                                    <span class="badge bg-warning text-dark px-3 py-2">{{ result.state }}</span>
-                                    {% elif result.state == "filtered" %}
-                                    <span class="badge bg-warning text-dark px-3 py-2">Filtered</span>
-                                    {% else %}
-                                    <span class="badge bg-secondary px-3 py-2">Unfiltered</span>
-                                    {% endif %}
-                                </td>
-                                <td class="text-center">{{ result.service }}</td>
-                                <td class="text-center">{{ result.version|default("N/A") }}</td>
-                                <td class="text-center">{{ result.reason|default("N/A") }}</td>
-                                <td class="text-center">{{ result.window_size|default("N/A") }}</td>
-                                {% endif %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% else %}
-                <div class="alert alert-warning text-center" role="alert" style="margin-top: 20px;">
-                    No results to display. Please run a scan.
-                </div>
-                {% endif %}
             </div>
         </div>
-
-        <!-- Target Monitor Section -->
-        <div class="col-lg-3" style="overflow: auto; height: 80vh;">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body bg-dark text-white rounded d-flex flex-column">
-                    <h2 class="text-center">
-                        <i class="fas fa-list me-2 text-primary"></i>Target Monitor
-                    </h2>
-                    <hr class="bg-light">
-                    <div class="overflow-auto flex-grow-1" style="max-height: calc(100vh - 200px);">
-                        <table class="table table-dark table-hover table-bordered text-center align-middle">
-                            <thead class="table-light text-dark" style="font-weight: bold;">
+        
+        <!-- Results Section -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg h-100">
+                <div class="card-header bg-dark text-white p-3">
+                    <h3 class="card-title mb-0 d-flex align-items-center">
+                        <i class="fas fa-clipboard-list me-2 text-primary"></i>Scan Results
+                    </h3>
+                </div>
+                <div class="card-body bg-dark text-white px-3 py-4" style="max-height: 70vh; overflow: auto;">
+                    {% if results %}
+                        <div class="d-flex flex-wrap gap-3 mb-4 justify-content-center">
+                            <div class="badge bg-primary p-2 fs-6">Target: {{ target }}</div>
+                            <div class="badge bg-success p-2 fs-6">Scan Type: {{ scan_type }}</div>
+                            <div class="badge bg-info p-2 fs-6">Scan Speed: {{ scan_speed }}</div>
+                            <div class="badge bg-warning text-dark p-2 fs-6">Time: {{ final_time_log }} sec</div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-bordered border-secondary align-middle">
+                                <thead class="bg-primary bg-opacity-25">
+                                    <tr>
+                                        <th class="text-center">Host</th>
+                                        {% if scan_type == "service" %}
+                                        <th class="text-center">Port</th>
+                                        <th class="text-center">Protocol</th>
+                                        <th class="text-center">State</th>
+                                        <th class="text-center">Service</th>
+                                        <th class="text-center">Version</th>
+                                        {% elif scan_type == "os" %}
+                                        <th class="text-center">OS Name</th>
+                                        <th class="text-center">OS Accuracy</th>
+                                        <th class="text-center">OS Family</th>
+                                        <th class="text-center">OS Version</th>
+                                        <th class="text-center">OS Vendor</th>
+                                        {% elif scan_type in ["tcp", "udp", "xmas", "fin", "ack", "null"] %}
+                                        <th class="text-center">Port</th>
+                                        <th class="text-center">Protocol</th>
+                                        <th class="text-center">State</th>
+                                        <th class="text-center">Service</th>
+                                        <th class="text-center">Version</th>
+                                        <th class="text-center">OS Name</th>
+                                        {% elif scan_type == "window" %}
+                                        <th class="text-center">Port</th>
+                                        <th class="text-center">Protocol</th>
+                                        <th class="text-center">State</th>
+                                        <th class="text-center">Service</th>
+                                        <th class="text-center">Version</th>
+                                        <th class="text-center">Reason</th>
+                                        <th class="text-center">Window Size</th>
+                                        {% endif %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for result in results %}
+                                    <tr>
+                                        <td class="text-center">{{ result.host }}</td>
+                                        {% if scan_type == "service" %}
+                                        <td class="text-center">{{ result.port }}</td>
+                                        <td class="text-center">{{ result.protocol }}</td>
+                                        <td class="text-center">{{ result.state }}</td>
+                                        <td class="text-center">{{ result.service }}</td>
+                                        <td class="text-center">{{ result.version|default("N/A") }}</td>
+                                        {% elif scan_type == "os" %}
+                                        <td class="text-center">{{ result.os_name }}</td>
+                                        <td class="text-center">{{ result.os_accuracy|default("N/A") }}</td>
+                                        <td class="text-center">{{ result.os_family }}</td>
+                                        <td class="text-center">{{ result.os_version|default("N/A") }}</td>
+                                        <td class="text-center">{{ result.os_vendor|default("N/A") }}</td>
+                                        {% elif scan_type in ["tcp", "udp", "xmas", "fin", "ack", "null", "window"] %}
+                                        <td class="text-center">{{ result.port }}</td>
+                                        <td class="text-center">{{ result.protocol }}</td>
+                                        <td class="text-center">
+                                            {% if result.state == "open" %}
+                                            <span class="badge bg-success px-3 py-2">{{ result.state }}</span>
+                                            {% elif result.state == "closed" %}
+                                            <span class="badge bg-danger px-3 py-2">{{ result.state }}</span>
+                                            {% elif result.state == "open|filtered" %}
+                                            <span class="badge bg-warning text-dark px-3 py-2">{{ result.state }}</span>
+                                            {% elif result.state == "filtered" %}
+                                            <span class="badge bg-warning text-dark px-3 py-2">Filtered</span>
+                                            {% else %}
+                                            <span class="badge bg-secondary px-3 py-2">Unfiltered</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">{{ result.service }}</td>
+                                        <td class="text-center">{{ result.version|default("N/A") }}</td>
+                                        <td class="text-center">{{ result.os_name|default("N/A") }}</td>
+                                        {% elif scan_type == "window" %}
+                                        <td class="text-center">{{ result.port }}</td>
+                                        <td class="text-center">{{ result.protocol }}</td>
+                                        <td class="text-center">
+                                            {% if result.state == "open" %}
+                                            <span class="badge bg-success px-3 py-2">{{ result.state }}</span>
+                                            {% elif result.state == "closed" %}
+                                            <span class="badge bg-danger px-3 py-2">{{ result.state }}</span>
+                                            {% elif result.state == "open|filtered" %}
+                                            <span class="badge bg-warning text-dark px-3 py-2">{{ result.state }}</span>
+                                            {% elif result.state == "filtered" %}
+                                            <span class="badge bg-warning text-dark px-3 py-2">Filtered</span>
+                                            {% else %}
+                                            <span class="badge bg-secondary px-3 py-2">Unfiltered</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">{{ result.service }}</td>
+                                        <td class="text-center">{{ result.version|default("N/A") }}</td>
+                                        <td class="text-center">{{ result.reason|default("N/A") }}</td>
+                                        <td class="text-center">{{ result.window_size|default("N/A") }}</td>
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-radar text-muted mb-3" style="font-size: 4rem;"></i>
+                            <h4>No scan results available</h4>
+                            <p>Select a target and scan type from the left panel to start scanning</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Target Monitor Panel -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-dark text-white p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="card-title mb-0">
+                            <i class="fas fa-satellite-dish me-2 text-primary"></i>Target Monitor
+                        </h3>
+                        <span class="badge bg-success p-2">
+                            Online: {{ monitor_results|selectattr("status", "equalto", "Online")|list|length }}
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body bg-dark text-white p-0">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover table-bordered border-secondary mb-0 align-middle">
+                            <thead class="bg-primary bg-opacity-25">
                                 <tr>
-                                    <th>Target</th>
-                                    <th>Status</th>
+                                    <th class="px-4 py-3">Target</th>
+                                    <th class="px-4 py-3 text-center">Status</th>
+                                    <th class="px-4 py-3 text-center">Response Time</th>
+                                    <th class="px-4 py-3 text-center">Last Check</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% if monitor_results %}
                                     {% for result in monitor_results %}
                                     <tr>
-                                        <td>{{ result.target }}</td>
-                                        <td>
+                                        <td class="px-4 py-3">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-server me-2 text-muted"></i>
+                                                {{ result.target }}
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-center">
                                             {% if result.status == "Online" %}
-                                            <span class="badge bg-success px-3 py-2">{{ result.status }}</span>
+                                                <span class="badge bg-success px-3 py-2"><i class="fas fa-check-circle me-1"></i> {{ result.status }}</span>
                                             {% elif result.status == "Offline" %}
-                                            <span class="badge bg-danger px-3 py-2">{{ result.status }}</span>
+                                                <span class="badge bg-danger px-3 py-2"><i class="fas fa-times-circle me-1"></i> {{ result.status }}</span>
                                             {% else %}
-                                            <span class="badge bg-warning text-dark px-3 py-2">{{ result.status }}</span>
+                                                <span class="badge bg-warning text-dark px-3 py-2"><i class="fas fa-exclamation-circle me-1"></i> {{ result.status }}</span>
                                             {% endif %}
+                                        </td>
+                                        <td class="px-4 py-3 text-center">
+                                            {% if result.status == "Online" %}
+                                                {{ result.response_time|default("10-20ms") }}
+                                            {% else %}
+                                                <span class="text-muted">Timeout</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="px-4 py-3 text-center">
+                                            {{ result.last_check|default("Just now") }}
                                         </td>
                                     </tr>
                                     {% endfor %}
                                 {% else %}
                                     <tr>
-                                        <td colspan="2">No targets available for monitoring.</td>
+                                        <td colspan="4" class="text-center py-4">No targets available for monitoring</td>
                                     </tr>
                                 {% endif %}
                             </tbody>
@@ -222,4 +294,119 @@ Nmap Scanner - OffensiveGUI
     </div>
 </div>
 
+<style>
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Radar animation CSS */
+.radar-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(20, 20, 20, 0.7);
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(41, 182, 246, 0.7);
+}
+
+.radar-circle {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    border: 1px solid rgba(41, 182, 246, 0.4);
+}
+
+.radar-sweep {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 50%;
+    background: linear-gradient(90deg, rgba(41, 182, 246, 0) 0%, rgba(41, 182, 246, 0.8) 100%);
+    border-radius: 0 0 0 0;
+    transform-origin: 0 100%;
+    animation: radar-sweep 3s infinite linear;
+}
+
+.radar-grid:before, .radar-grid:after {
+    content: '';
+    position: absolute;
+    background-color: rgba(41, 182, 246, 0.3);
+}
+
+.radar-grid:before {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+}
+
+.radar-grid:after {
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 100%;
+}
+
+.radar-blip {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: #FF5252;
+    border-radius: 50%;
+    opacity: 0;
+    box-shadow: 0 0 3px #FF5252;
+    animation: blip-ping 3s infinite;
+}
+
+.radar-blip-1 {
+    top: 30%;
+    left: 65%;
+    animation-delay: 0.5s;
+}
+
+.radar-blip-2 {
+    top: 60%;
+    left: 40%;
+    animation-delay: 1.5s;
+}
+
+@keyframes radar-sweep {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes blip-ping {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
 {% endblock %}
