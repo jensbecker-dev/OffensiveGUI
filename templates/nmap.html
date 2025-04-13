@@ -12,7 +12,7 @@
             <div class="bg-dark text-white rounded p-4 shadow position-relative overflow-hidden gradient-card">
                 <!-- Enhanced animated gradient overlay -->
                 <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(41, 182, 246, 0.2), rgba(0, 0, 0, 0.7), rgba(30, 136, 229, 0.2)); 
-                            background-size: 300% 300%; 
+                            background-size: 350% 350%; 
                             animation: flowing-gradient 15s ease infinite; 
                             z-index: 1;"></div>
                 
@@ -253,7 +253,7 @@
                             <thead class="bg-primary bg-opacity-25">
                                 <tr>
                                     <th class="px-4 py-3">Target</th>
-                                    <th class="px-4 py-3 text-center">Status</th>
+                                    <th class="px-4 py-3 text-center">Connection State</th>
                                     <th class="px-4 py-3 text-center">Response Time</th>
                                     <th class="px-4 py-3 text-center">Last Check</th>
                                 </tr>
@@ -262,9 +262,9 @@
                                 {% if monitor_results %}
                                     {% for result in monitor_results %}
                                     <tr>
-                                        <td class="px-4 py-3">
+                                        <td class="px-4 py-3" style="color:rgb(255, 255, 255);">
                                             <div class="d-flex align-items-center">
-                                                <i class="fas fa-server me-2 text-muted"></i>
+                                                <i class="fas fa-server me-2"></i>
                                                 {{ result.target }}
                                             </div>
                                         </td>
@@ -274,7 +274,7 @@
                                             {% elif result.status == "Offline" %}
                                                 <span class="badge bg-danger px-3 py-2"><i class="fas fa-times-circle me-1"></i> {{ result.status }}</span>
                                             {% else %}
-                                                <span class="badge bg-warning text-dark px-3 py-2"><i class="fas fa-exclamation-circle me-1"></i> {{ result.status }}</span>
+                                                <span class="badge bg-warning text-white px-3 py-2"><i class="fas fa-exclamation-circle me-1"></i> {{ result.status }}</span>
                                             {% endif %}
                                         </td>
                                         <td class="h5 px-4 py-3 text-center">
@@ -474,7 +474,7 @@
     width: 3px;
     height: 3px;
     border-radius: 50%;
-    background-color: rgba(41, 182, 246, 0.6);
+    background-color: rgba(41, 181, 246, 0.38);
     box-shadow: 0 0 10px rgba(41, 182, 246, 0.8);
     animation: float 8s infinite ease-in-out;
 }
