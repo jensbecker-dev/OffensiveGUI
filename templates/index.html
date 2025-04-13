@@ -19,27 +19,17 @@
         <!-- Section 1: Summary Section -->
         <div class="col-lg-6">
             <div class="bg-dark text-white rounded p-4 shadow-sm h-100" style="overflow: auto; min-height: 40vh; max-height: 40vh;">
-                <h2 class="text-center">
-                    <i class="fas fa-chart-pie me-2"></i>Summary
-                </h2>
-                <hr class="bg-light">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item bg-dark text-white">
-                        <strong>Total Targets:</strong> {{ targets|length }}
-                    </li>
-                    <li class="list-group-item bg-dark text-white">
-                        <strong>Online Targets:</strong> 
-                        {{ monitor_results|selectattr("status", "equalto", "Online")|list|length }}
-                    </li>
-                    <li class="list-group-item bg-dark text-white">
-                        <strong>Recent Actions:</strong> 
-                        {{ action_logs|length }}
-                    </li>
-                </ul>
-                <hr class="bg-light">
-                <p class="text-center mt-3">
-                    <a href="{{ url_for('targets') }}" class="btn btn-primary" style="background-color: #29B6F6">View Detailed Stats</a>
-                </p>
+            <h2 class="text-center">
+                <i class="fas fa-chart-pie me-2"></i>Summary Overview
+            </h2>
+            <hr class="bg-light">
+                <div class="text-center mb-4">
+                    <canvas id="targetsPieChart" class="mt-2"style="max-width: 300px; max-height: 300px; margin: auto;" data-total-targets="{{ targets|length }}" data-online-targets="{{ monitor_results|selectattr('status', 'equalto', 'Online')|list|length }}">
+                    </canvas>
+                </div>
+            </ul>
+            <hr class="bg-light">
+            <p class="text-center fs-5">Total Targets: {{ targets|length }}</p>
             </div>
         </div>
 
