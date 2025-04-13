@@ -364,16 +364,9 @@ def nmap_os_scan(target, scan_speed):
     Returns:
         dict: A dictionary containing OS scan results.
     """
-
-    OS_ICONS = {
-        "Windows": "fa-windows",
-        "Linux": "fa-linux",
-        "Mac OS": "fa-apple",
-        "Unix": "fa-terminal",
-        "Unknown": "fa-question-circle"
-    }
-
+    
     scanner = nmap.PortScanner()
+    
     try:
         # Validate the target to ensure it's not empty
         if not target:

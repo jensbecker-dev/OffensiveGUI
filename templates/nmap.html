@@ -123,7 +123,7 @@ Nmap Scanner - OffensiveGUI
                                 <td class="text-center">{{ result.os_family }}</td>
                                 <td class="text-center">{{ result.os_version|default("N/A") }}</td>
                                 <td class="text-center">{{ result.os_vendor|default("N/A") }}</td>
-                                {% elif scan_type in ["tcp", "udp", "xmas", "fin", "ack", "null"] %}
+                                {% elif scan_type in ["tcp", "udp", "xmas", "fin", "ack", "null", "window"] %}
                                 <td class="text-center">{{ result.port }}</td>
                                 <td class="text-center">{{ result.protocol }}</td>
                                 <td class="text-center">

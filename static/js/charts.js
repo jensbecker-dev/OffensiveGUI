@@ -14,9 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 datasets: [
                     {
                         data: [onlineTargets, offlineTargets],
-                        backgroundColor: ["#29B6F6", "#FF7043"],
-                        hoverBackgroundColor: ["#0288D1", "#F4511E"],
-                        borderColor: ["#ffffff", "#ffffff"],
+                        backgroundColor: ["rgb(0, 155, 103)", "#ff3a00"],
+                        hoverBackgroundColor: ["#2e8b57", "#ff4040"],
+                        borderColor: ["#FFFFFF", "#FFFFFF"],
                         borderWidth: 1,
                     },
                 ],
