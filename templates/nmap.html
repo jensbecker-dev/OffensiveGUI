@@ -23,7 +23,7 @@ Nmap Scanner - OffensiveGUI
         <!-- Main Nmap Sections -->
         <div class="col-lg-9" style="overflow: auto; max-height: 80vh;">
             <!-- Nmap Scan Form -->
-            <div class="container-fluid mb-4 bg-dark text-white rounded p-4 shadow-lg" style="overflow: hidden;">
+            <div class="container-fluid mb-4 bg-dark text-white rounded p-2 shadow-lg" style="overflow: hidden;">
                 <form method="post" action="{{ url_for('nmap_scan_route') }}" class="row bg-dark p-3 rounded d-flex align-items-center justify-content-between">
                     <div class="col-md-4">
                         
@@ -63,7 +63,7 @@ Nmap Scanner - OffensiveGUI
             </div>
 
             <!-- Scan Results -->
-            <div class="container-fluid bg-dark text-white rounded p-3 shadow-lg" style="overflow: auto; max-height: 700px;">
+            <div class="container-fluid bg-dark text-white rounded p-3 shadow-lg" style="overflow: auto; max-height: 800px;">
                 {% if results %}
                 <h2 class="text-center mb-4">Scan Results</h2>
                 <div class="d-flex justify-content-center mb-4">
