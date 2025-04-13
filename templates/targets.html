@@ -7,9 +7,9 @@ Targets Management - OffensiveGUI
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-5">
     <!-- Header Panel -->
-    <div class="row g-3 mb-4 mt-4">
+    <div class="row g-3 mb-4 mt-5">
         <div class="col-12">
             <div class="bg-dark text-white rounded p-4 text-center shadow" style="background: linear-gradient(to right, #1a1a2e, #16213e);">
                 <h1 class="mb-0 display-5 fw-bold">
@@ -72,7 +72,7 @@ Targets Management - OffensiveGUI
                             </span>
                         </td>
                         <td>
-                            <span class="text-muted">
+                            <span class="text-white fs-6" style="color: #ffffff;">
                                 <i class="fas fa-clock me-1"></i>
                                 {{ target.last_updated.strftime('%Y-%m-%d %H:%M:%S') if target.last_updated else "N/A" }}
                             </span>
@@ -82,17 +82,17 @@ Targets Management - OffensiveGUI
                                 {% for result in monitor_results %}
                                     {% if result.target == target.target_value %}
                                         {% if result.status == "Online" %}
-                                        <span class="badge bg-success px-3 py-2 fs-6">
-                                            <i class="fas fa-check-circle me-1"></i> {{ result.status }}
-                                        </span>
+                                            <span class="badge bg-success px-3 py-2 fs-6">
+                                                <i class="fas fa-check-circle me-1"></i> {{ result.status }}
+                                            </span>
                                         {% elif result.status == "Offline" %}
-                                        <span class="badge bg-danger px-3 py-2 fs-6">
-                                            <i class="fas fa-times-circle me-1"></i> {{ result.status }}
-                                        </span>
+                                            <span class="badge bg-danger px-3 py-2 fs-6">
+                                                <i class="fas fa-times-circle me-1"></i> {{ result.status }}
+                                            </span>
                                         {% else %}
-                                        <span class="badge bg-warning text-dark px-3 py-2 fs-6">
-                                            <i class="fas fa-exclamation-triangle me-1"></i> {{ result.status }}
-                                        </span>
+                                            <span class="badge bg-warning text-white px-3 py-2 fs-6">
+                                                <i class="fas fa-exclamation-triangle me-1"></i> {{ result.status }}
+                                            </span>
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
