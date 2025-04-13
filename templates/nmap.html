@@ -6,16 +6,25 @@
 
 {% block content %}
 <div class="container-fade mt-5">
-    <!-- Header Section with Animated Gradient -->
+    <!-- Header Section with Enhanced Animated Gradient -->
     <div class="row mb-4 mt-4">
         <div class="col-12">
-            <div class="bg-dark text-white rounded p-4 shadow position-relative overflow-hidden">
-                <!-- Animated gradient overlay -->
-                <div class="position-relative top-0 start-0 w-100 h-100" style="background: linear-gradient(45deg, rgba(41, 181, 246, 0), rgba(0, 0, 0, 0), rgba(30, 136, 229, 0.2)); background-size: 100%; animation: gradient-shift 10s ease infinite; z-index: 1;"></div>
-                <div class="position-relative mt-2" style="z-index: 1;">
+            <div class="bg-dark text-white rounded p-4 shadow position-relative overflow-hidden gradient-card">
+                <!-- Enhanced animated gradient overlay -->
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(41, 182, 246, 0.2), rgba(0, 0, 0, 0.7), rgba(30, 136, 229, 0.2)); 
+                            background-size: 300% 300%; 
+                            animation: flowing-gradient 15s ease infinite; 
+                            z-index: 1;"></div>
+                
+                <!-- Add subtle particle effects -->
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="z-index: 2;">
+                    <div class="particles"></div>
+                </div>
+                
+                <div class="position-relative mt-2" style="z-index: 3;">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h1 class="mb-0 d-flex align-items-center">
-                            <!-- Replace icon with radar animation -->
+                        <h1 class="mb-0 d-flex align-items-center glow-text">
+                            <!-- Enhanced radar animation -->
                             <div class="radar-animation me-3" style="width: 40px; height: 40px;">
                                 <div class="radar-container">
                                     <div class="radar-circle"></div>
@@ -29,7 +38,7 @@
                         </h1>
                         
                         <div>
-                            <span class="badge bg-primary px-3 py-2 fs-6">Targets: {{ targets|length }}</span>
+                            <span class="badge pulse-badge px-3 py-2 fs-6">Targets: {{ targets|length }}</span>
                         </div>
                     </div>
                 </div>
@@ -40,7 +49,7 @@
     <div class="row g-4">
         <!-- Scan Configuration Card -->
         <div class="col-lg-4">
-            <div class="card border-0 shadow-lg h-100">
+            <div class="card border-0 shadow-lg h-100 gradient-card">
                 <div class="card-header bg-dark text-white p-3">
                     <h3 class="card-title mb-0 d-flex align-items-center">
                         <i class="fas fa-cog me-2 text-primary"></i>Scan Configuration
@@ -101,7 +110,7 @@
         
         <!-- Results Section -->
         <div class="col-lg-8">
-            <div class="card border-0 shadow-lg h-100">
+            <div class="card border-0 shadow-lg h-100 gradient-card">
                 <div class="card-header bg-dark text-white p-3">
                     <h3 class="card-title mb-0 d-flex align-items-center">
                         <i class="fas fa-clipboard-list me-2 text-primary"></i>Scan Results
@@ -227,7 +236,7 @@
     <!-- Target Monitor Panel -->
     <div class="row mt-4">
         <div class="col-12">
-            <div class="card border-0 shadow-lg">
+            <div class="card border-0 shadow-lg gradient-card">
                 <div class="card-header bg-dark text-white p-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="card-title mb-0">
@@ -268,11 +277,11 @@
                                                 <span class="badge bg-warning text-dark px-3 py-2"><i class="fas fa-exclamation-circle me-1"></i> {{ result.status }}</span>
                                             {% endif %}
                                         </td>
-                                        <td class="px-4 py-3 text-center">
+                                        <td class="h5 px-4 py-3 text-center">
                                             {% if result.status == "Online" %}
                                                 {{ result.response_time|default("10-20ms") }}
                                             {% else %}
-                                                <span class="text-muted">Timeout</span>
+                                                <span class="h5">Timeout</span>
                                             {% endif %}
                                         </td>
                                         <td class="px-4 py-3 text-center">
@@ -296,18 +305,18 @@
 
 <style>
 @keyframes gradient-shift {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-/* Radar animation CSS */
+@keyframes flowing-gradient {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+/* Enhance radar animation */
 .radar-container {
     position: relative;
     width: 100%;
@@ -400,6 +409,104 @@
     50% {
         transform: scale(1.5);
         opacity: 1;
+    }
+}
+
+/* Add new styles for enhanced visuals */
+.gradient-card {
+    position: relative;
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border: 1px solid rgba(41, 182, 246, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 
+                0 0 15px rgba(41, 182, 246, 0.3);
+    transition: all 0.3s ease;
+}
+
+.gradient-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    z-index: -1;
+    background: linear-gradient(45deg, #29B6F6, #0288D1, #29B6F6);
+    border-radius: 16px;
+    opacity: 0.3;
+    filter: blur(10px);
+}
+
+.gradient-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 
+                0 0 20px rgba(41, 182, 246, 0.4);
+}
+
+.glow-text {
+    text-shadow: 0 0 10px rgba(41, 182, 246, 0.5);
+    position: relative;
+}
+
+.pulse-badge {
+    background: linear-gradient(45deg, #29B6F6, #0288D1);
+    animation: pulse-animation 2s infinite;
+}
+
+@keyframes pulse-animation {
+    0% { box-shadow: 0 0 0 0 rgba(41, 182, 246, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(41, 182, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(41, 182, 246, 0); }
+}
+
+/* Particles effect */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.particles::before,
+.particles::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background-color: rgba(41, 182, 246, 0.6);
+    box-shadow: 0 0 10px rgba(41, 182, 246, 0.8);
+    animation: float 8s infinite ease-in-out;
+}
+
+.particles::before {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.particles::after {
+    top: 70%;
+    left: 90%;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.3;
+    }
+    25% {
+        transform: translateY(-20px) translateX(10px);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translateY(0) translateX(20px);
+        opacity: 0.3;
+    }
+    75% {
+        transform: translateY(20px) translateX(10px);
+        opacity: 0.8;
     }
 }
 </style>
