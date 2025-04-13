@@ -5,6 +5,14 @@ Module for performing nmap scans using the nmap library.
 import nmap  # Ensure the python-nmap library is installed
 from datetime import datetime
 
+OS_ICONS = {
+    "Windows": "fa-windows",  # FontAwesome Icon für Windows
+    "Linux": "fa-linux",      # FontAwesome Icon für Linux
+    "Mac OS": "fa-apple",     # FontAwesome Icon für MacOS
+    "Unix": "fa-terminal",    # FontAwesome Icon für Unix
+    "Unknown": "fa-question-circle"  # Standard-Icon für unbekannte Systeme
+}
+
 def stop_time(start_time):
     """
     Calculate the time taken for a scan.
@@ -356,7 +364,7 @@ def nmap_os_scan(target, scan_speed):
         target (str): The target IP address or hostname.
 
     Returns:
-        list: A list of dictionaries containing OS scan results.
+        list: A list of dictionaries containing OS scan results with icons.
     """
     scanner = nmap.PortScanner()
     try:
@@ -364,20 +372,22 @@ def nmap_os_scan(target, scan_speed):
         if not target:
             raise ValueError("Target cannot be empty.")
 
-        # Perform an OS detection scan (-O)
+        # Perform an OS scan (-O)
         scan_args = f"-O -T{scan_speed}" if scan_speed else "-O"
-
         scanner.scan(hosts=target, arguments=scan_args)
 
         results = []
         for host in scanner.all_hosts():
-            os_info = scanner[host].get('osmatch', [{}])[0]  # Get the first OS match
-            results.append({
-                'host': host,
-                'os_name': os_info.get('name', 'Unknown'),
-                'os_accuracy': os_info.get('accuracy', 'N/A'),
-                'os_family': os_info.get('osclass', [{}])[0].get('osfamily', 'N/A') if os_info.get('osclass') else 'N/A'
-            })
+            os_matches = scanner[host].get('osmatch', [])
+            for os_match in os_matches:
+                os_name = os_match.get('name', 'Unknown')
+                os_icon = OS_ICONS.get(os_name.split()[0], OS_ICONS["Unknown"])  # Match OS-Familie
+                results.append({
+                    'host': host,
+                    'os_name': os_name,
+                    'os_icon': os_icon,
+                    'accuracy': os_match.get('accuracy', 'N/A')
+                })
         return results
     except Exception as e:
         raise RuntimeError(f"Error during Nmap OS scan: {e}")
