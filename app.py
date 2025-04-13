@@ -114,26 +114,6 @@ def nmap_scan_route():
     """
     global last_action
 
-    if request.method == 'GET':
-        # Fetch all targets from the database
-        all_targets = Target.query.all()
-        active_target_values = [target.target_value for target in all_targets]
-
-        # Monitor active targets
-        monitor_results = run_target_monitor(active_target_values)
-
-        return render_template(
-            'nmap.html',
-            title="Nmap Scans - Offensive GUI",
-            nav_links=[
-                {"name": "Home", "url": url_for('home')},
-                {"name": "Nmap Scans", "url": url_for('nmap_scan_route')},
-                {"name": "Targets", "url": url_for('targets')}
-            ],
-            targets=all_targets,
-            monitor_results=monitor_results
-        )
-
     if request.method == 'POST':
         # Check if a target is selected
         if 'target' not in request.form:
@@ -172,6 +152,16 @@ def nmap_scan_route():
             elif scan_type == 'os':
                 scan_results = nmap_os_scan(target.target_value, scan_speed)
 
+                        # If OS scan is not selected, include OS information if relevant
+            if scan_type != 'os':
+                os_results = nmap_os_scan(target.target_value, scan_speed)
+                for result in scan_results:
+                    for os_result in os_results:
+                        if result['host'] == os_result['host']:
+                            result['os_name'] = os_result.get('os_name', 'Unknown')
+                            result['os_family'] = os_result.get('os_family', 'Unknown')
+                            result['os_vendor'] = os_result.get('os_vendor', 'Unknown')
+
             if not isinstance(scan_results, list):
                 flash("Unexpected scan results format.")
                 scan_results = []
@@ -208,6 +198,7 @@ def nmap_scan_route():
                 targets=all_targets,
                 monitor_results=monitor_results
             )
+        
         except ValueError as ve:
             flash(str(ve))
         except RuntimeError as re:

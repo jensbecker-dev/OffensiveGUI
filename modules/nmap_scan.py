@@ -6,11 +6,11 @@ import nmap  # Ensure the python-nmap library is installed
 from datetime import datetime
 
 OS_ICONS = {
-    "Windows": "fa-windows",  # FontAwesome Icon für Windows
-    "Linux": "fa-linux",      # FontAwesome Icon für Linux
-    "Mac OS": "fa-apple",     # FontAwesome Icon für MacOS
-    "Unix": "fa-terminal",    # FontAwesome Icon für Unix
-    "Unknown": "fa-question-circle"  # Standard-Icon für unbekannte Systeme
+    "Windows": "fa-windows",
+    "Linux": "fa-linux",
+    "Mac OS": "fa-apple",
+    "Unix": "fa-terminal",
+    "Unknown": "fa-question-circle"
 }
 
 def stop_time(start_time):
@@ -359,35 +359,58 @@ def nmap_service_scan(target, scan_speed):
 def nmap_os_scan(target, scan_speed):
     """
     Perform an Nmap OS scan on the given target.
-
     Args:
         target (str): The target IP address or hostname.
-
     Returns:
-        list: A list of dictionaries containing OS scan results with icons.
+        dict: A dictionary containing OS scan results.
     """
+
+    OS_ICONS = {
+        "Windows": "fa-windows",
+        "Linux": "fa-linux",
+        "Mac OS": "fa-apple",
+        "Unix": "fa-terminal",
+        "Unknown": "fa-question-circle"
+    }
+
     scanner = nmap.PortScanner()
     try:
         # Validate the target to ensure it's not empty
         if not target:
             raise ValueError("Target cannot be empty.")
 
-        # Perform an OS scan (-O)
-        scan_args = f"-O -T{scan_speed}" if scan_speed else "-O"
-        scanner.scan(hosts=target, arguments=scan_args)
+        # Perform an OS detection scan (-O)
+        scanner.scan(hosts=target, arguments="-O")
 
         results = []
         for host in scanner.all_hosts():
-            os_matches = scanner[host].get('osmatch', [])
-            for os_match in os_matches:
-                os_name = os_match.get('name', 'Unknown')
-                os_icon = OS_ICONS.get(os_name.split()[0], OS_ICONS["Unknown"])  # Match OS-Familie
-                results.append({
+            os_info = scanner[host].get('osmatch', [])
+            if os_info:
+                os_name = os_info[0].get('name', 'unknown')
+                os_accuracy = os_info[0].get('accuracy', 'unknown')
+                os_results = {
                     'host': host,
                     'os_name': os_name,
-                    'os_icon': os_icon,
-                    'accuracy': os_match.get('accuracy', 'N/A')
+                    'os_accuracy': os_accuracy,
+                    'os_family': os_info[0].get('os_class', 'unknown'),
+                    'os_version': os_info[0].get('os_version', 'unknown'),
+                    'os_vendor': os_info[0].get('os_vendor', 'unknown'),
+                }
+                results.append(os_results)
+            else:
+                results.append({
+                    'host': host,
+                    'os_name': 'unknown',
+                    'os_accuracy': 'unknown',
+                    'os_family': 'unknown',
+                    'os_version': 'unknown',
+                    'os_vendor': 'unknown',
                 })
+            
         return results
+    except ValueError as ve:
+        raise ve
+    except nmap.PortScannerError as pse:
+        raise RuntimeError(f"Nmap PortScannerError: {pse}")
     except Exception as e:
         raise RuntimeError(f"Error during Nmap OS scan: {e}")
