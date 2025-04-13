@@ -2,7 +2,9 @@
     General Styles
    =========================== */
 
-
+.navbar {
+    background-image: linear-gradient(-20deg, #18425e62 0%, #251e3b7a 100%);
+}
 
 /* ===========================
     Header Styles
@@ -32,10 +34,7 @@
 }
 
 body {
-    background: #536976;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #292E49, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+    background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%);
     animation: ease  5s infinite;
     color: #ffffff;
     min-height: 100vh;
@@ -51,6 +50,9 @@ h1, h2, h3, h4, h5, h6 {
 /* ===========================
     Sidebar Styles
    =========================== */
+.sidebar {
+    background-image: linear-gradient(-20deg, #18425e 0%, #251e3b 100%);
+}
 
 .sidebar ul {
     list-style: none;
