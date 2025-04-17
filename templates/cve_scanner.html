@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <h1>CVE Scanner</h1>
+        <form method="post" action="{{ url_for('cve_scanner') }}">
+            <div class="mb-3">
+                <label for="cve_id" class="form-label">Enter CVE ID:</label>
+                <input type="text" class="form-control" id="cve_id" name="cve_id" placeholder="e.g., CVE-2023-12345" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Scan</button>
+        </form>
+
+        {% if cve_data %}
+            <h2>Scan Results for {{ cve_data['CVE_ID'] }}</h2>
+            <pre>{{ cve_data | tojson(indent=2) }}</pre>
+        {% endif %}
+    </div>
+{% endblock %}
